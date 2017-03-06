@@ -5,7 +5,7 @@ import { routerShape } from 'react-router';
 import ToolBar from '../components/tool-bar';
 import Drawer from '../components/drawer';
 import * as UserActionCreators from '../actions/user';
-import constant from '../constants/index';
+import constants from '../constants/index';
 
 const styles = {
   base: {
@@ -41,11 +41,11 @@ class Layout extends React.Component {
     const childrenWithProps = React.cloneElement(this.props.children, childrensProps);
     return (
       <div style={styles.base}>
-        <ToolBar onClickMenuButton={this.drawerToggle} pageName={this.props.pageName} />
-        <Drawer open={this.state.openDrawer} toggle={this.drawerToggle} username={this.props.username} />
+        <ToolBar onClickMenuButton={this.drawerToggle} pageName={this.props.pageName} themeColor={constants.color.primary} />
+        <Drawer active={this.state.openDrawer} toggle={this.drawerToggle} username={this.props.username} themeColor={constants.color.primary} />
         <div style={styles.content}>
           {fetching && (
-            <div style={constant.elementStyle.placeholder}>
+            <div style={constants.elementStyle.placeholder}>
               {'fetching...'}
             </div>
           )}
@@ -73,7 +73,7 @@ Layout.propTypes = {
   children: PropTypes.node,
   fetching: PropTypes.bool.isRequired,
   pageName: PropTypes.string,
-  periods: PropTypes.arrayOf(constant.customPropType.periodShape),
+  periods: PropTypes.arrayOf(constants.customPropType.periodShape),
   router: routerShape,
   username: PropTypes.string.isRequired,
 };

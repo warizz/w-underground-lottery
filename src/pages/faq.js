@@ -1,9 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import * as LayoutActionCreators from '../actions/layout';
+import actions from '../actions/index';
 import Faq from '../components/faq';
-// import * as paperShadow from '../constants/styles/paper-shadow';
 
 const styles = {
   base: {
@@ -29,6 +27,10 @@ FaqPage.propTypes = {
   setPageName: PropTypes.func.isRequired,
 };
 
-const mapDispatchToProps = dispatch => (bindActionCreators({ ...LayoutActionCreators }, dispatch));
+const mapDispatchToProps = dispatch => (
+  {
+    setPageName: pageName => dispatch(actions.layout.setPageName(pageName)),
+  }
+);
 
 export default connect(null, mapDispatchToProps)(FaqPage);

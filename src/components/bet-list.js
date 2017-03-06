@@ -1,21 +1,8 @@
 import React, { PropTypes } from 'react';
-// import * as paperShadow from '../constants/styles/paper-shadow';
 import { discountPercent } from '../config';
-import customPropTypes from '../constants/custom-prop-type';
+import constants from '../constants/index';
 
 const styles = {
-  item: {
-    backgroundColor: 'white',
-    // boxShadow: paperShadow.level1,
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-around',
-    height: '200px',
-    maxHeight: '200px',
-    marginBottom: '1em',
-    overflow: 'hidden',
-    padding: '1em',
-  },
   listContainer: {
     overflowX: 'auto',
     maxHeight: '80vh',
@@ -148,7 +135,7 @@ class BetList extends React.Component {
                   }
                   return (
                     <div key={bet.id} className="col-xs-12 col-sm-3 col-md-3 col-lg-3">
-                      <div style={styles.item}>
+                      <div style={constants.elementStyle.betCard}>
                         <div>
                           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                             <span><b>{bet.number}</b></span>
@@ -199,7 +186,7 @@ BetList.propTypes = {
   deleteHandler: PropTypes.func.isRequired,
   editHandler: PropTypes.func.isRequired,
   faqHandler: PropTypes.func,
-  bets: PropTypes.arrayOf(customPropTypes.betShape),
+  bets: PropTypes.arrayOf(constants.customPropType.betShape),
 };
 
 export default BetList;

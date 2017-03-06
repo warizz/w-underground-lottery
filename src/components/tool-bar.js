@@ -30,8 +30,8 @@ class ToolBar extends React.Component {
     return nextProps.pageName !== this.props.pageName;
   }
   render() {
-    const { backgroundColor = 'black', onClickMenuButton, pageName } = this.props;
-    const baseStyle = Object.assign(styles.base, backgroundColor);
+    const { themeColor = 'black', onClickMenuButton, pageName } = this.props;
+    const baseStyle = Object.assign(styles.base, { backgroundColor: themeColor });
     return (
       <div style={baseStyle}>
         <button style={styles.iconButton} onClick={onClickMenuButton}>
@@ -44,9 +44,9 @@ class ToolBar extends React.Component {
 }
 
 ToolBar.propTypes = {
-  backgroundColor: PropTypes.string,
   onClickMenuButton: PropTypes.func,
   pageName: PropTypes.string,
+  themeColor: PropTypes.string,
 };
 
 export default ToolBar;

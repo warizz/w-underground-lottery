@@ -74,7 +74,7 @@ class HistoryPage extends React.Component {
     const { alertMessage, hasAlert } = this.state;
     if (periods.length === 0) {
       return (
-        <div style={constants.commonStyle.placeholder}>{'no data'}</div>
+        <div style={constants.elementStyle.placeholder}>{'no data'}</div>
       );
     }
 
@@ -82,7 +82,7 @@ class HistoryPage extends React.Component {
       <div style={styles.base}>
         <div style={styles.cardContainer} className="col-sm-12 col-md-3">
           {history.map(h => (
-            <div key={h.id} className="col-xs-12" style={constants.commonStyle.betCard}>
+            <div key={h.id} className="col-xs-12" style={constants.elementStyle.betCard}>
               <div>{moment(h.endDate).format('DD MMM YYYY')}</div>
               <ul>
                 {h.bets
