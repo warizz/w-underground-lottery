@@ -34,8 +34,8 @@ class SignInPage extends React.Component {
     e.preventDefault();
     window.FB.login((loginResponse) => {
       if (loginResponse.authResponse) {
-        window.FB.api('/me?fields=email', (emailResponse) => {
-          const username = emailResponse.email.toLowerCase();
+        window.FB.api('/me?fields=name,picture', (fields) => {
+          const username = fields.name.replace(/\s+/g, '');
           docCookies.setItem('underground-lottery_username', username, 60 * 60 * 24);
           this.props.setUsername(username);
           this.props.router.push('/');
@@ -43,7 +43,7 @@ class SignInPage extends React.Component {
       } else {
         // console.log('User cancelled login or did not fully authorize.');
       }
-    }, { scope: 'email' });
+    }, { scope: 'public_profile' });
   }
   render() {
     return (

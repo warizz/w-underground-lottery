@@ -9,9 +9,9 @@ export function initApplicationState(store) {
     store.dispatch(actions.data.setFetching(true));
     const username = docCookies.getItem('underground-lottery_username');
     store.dispatch(actions.user.setUsername(username));
-    services.data.getLatestPeriod((period) => {
+    services.data.getPeriods(username, (periods) => {
       store.dispatch(actions.data.setFetching(false));
-      store.dispatch(actions.data.setPeriod(period));
+      store.dispatch(actions.data.setPeriods(periods));
     });
   };
 }

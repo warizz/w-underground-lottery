@@ -1,13 +1,11 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import moment from 'moment';
-import * as LayoutActionCreators from '../actions/layout';
-import * as DataActionCreators from '../actions/data';
-import * as lib from '../constants/lib';
-import * as customPropTypes from '../constants/custom-prop-type';
+import actions from '../actions/index';
+import customPropTypes from '../constants/custom-prop-type';
 import * as commonStyles from '../constants/styles/common';
 import Snackbar from '../components/snackbar';
+import services from '../services/index';
 
 const validateNumber = value => /^[0-9]*$/.test(value);
 
@@ -21,7 +19,8 @@ const styles = {
 class ResultInputPage extends React.Component {
   constructor(props) {
     super(props);
-    const result = props.period ? { ...props.period.result } : {};
+    const period = this.props.periods[0];
+    const result = { ...period.result };
     this.state = {
       six: result.six || '',
       two: result.two || '',
@@ -31,17 +30,10 @@ class ResultInputPage extends React.Component {
       message: '',
     };
     this.handleSaveInput = this.handleSaveInput.bind(this);
-    this.postPeriodCallback = this.postPeriodCallback.bind(this);
+    this.setAlert = this.setAlert.bind(this);
   }
   componentDidMount() {
     this.props.setPageName('กรอกผลรางวัล');
-  }
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.period) {
-      if (nextProps.period.result) {
-        this.setState({ ...nextProps.period.result });
-      }
-    }
   }
   onInputChange(key, length) {
     return (e) => {
@@ -54,31 +46,29 @@ class ResultInputPage extends React.Component {
     };
   }
   setAlert(message) {
-    return () => {
-      this.setState({ active: true, message });
-      setTimeout(() => this.setState({ active: false, message: '' }), 1000);
-    };
+    this.setState({ active: true, message });
   }
   componentWillUnMount() {
-    this.setState({ active: false, messagea: '' });
+    this.setState({ active: false, message: '' });
   }
   handleSaveInput(e) {
     e.preventDefault();
-    const period = this.props.period;
-    period.result = {
+    const period = this.props.periods[0];
+    const result = {
       six: this.state.six,
       two: this.state.two,
       firstThree: this.state.firstThree,
       secondThree: this.state.secondThree,
     };
-    lib.postPeriod(period, this.postPeriodCallback);
-  }
-  postPeriodCallback(period) {
-    this.props.setPeriod(period);
-    this.setAlert('saved completed')();
+    services
+      .data
+      .saveResult(period.id, result)
+      .then(success => success && this.setAlert('saved'));
   }
   render() {
-    if (!this.props.period) {
+    console.log('result active', this.state.active);
+    const period = this.props.periods[0];
+    if (!period) {
       return (
         <div />
       );
@@ -97,7 +87,7 @@ class ResultInputPage extends React.Component {
       <div style={styles.base}>
         <form className="col-sm-12 col-md-3">
           <h3 style={{ margin: '1em 0 1em 0', textAlign: 'center' }}>
-            {`งวดวันที่ ${moment(this.props.period.endDate).format('DD MMM YYYY')}`}
+            {`งวดวันที่ ${moment(period.endDate).format('DD MMM YYYY')}`}
           </h3>
           <div className="row" style={commonStyles.flexContainerColumnCenter}>
             <div className={`form-group col-xs-6${sixInvalidAndDirty ? ' has-error' : ''}`}>
@@ -152,23 +142,22 @@ class ResultInputPage extends React.Component {
             </div>
           </div>
           <button className="btn btn-primary btn-block" onClick={this.handleSaveInput} disabled={!validInput}>save</button>
-          <Snackbar active={this.state.active} text={this.state.message} />
+          <Snackbar active={this.state.active} text={this.state.message} timer={2000} />
         </form>
       </div>
     );
   }
 }
 
-const mapStateToProps = state => ({ period: state.data.period });
-
 const mapDispatchToProps = dispatch => (
-  bindActionCreators({ ...LayoutActionCreators, ...DataActionCreators }, dispatch)
+  {
+    setPageName: pageName => dispatch(actions.layout.setPageName(pageName)),
+  }
 );
 
 ResultInputPage.propTypes = {
-  period: customPropTypes.periodShape,
+  periods: PropTypes.arrayOf(customPropTypes.periodShape),
   setPageName: PropTypes.func,
-  setPeriod: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ResultInputPage);
+export default connect(null, mapDispatchToProps)(ResultInputPage);

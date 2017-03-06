@@ -41,20 +41,18 @@ class BetPage extends React.Component {
     }
     this.props.setPageName('Bet');
   }
-  shouldComponentUpdate(nextProps) {
-    if (nextProps.period) {
-      return true;
-    }
-    return false;
-  }
+  // shouldComponentUpdate(nextProps) {
+  //   return (nextProps.periods !== this.props.periods);
+  // }
   setEditingBet(editingBet) {
     this.inputToggle();
     this.setState({ editingBet });
   }
   handleSaveBet(bet) {
-    const { period } = this.props;
+    const period = this.props.periods[0];
     if (!period.open) return;
     let inputBet = period.bets.find(item => item.number === bet.number);
+    console.log('inputBet', inputBet);
     // if number exists, update instead.
     if (inputBet) {
       inputBet.price1 = bet.price1 ? Number(bet.price1) : 0;
@@ -62,7 +60,6 @@ class BetPage extends React.Component {
       inputBet.price3 = bet.price3 ? Number(bet.price3) : 0;
     } else {
       inputBet = bet;
-      inputBet.id = new Date().valueOf().toString();
       inputBet.username = this.props.username;
     }
     service.data.insertBet(period.id, inputBet);
@@ -77,7 +74,9 @@ class BetPage extends React.Component {
     this.setState({ faqOpen: !this.state.faqOpen });
   }
   render() {
-    const { period } = this.props;
+    const { periods, username } = this.props;
+    const period = periods[0];
+
     if (!period || !period.open) {
       return (
         <div style={commonStyles.placeholder}>
@@ -116,7 +115,7 @@ class BetPage extends React.Component {
     return (
       <div style={styles.base}>
         <FaqDialog active={this.state.faqOpen} toggle={this.switchFaqToggle} />
-        <BetList bets={period.bets} editHandler={this.setEditingBet} deleteHandler={this.handleDeleteBet(period.id)} faqHandler={this.switchFaqToggle} />
+        <BetList bets={period.bets.filter(b => b.username === username)} editHandler={this.setEditingBet} deleteHandler={this.handleDeleteBet(period.id)} faqHandler={this.switchFaqToggle} />
         <BetInputOverlay active={this.state.inputOpen} />
         <BetInput saveBetHandler={this.handleSaveBet} editingBet={this.state.editingBet} open={this.state.inputOpen} onClose={this.inputToggle} />
         <Fab active={!this.state.inputOpen} onClick={this.inputToggle}>
@@ -127,14 +126,6 @@ class BetPage extends React.Component {
   }
 }
 
-const mapStateToProps = state => (
-  {
-    fetching: state.data.fetching,
-    period: state.data.period,
-    username: state.user.username,
-  }
-);
-
 const mapDispatchToProps = dispatch => (
   {
     setPageName: pageName => dispatch(actions.layout.setPageName(pageName)),
@@ -142,10 +133,10 @@ const mapDispatchToProps = dispatch => (
 );
 
 BetPage.propTypes = {
-  period: customPropTypes.periodShape,
+  periods: PropTypes.arrayOf(customPropTypes.periodShape),
   router: routerShape,
   setPageName: PropTypes.func,
   username: PropTypes.string.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(BetPage);
+export default connect(null, mapDispatchToProps)(BetPage);

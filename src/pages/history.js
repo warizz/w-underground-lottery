@@ -1,15 +1,11 @@
 import React, { PropTypes } from 'react';
-import axios from 'axios';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import moment from 'moment';
-import * as LayoutActionCreators from '../actions/layout';
-import * as DataActionCreators from '../actions/data';
-import * as lib from '../constants/lib';
+import actions from '../actions/index';
 import * as commonStyles from '../constants/styles/common';
-import * as customPropTypes from '../constants/custom-prop-type';
-import * as config from '../config';
+import customPropTypes from '../constants/custom-prop-type';
 import Snackbar from '../components/snackbar';
+import service from '../services/index';
 
 const styles = {
   base: {
@@ -37,7 +33,7 @@ class HistoryPage extends React.Component {
   }
   componentDidMount() {
     this.props.setPageName('History');
-    lib.getHistory(this.props.username, this.setList);
+    // lib.getHistory(this.props.username, this.setList);
   }
   setList(periods) {
     this.setState({ periods });
@@ -46,17 +42,17 @@ class HistoryPage extends React.Component {
     this.setState({ hasAlert: true, alertMessage });
     setTimeout(() => this.setState({ hasAlert: false, alertMessage: '' }), 1000);
   }
-  clone(bets) {
+  clone(currentPeriod, username, bets, insertCallback) {
     return (e) => {
       e.preventDefault();
       const newBets = bets
         .map((bet) => {
-          if (this.props.period.bets.find(currentBet => currentBet.number === bet.number)) return null;
+          if (currentPeriod.bets.find(currentBet => currentBet.number === bet.number)) return null;
           const newBet = Object.assign({}, bet);
           delete newBet._id;
-          newBet.period = this.props.period.id;
+          newBet.period = currentPeriod.id;
           newBet.createdAt = new Date();
-          newBet.username = this.props.username;
+          newBet.username = username;
           return newBet;
         })
         .filter(a => a);
@@ -64,21 +60,19 @@ class HistoryPage extends React.Component {
         this.setAlert('nothing to copy');
         return;
       }
-      axios
-        .put(config.betUrl, { bets: newBets })
-        .then((res) => {
-          if (res.status !== 200) {
-            // TODO: error handling
-          }
-          lib.getLatestPeriod(this.props.username, this.props.setPeriod);
-          this.setState({ editingBet: null });
-          this.setAlert('copied!');
-        });
+      bets.forEach((a) => {
+        insertCallback(currentPeriod.id, a);
+      });
     };
   }
   render() {
+    const { periods, username } = this.props;
+    const history = periods.map((a) => {
+      a.bets = a.bets.filter(b => b.username === username);
+      return a;
+    });
+    const period = periods[0];
     const { alertMessage, hasAlert } = this.state;
-    const periods = this.state.periods.filter(period => period.bets.length > 0);
     if (periods.length === 0) {
       return (
         <div style={commonStyles.placeholder}>{'no data'}</div>
@@ -88,11 +82,11 @@ class HistoryPage extends React.Component {
     return (
       <div style={styles.base}>
         <div style={styles.cardContainer} className="col-sm-12 col-md-3">
-          {periods.map(period => (
-            <div key={period.id} className="col-xs-12" style={commonStyles.betCard}>
-              <div>{moment(period.endDate).format('DD MMM YYYY')}</div>
+          {history.map(h => (
+            <div key={h.id} className="col-xs-12" style={commonStyles.betCard}>
+              <div>{moment(h.endDate).format('DD MMM YYYY')}</div>
               <ul>
-                {period.bets
+                {h.bets
                   .map((bet) => {
                     const price1Label = bet.number.length > 2 ? ' เต็ง ' : ' บน ';
                     const price2Label = bet.number.length > 2 ? ' โต๊ด ' : ' ล่าง ';
@@ -102,15 +96,15 @@ class HistoryPage extends React.Component {
                     historyItem += bet.price2 ? `${price2Label}${bet.price2}` : '';
                     historyItem += bet.price3 ? `${price3Label}${bet.price3}` : '';
                     return (
-                      <li key={`bet-it--${bet._id}`}>
+                      <li key={`bet-it--${bet.id}`}>
                         {historyItem}
                       </li>
                     );
                   })
                 }
               </ul>
-              {this.props.period.open && (
-                <button className="btn btn-primary btn-block" onClick={this.clone(period.bets)}>clone</button>
+              {h.open && (
+                <button className="btn btn-primary btn-block" onClick={this.clone(h, username, h.bets, service.data.insertBet)}>clone</button>
               )}
             </div>
             ))}
@@ -121,13 +115,22 @@ class HistoryPage extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({ period: state.data.period, username: state.user.username });
-const mapDispatchToProps = dispatch => (bindActionCreators({ ...LayoutActionCreators, ...DataActionCreators }, dispatch));
+const mapStateToProps = state => (
+  {
+    period: state.data.period,
+    username: state.user.username,
+  }
+);
+
+const mapDispatchToProps = dispatch => (
+  {
+    setPageName: pageName => dispatch(actions.layout.setPageName(pageName)),
+  }
+);
 
 HistoryPage.propTypes = {
-  period: customPropTypes.periodShape,
+  periods: PropTypes.arrayOf(customPropTypes.periodShape),
   setPageName: PropTypes.func,
-  setPeriod: PropTypes.func.isRequired,
   username: PropTypes.string.isRequired,
 };
 

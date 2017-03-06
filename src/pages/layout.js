@@ -35,9 +35,10 @@ class Layout extends React.Component {
     this.setState({ openDrawer: !this.state.openDrawer });
   }
   render() {
-    const { fetching, username, period } = this.props;
+    // TODO: remove period
+    const { fetching, username, periods = [] } = this.props;
     // pass username to content page
-    const childrensProps = { username, period };
+    const childrensProps = { username, periods };
     const childrenWithProps = React.cloneElement(this.props.children, childrensProps);
     return (
       <div style={styles.base}>
@@ -49,7 +50,7 @@ class Layout extends React.Component {
               {'fetching...'}
             </div>
           )}
-          {!fetching && childrenWithProps}
+          {!fetching && periods && childrenWithProps}
         </div>
       </div>
     );
@@ -60,7 +61,7 @@ const mapStateToProps = state => (
   {
     fetching: state.data.fetching,
     pageName: state.layout.pageName,
-    period: state.data.period,
+    periods: state.data.periods,
     username: state.user.username,
   }
 );
@@ -73,7 +74,7 @@ Layout.propTypes = {
   children: PropTypes.node,
   fetching: PropTypes.bool.isRequired,
   pageName: PropTypes.string,
-  period: customPropTypes.periodShape,
+  periods: PropTypes.arrayOf(customPropTypes.periodShape),
   router: routerShape,
   username: PropTypes.string.isRequired,
 };

@@ -37,16 +37,16 @@ class DashboardPage extends React.Component {
     service.data.openPeriod(new Date(this.state.endDate));
   }
   closePeriod() {
-    const { period } = this.props;
+    const period = this.props.periods[0];
     period.open = false;
     service.data.closePeriod(period);
   }
   render() {
-    const periodOpen = this.props.period && this.props.period.open;
+    const period = this.props.periods[0];
     return (
       <div style={styles.base}>
         <div className="container-fluid">
-          {!periodOpen && (
+          {(!period || !period.open) && (
             <div className="row">
               <div className="col-xs-12">
                 <label htmlFor="txt--start-date">วันหวยออก</label>
@@ -64,7 +64,7 @@ class DashboardPage extends React.Component {
               </div>
             </div>
           )}
-          {periodOpen && (
+          {period && period.open && (
             <button className="btn btn-danger btn-block" style={{ marginBottom: '1em' }} onClick={this.closePeriod}>
               <span>ปิดรับแทง</span>
             </button>
@@ -87,7 +87,7 @@ const mapDispatchToProps = dispatch => (
 );
 
 DashboardPage.propTypes = {
-  period: customPropTypes.periodShape,
+  periods: PropTypes.arrayOf(customPropTypes.periodShape),
   router: routerShape,
   setPageName: PropTypes.func,
   username: PropTypes.string.isRequired,

@@ -1,7 +1,9 @@
 import React, { PropTypes } from 'react';
-import * as paperShadow from '../constants/styles/paper-shadow';
 
 const styles = {
+  active: {
+    bottom: '1em',
+  },
   base: {
     display: 'flex',
     height: '3em',
@@ -13,16 +15,13 @@ const styles = {
     transition: 'bottom .3s',
     width: '100%',
   },
-  active: {
-    bottom: '1em',
-  },
   inactive: {
     bottom: '-3em',
   },
   snackbar: {
     alignItems: 'center',
     backgroundColor: 'black',
-    boxShadow: paperShadow.level2,
+    boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)',
     color: 'orange',
     display: 'flex',
     height: '100%',
@@ -31,20 +30,50 @@ const styles = {
   },
 };
 
-const Snackbar = (props) => {
-  const baseStyle = props.active ? { ...styles.base, ...styles.active } : { ...styles.base, ...styles.inactive };
-  return (
-    <div style={baseStyle}>
-      <div style={styles.snackbar}>
-        {props.text}
+class Snackbar extends React.Component {
+  componentWillMount() {
+    const { active } = this.props;
+    this.setState({
+      active,
+    });
+  }
+  componentDidMount() {
+    const { active } = this.state;
+    const { timer = 1000 } = this.props;
+    if (active) this.setTimer(timer);
+  }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.active !== this.state.active) {
+      const { active } = nextProps;
+      this.setState({ active });
+      const { timer = 1000 } = this.props;
+      this.setTimer(timer);
+    }
+  }
+  shouldComponentUpdate(nextProps, nextState) {
+    return (nextProps.active !== this.state.active) || (nextState.active !== this.state.active);
+  }
+  setTimer(timer) {
+    setTimeout(() => this.setState({ active: false }), timer);
+  }
+  render() {
+    const { text } = this.props;
+    const { active } = this.state;
+    const baseStyle = active ? { ...styles.base, ...styles.active } : { ...styles.base, ...styles.inactive };
+    return (
+      <div style={baseStyle}>
+        <div style={styles.snackbar}>
+          {text}
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
 Snackbar.propTypes = {
-  text: PropTypes.string.isRequired,
   active: PropTypes.bool.isRequired,
+  text: PropTypes.string.isRequired,
+  timer: PropTypes.number,
 };
 
 export default Snackbar;

@@ -44,20 +44,17 @@ class SummaryPage extends React.Component {
     //   this.props.router.push('/');
     // }
 
-    this.props.setPageName('Bet list');
-    lib.getSummary(this.setPeriod);
+    this.props.setPageName('Summary');
+    // lib.getSummary(this.setPeriod);
   }
   setPeriod(period) {
     this.setState({ period });
   }
   render() {
-    const { period } = this.props;
-    console.log(period);
-    if (!period) {
-      return null;
-    }
-    const { result } = period;
-    if (!this.state.period || !this.state.period.bets || this.state.period.bets.length === 0) {
+    const { periods } = this.props;
+    const period = periods[0];
+    const { bets, result } = period;
+    if (!bets || bets.length === 0) {
       return (
         <div style={commonStyles.placeholder}>{'no data'}</div>
       );
@@ -65,7 +62,7 @@ class SummaryPage extends React.Component {
 
     // this will get list of all buyers
     const temp = [];
-    period.bets.map((a) => {
+    bets.map((a) => {
       if (temp.indexOf(a.username) === -1) temp.push(a.username);
       return a;
     });
@@ -73,10 +70,10 @@ class SummaryPage extends React.Component {
     // this will group bet of each buyer
     const buyers = temp.map(buyer => ({
       name: buyer,
-      bets: period.bets.filter(betItem => betItem.username === buyer),
+      bets: bets.filter(betItem => betItem.username === buyer),
     }));
 
-    const total = period.bets
+    const total = bets
       .map(service.calculation.calculateTotal(result))
       .reduce((a, b) => a + b, 0);
 
@@ -159,7 +156,7 @@ const mapDispatchToProps = dispatch => (
 );
 
 SummaryPage.propTypes = {
-  period: customPropTypes.periodShape,
+  periods: PropTypes.arrayOf(customPropTypes.periodShape),
   router: routerShape,
   setPageName: PropTypes.func,
   username: PropTypes.string.isRequired,

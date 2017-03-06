@@ -8,6 +8,8 @@ export default function (state = {}, action) {
       return { ...state, fetching: action.fetching };
     case type.SET_PERIOD:
       return { ...state, period: action.period };
+    case type.SET_PERIODS:
+      return { ...state, periods: action.periods };
     default:
       return { ...state };
   }

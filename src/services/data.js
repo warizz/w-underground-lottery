@@ -21,22 +21,28 @@ function cleanPeriod(obj) {
   return cleaned;
 }
 
-function getLatestPeriod(callback) {
+function getPeriods(username, callback) {
   firebase
     .database()
     .ref('periods')
     .orderByKey()
-    .limitToLast(1)
+    .limitToLast(10)
     .on('value', (snapshot) => {
       const val = snapshot.val();
       if (!val) {
+        callback([]);
         return;
       }
       const periods = Object.keys(val)
         .map(key => val[key])
-        .map(cleanPeriod);
+        .map(cleanPeriod)
+        .sort((a, b) => {
+          if (a.createdAt < b.createdAt) return 1;
+          if (a.createdAt > b.createdAt) return -1;
+          return 0;
+        });
       if (typeof callback === 'function') {
-        callback(periods[0]);
+        callback(periods);
       }
     });
 }
@@ -52,6 +58,21 @@ function update(period) {
     .child('periods')
     .child(period.id)
     .update(Object.assign(period, cleaned));
+}
+
+function openPeriod(endDate) {
+  const period = {
+    createdAt: new Date().getTime(),
+    endDate: endDate.getTime(),
+    id: new Date().valueOf().toString(),
+    open: true,
+  };
+  firebase
+    .database()
+    .ref()
+    .child('periods')
+    .child(period.id)
+    .set(period);
 }
 
 function closePeriod(period) {
@@ -75,14 +96,18 @@ function setPaid(periodId, bets, paid) {
 }
 
 function insertBet(periodId, bet) {
+  const updated = Object.assign(bet, {
+    id: bet.id ? bet.id : new Date().valueOf().toString(),
+    createdAt: new Date().getTime(),
+  });
   firebase
     .database()
     .ref()
     .child('periods')
     .child(periodId)
     .child('bets')
-    .child(bet.id)
-    .set(bet);
+    .child(updated.id)
+    .set(updated);
 }
 
 function deleteBet(periodId, id) {
@@ -96,23 +121,25 @@ function deleteBet(periodId, id) {
     .remove();
 }
 
-function openPeriod(endDate) {
-  const id = new Date().valueOf().toString();
-  const period = {
-    createdAt: new Date(),
-    endDate,
-    id,
-    open: true,
-  };
-  update(period);
+function saveResult(periodId, result) {
+  return new Promise((resolve) => {
+    firebase
+      .database()
+      .ref()
+      .child('periods')
+      .child(periodId)
+      .update({ result });
+    resolve(true);
+  });
 }
 
 export default {
   closePeriod,
   deleteBet,
-  getLatestPeriod,
+  getPeriods,
   insertBet,
   openPeriod,
+  saveResult,
   setPaid,
   update,
 };
