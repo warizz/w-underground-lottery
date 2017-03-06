@@ -3,12 +3,12 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as LayoutActionCreators from '../actions/layout';
 import Faq from '../components/faq';
-import * as paperShadow from '../constants/styles/paper-shadow';
+// import * as paperShadow from '../constants/styles/paper-shadow';
 
 const styles = {
   base: {
     margin: '1em',
-    boxShadow: paperShadow.level1,
+    boxShadow: '0 1px 3px 0 rgba(0,0,0,0.2), 0 1px 1px 0 rgba(0,0,0,0.14), 0 2px 1px -1px rgba(0,0,0,0.12)', // 1
   },
 };
 

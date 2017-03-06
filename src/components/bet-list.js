@@ -1,12 +1,12 @@
 import React, { PropTypes } from 'react';
-import * as paperShadow from '../constants/styles/paper-shadow';
+// import * as paperShadow from '../constants/styles/paper-shadow';
 import { discountPercent } from '../config';
 import customPropTypes from '../constants/custom-prop-type';
 
 const styles = {
   item: {
     backgroundColor: 'white',
-    boxShadow: paperShadow.level1,
+    // boxShadow: paperShadow.level1,
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-around',

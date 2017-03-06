@@ -9,8 +9,7 @@ import ResultDisplay from '../components/result-display';
 import Fab from '../components/fab';
 import FaqDialog from '../components/faq-dialog';
 import actions from '../actions/index';
-import * as commonStyles from '../constants/styles/common';
-import customPropTypes from '../constants/custom-prop-type';
+import constants from '../constants/index';
 import service from '../services/index';
 
 const styles = {
@@ -78,7 +77,7 @@ class BetPage extends React.Component {
 
     if (!period || !period.open) {
       return (
-        <div style={commonStyles.placeholder}>
+        <div style={constants.elementStyle.placeholder}>
           {'ตลาดยังไม่เปิดจ้ะ'}
         </div>
       );
@@ -132,7 +131,7 @@ const mapDispatchToProps = dispatch => (
 );
 
 BetPage.propTypes = {
-  periods: PropTypes.arrayOf(customPropTypes.periodShape),
+  periods: PropTypes.arrayOf(constants.customPropType.periodShape),
   router: routerShape,
   setPageName: PropTypes.func,
   username: PropTypes.string.isRequired,

@@ -1,17 +1,15 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { routerShape } from 'react-router';
-import customPropTypes from '../constants/custom-prop-type';
 import actions from '../actions/index';
 import FAB from '../components/fab';
-import * as commonStyles from '../constants/styles/common';
-import * as lib from '../constants/lib';
+import constants from '../constants/index';
 import service from '../services/index';
 
 const styles = {
   base: {
     marginTop: '1em',
-    ...commonStyles.flexContainerColumnCenter,
+    ...constants.elementStyle.flexContainerColumnCenter,
   },
   paidItem: {
     textDecoration: 'line-through',
@@ -56,7 +54,7 @@ class SummaryPage extends React.Component {
     const { bets, result } = period;
     if (!bets || bets.length === 0) {
       return (
-        <div style={commonStyles.placeholder}>{'no data'}</div>
+        <div style={constants.commonStyle.placeholder}>{'no data'}</div>
       );
     }
 
@@ -91,7 +89,7 @@ class SummaryPage extends React.Component {
               .includes(true);
             const itemStyle = paid ? styles.paidItem : {};
             return (
-              <div key={buyer.name} className="col-xs-12 col-md-12" style={commonStyles.betCard}>
+              <div key={buyer.name} className="col-xs-12 col-md-12" style={constants.commonStyle.betCard}>
                 <div><b>{buyer.name}</b></div>
                 <ul>
                   {buyer.bets
@@ -156,7 +154,7 @@ const mapDispatchToProps = dispatch => (
 );
 
 SummaryPage.propTypes = {
-  periods: PropTypes.arrayOf(customPropTypes.periodShape),
+  periods: PropTypes.arrayOf(constants.customPropType.periodShape),
   router: routerShape,
   setPageName: PropTypes.func,
   username: PropTypes.string.isRequired,

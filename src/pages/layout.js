@@ -5,8 +5,7 @@ import { routerShape } from 'react-router';
 import ToolBar from '../components/tool-bar';
 import Drawer from '../components/drawer';
 import * as UserActionCreators from '../actions/user';
-import customPropTypes from '../constants/custom-prop-type';
-import * as commonStyles from '../constants/styles/common';
+import constant from '../constants/index';
 
 const styles = {
   base: {
@@ -46,7 +45,7 @@ class Layout extends React.Component {
         <Drawer open={this.state.openDrawer} toggle={this.drawerToggle} username={this.props.username} />
         <div style={styles.content}>
           {fetching && (
-            <div style={commonStyles.placeholder}>
+            <div style={constant.elementStyle.placeholder}>
               {'fetching...'}
             </div>
           )}
@@ -74,7 +73,7 @@ Layout.propTypes = {
   children: PropTypes.node,
   fetching: PropTypes.bool.isRequired,
   pageName: PropTypes.string,
-  periods: PropTypes.arrayOf(customPropTypes.periodShape),
+  periods: PropTypes.arrayOf(constant.customPropType.periodShape),
   router: routerShape,
   username: PropTypes.string.isRequired,
 };

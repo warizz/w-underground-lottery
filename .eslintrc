@@ -1,12 +1,12 @@
 {
-  "extends": "airbnb",
-  "rules": {
+  extends: "airbnb",
+  rules: {
     max-len: [2, 200],
     react/jsx-filename-extension: [1, { "extensions": [".js", ".jsx"] }],
     no-underscore-dangle: [2, { "allow": ["_id"] }],
     react/no-unused-prop-types: [2, { "skipShapeProps": true }],
   },
-  "env": {
-    "browser": true
+  env: {
+    browser: true
   }
 }

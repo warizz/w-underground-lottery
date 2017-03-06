@@ -13,7 +13,7 @@ import DashboardPage from './pages/dashboard';
 import SummaryPage from './pages/summary';
 import ResultPage from './pages/result';
 import FaqPage from './pages/faq';
-import * as lib from './constants/lib';
+import lib from './constants/lib';
 
 window.Perf = Perf;
 const store = createStore(reducer);

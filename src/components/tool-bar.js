@@ -1,6 +1,4 @@
 import React, { PropTypes } from 'react';
-import * as color from '../constants/styles/color';
-import * as paperShadow from '../constants/styles/paper-shadow';
 
 const styles = {
   appName: {
@@ -11,8 +9,7 @@ const styles = {
   },
   base: {
     alignItems: 'center',
-    backgroundColor: color.primary,
-    boxShadow: paperShadow.level2,
+    boxShadow: '0 3px 4px 0 rgba(0,0,0,0.14), 0 3px 3px -2px rgba(0,0,0,0.12), 0 1px 8px 0 rgba(0,0,0,0.2)',
     display: 'flex',
     height: '50px',
     padding: '0 20px',
@@ -33,9 +30,10 @@ class ToolBar extends React.Component {
     return nextProps.pageName !== this.props.pageName;
   }
   render() {
-    const { onClickMenuButton, pageName } = this.props;
+    const { backgroundColor = 'black', onClickMenuButton, pageName } = this.props;
+    const baseStyle = Object.assign(styles.base, backgroundColor);
     return (
-      <div style={styles.base}>
+      <div style={baseStyle}>
         <button style={styles.iconButton} onClick={onClickMenuButton}>
           <i style={{ color: 'white' }} className="material-icons">menu</i>
         </button>
@@ -46,6 +44,7 @@ class ToolBar extends React.Component {
 }
 
 ToolBar.propTypes = {
+  backgroundColor: PropTypes.string,
   onClickMenuButton: PropTypes.func,
   pageName: PropTypes.string,
 };

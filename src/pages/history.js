@@ -2,8 +2,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import actions from '../actions/index';
-import * as commonStyles from '../constants/styles/common';
-import customPropTypes from '../constants/custom-prop-type';
+import constants from '../constants/index';
 import Snackbar from '../components/snackbar';
 import service from '../services/index';
 
@@ -75,7 +74,7 @@ class HistoryPage extends React.Component {
     const { alertMessage, hasAlert } = this.state;
     if (periods.length === 0) {
       return (
-        <div style={commonStyles.placeholder}>{'no data'}</div>
+        <div style={constants.commonStyle.placeholder}>{'no data'}</div>
       );
     }
 
@@ -83,7 +82,7 @@ class HistoryPage extends React.Component {
       <div style={styles.base}>
         <div style={styles.cardContainer} className="col-sm-12 col-md-3">
           {history.map(h => (
-            <div key={h.id} className="col-xs-12" style={commonStyles.betCard}>
+            <div key={h.id} className="col-xs-12" style={constants.commonStyle.betCard}>
               <div>{moment(h.endDate).format('DD MMM YYYY')}</div>
               <ul>
                 {h.bets
@@ -129,7 +128,7 @@ const mapDispatchToProps = dispatch => (
 );
 
 HistoryPage.propTypes = {
-  periods: PropTypes.arrayOf(customPropTypes.periodShape),
+  periods: PropTypes.arrayOf(constants.customPropType.periodShape),
   setPageName: PropTypes.func,
   username: PropTypes.string.isRequired,
 };

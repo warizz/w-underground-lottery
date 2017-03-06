@@ -1,24 +1,23 @@
-/*
-rules:
-must be used more than 2 places
-*/
-
-import * as paperShadow from './paper-shadow';
-
-export const placeholder = {
+const placeholder = {
   display: 'flex',
   justifyContent: 'center',
   marginTop: '30vh',
 };
-export const betCard = {
+const betCard = {
   backgroundColor: 'white',
-  boxShadow: paperShadow.level1,
+  boxShadow: 'rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px',
   borderBottom: '2px dashed #BDBDBD',
   padding: '1em',
   marginBottom: '1em',
 };
-export const flexContainerColumnCenter = {
+const flexContainerColumnCenter = {
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
+};
+
+export default {
+  placeholder,
+  betCard,
+  flexContainerColumnCenter,
 };

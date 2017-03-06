@@ -1,17 +1,15 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { Link, routerShape } from 'react-router';
 import moment from 'moment';
 import actions from '../actions/index';
-import customPropTypes from '../constants/custom-prop-type';
-import * as commonStyles from '../constants/styles/common';
+import constants from '../constants/index';
 import service from '../services/index';
 
 const styles = {
   base: {
     marginTop: '20px',
-    ...commonStyles.flexContainerColumnCenter,
+    ...constants.elementStyle.flexContainerColumnCenter,
   },
 };
 
@@ -87,7 +85,7 @@ const mapDispatchToProps = dispatch => (
 );
 
 DashboardPage.propTypes = {
-  periods: PropTypes.arrayOf(customPropTypes.periodShape),
+  periods: PropTypes.arrayOf(constants.customPropType.periodShape),
   router: routerShape,
   setPageName: PropTypes.func,
   username: PropTypes.string.isRequired,

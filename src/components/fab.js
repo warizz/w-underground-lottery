@@ -1,12 +1,9 @@
 import React, { PropTypes } from 'react';
-import * as paperShadow from '../constants/styles/paper-shadow';
-import * as color from '../constants/styles/color';
 
 const styles = {
   base: {
-    backgroundColor: color.primary,
     borderRadius: '50%',
-    boxShadow: paperShadow.level3,
+    // boxShadow: paperShadow.level3,
     border: 'none',
     color: 'white',
     height: '50px',

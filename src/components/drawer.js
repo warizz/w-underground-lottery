@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
-import * as color from '../constants/styles/color';
-import * as paperShadow from '../constants/styles/paper-shadow';
+import constants from '../constants/index';
 import * as config from '../config';
 import Overlay from './overlay';
 
@@ -28,7 +27,7 @@ const styles = {
     },
     base: {
       backgroundColor: 'white',
-      boxShadow: paperShadow.level5,
+      boxShadow: 'rgba(0, 0, 0, 0.156863) 0px 3px 10px, rgba(0, 0, 0, 0.227451) 0px 3px 10px',
       height: '100vh',
       overflow: 'auto',
       position: 'absolute',
@@ -81,7 +80,6 @@ const styles = {
     },
     active: {
       backgroundColor: '#F5F5F5',
-      color: color.primary,
       fontWeight: 'bold',
     },
     inactive: {
@@ -167,6 +165,7 @@ class Drawer extends React.Component {
 
 Drawer.propTypes = {
   open: PropTypes.bool,
+  themeColor: PropTypes.string,
   toggle: PropTypes.func.isRequired,
   username: PropTypes.string.isRequired,
 };

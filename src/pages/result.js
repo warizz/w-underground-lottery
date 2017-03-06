@@ -2,8 +2,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import actions from '../actions/index';
-import customPropTypes from '../constants/custom-prop-type';
-import * as commonStyles from '../constants/styles/common';
+import constants from '../constants/index';
 import Snackbar from '../components/snackbar';
 import services from '../services/index';
 
@@ -12,7 +11,7 @@ const validateNumber = value => /^[0-9]*$/.test(value);
 const styles = {
   base: {
     marginTop: '1em',
-    ...commonStyles.flexContainerColumnCenter,
+    ...constants.elementStyle.flexContainerColumnCenter,
   },
 };
 
@@ -89,7 +88,7 @@ class ResultInputPage extends React.Component {
           <h3 style={{ margin: '1em 0 1em 0', textAlign: 'center' }}>
             {`งวดวันที่ ${moment(period.endDate).format('DD MMM YYYY')}`}
           </h3>
-          <div className="row" style={commonStyles.flexContainerColumnCenter}>
+          <div className="row" style={constants.commonStyle.flexContainerColumnCenter}>
             <div className={`form-group col-xs-6${sixInvalidAndDirty ? ' has-error' : ''}`}>
               <label className="control-label" htmlFor="six">รางวัลที่หนึ่ง</label>
               <input
@@ -104,7 +103,7 @@ class ResultInputPage extends React.Component {
               {sixInvalidAndDirty && <label className="control-label" htmlFor="six">ต้องเป็นเลข 6 ตัว</label>}
             </div>
           </div>
-          <div className="row" style={commonStyles.flexContainerColumnCenter}>
+          <div className="row" style={constants.commonStyle.flexContainerColumnCenter}>
             <div className={`form-group col-xs-6${twoInvalidAndDirty ? ' has-error' : ''}`}>
               <label className="control-label" htmlFor="two">เลขท้ายสองตัว</label>
               <input
@@ -156,7 +155,7 @@ const mapDispatchToProps = dispatch => (
 );
 
 ResultInputPage.propTypes = {
-  periods: PropTypes.arrayOf(customPropTypes.periodShape),
+  periods: PropTypes.arrayOf(constants.customPropType.periodShape),
   setPageName: PropTypes.func,
 };
 
