@@ -47,19 +47,6 @@ function getPeriods(username, callback) {
     });
 }
 
-function update(period) {
-  const cleaned = {
-    createdAt: period.createdAt.getTime(),
-    endDate: period.endDate.getTime(),
-  };
-  firebase
-    .database()
-    .ref()
-    .child('periods')
-    .child(period.id)
-    .update(Object.assign(period, cleaned));
-}
-
 function openPeriod(endDate) {
   const period = {
     createdAt: new Date().getTime(),
@@ -97,7 +84,7 @@ function setPaid(periodId, bets, paid) {
 
 function insertBet(periodId, bet) {
   const updated = Object.assign(bet, {
-    id: bet.id ? bet.id : new Date().valueOf().toString(),
+    id: bet.id || new Date().valueOf().toString(),
     createdAt: new Date().getTime(),
   });
   firebase
@@ -141,5 +128,4 @@ export default {
   openPeriod,
   saveResult,
   setPaid,
-  update,
 };

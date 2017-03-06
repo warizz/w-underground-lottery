@@ -52,7 +52,6 @@ class BetPage extends React.Component {
     const period = this.props.periods[0];
     if (!period.open) return;
     let inputBet = period.bets.find(item => item.number === bet.number);
-    console.log('inputBet', inputBet);
     // if number exists, update instead.
     if (inputBet) {
       inputBet.price1 = bet.price1 ? Number(bet.price1) : 0;
