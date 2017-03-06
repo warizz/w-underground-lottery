@@ -72,7 +72,7 @@ class BetPage extends React.Component {
     this.setState({ faqOpen: !this.state.faqOpen });
   }
   render() {
-    const { periods, username } = this.props;
+    const { periods, themeColor, username } = this.props;
     const period = periods[0];
 
     if (!period || !period.open) {
@@ -116,7 +116,7 @@ class BetPage extends React.Component {
         <BetList bets={period.bets.filter(b => b.username === username)} editHandler={this.setEditingBet} deleteHandler={this.handleDeleteBet(period.id)} faqHandler={this.switchFaqToggle} />
         <BetInputOverlay active={this.state.inputOpen} />
         <BetInput saveBetHandler={this.handleSaveBet} editingBet={this.state.editingBet} open={this.state.inputOpen} onClose={this.inputToggle} />
-        <Fab active={!this.state.inputOpen} onClick={this.inputToggle}>
+        <Fab active={!this.state.inputOpen} onClick={this.inputToggle} themeColor={themeColor}>
           <span style={{ fontSize: '30px' }}>+</span>
         </Fab>
       </div>
@@ -134,6 +134,7 @@ BetPage.propTypes = {
   periods: PropTypes.arrayOf(constants.customPropType.periodShape),
   router: routerShape,
   setPageName: PropTypes.func,
+  themeColor: PropTypes.string.isRequired,
   username: PropTypes.string.isRequired,
 };
 

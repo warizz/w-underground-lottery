@@ -34,10 +34,9 @@ class Layout extends React.Component {
     this.setState({ openDrawer: !this.state.openDrawer });
   }
   render() {
-    // TODO: remove period
     const { fetching, username, periods = [] } = this.props;
     // pass username to content page
-    const childrensProps = { username, periods };
+    const childrensProps = { username, periods, themeColor: constants.color.primary };
     const childrenWithProps = React.cloneElement(this.props.children, childrensProps);
     return (
       <div style={styles.base}>
