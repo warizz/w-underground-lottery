@@ -67,10 +67,10 @@ class HistoryPage extends React.Component {
   render() {
     const { periods, username } = this.props;
     const history = periods.map((a) => {
-      a.bets = a.bets.filter(b => b.username === username);
-      return a;
+      const updated = Object.assign({}, a);
+      updated.bets = updated.bets.filter(b => b.username === username);
+      return updated;
     });
-    const period = periods[0];
     const { alertMessage, hasAlert } = this.state;
     if (periods.length === 0) {
       return (
