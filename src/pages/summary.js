@@ -49,7 +49,7 @@ class SummaryPage extends React.Component {
     this.setState({ period });
   }
   render() {
-    const { periods } = this.props;
+    const { periods, themeColor } = this.props;
     const period = periods[0];
     const { bets, result } = period;
     if (!bets || bets.length === 0) {
@@ -137,7 +137,7 @@ class SummaryPage extends React.Component {
             );
           })}
         </div>
-        <FAB active onClick={SummaryPage.copyToClipboard}>
+        <FAB active onClick={SummaryPage.copyToClipboard} themeColor={themeColor}>
           <i className="material-icons">content_copy</i>
         </FAB>
       </div>
@@ -155,6 +155,7 @@ SummaryPage.propTypes = {
   periods: PropTypes.arrayOf(constants.customPropType.periodShape),
   router: routerShape,
   setPageName: PropTypes.func,
+  themeColor: PropTypes.string,
   username: PropTypes.string.isRequired,
 };
 
