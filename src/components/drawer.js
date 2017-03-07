@@ -26,7 +26,6 @@ const styles = {
   avatar: {
     alignItems: 'center',
     backgroundColor: 'white',
-    backgroundImage: 'url(\'https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/13151495_10153419716527676_5289925877114749609_n.jpg?oh=c223b0b53f845c732b18c8de224fa5ea&oe=596C7A0C\')',
     backgroundSize: 'contain',
     borderRadius: '50%',
     display: 'flex',
@@ -78,7 +77,6 @@ class Drawer extends React.Component {
   }
   render() {
     const { active, themeColor = 'black', toggle, username, userPic } = this.props;
-    console.log('userPic', userPic);
     if (!username) {
       return <div />;
     }
@@ -100,7 +98,7 @@ class Drawer extends React.Component {
             </a>
           </div>
           <div style={{ ...styles.userMenuGroup, backgroundColor: themeColor }}>
-            <div style={{ ...styles.avatar, marginBottom: '1em' }} />
+            <div style={{ ...styles.avatar, marginBottom: '1em', backgroundImage: `url(${userPic})` }} />
             <div style={styles.username}>
               {username.toUpperCase()}
             </div>
