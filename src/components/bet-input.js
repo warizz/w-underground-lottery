@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-// import * as paperShadow from '../constants/styles/paper-shadow';
+import constants from '../constants/index';
 
 const validateNumber = value => /^[0-9]*$/.test(value);
 const getRandomNumber = (minLength, maxLength) => {
@@ -19,7 +19,6 @@ const getRandomNumber = (minLength, maxLength) => {
 const styles = {
   base: {
     backgroundColor: 'white',
-    // boxShadow: paperShadow.level1,
     left: '0',
     position: 'absolute',
     right: '0',
@@ -211,6 +210,7 @@ class BetInput extends React.Component {
 }
 
 BetInput.propTypes = {
+  editingBet: constants.customPropType.betShape,
   onClose: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
   saveBetHandler: PropTypes.func.isRequired,

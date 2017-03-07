@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react';
-// import * as paperShadow from '../constants/styles/paper-shadow';
 import Overlay from './overlay';
 
 const styles = {
@@ -21,7 +20,6 @@ const styles = {
       maxHeight: '80vh',
       overflowX: 'auto',
       transition: 'top .5s',
-      // boxShadow: paperShadow.level3,
     },
     active: {
       top: 0,
