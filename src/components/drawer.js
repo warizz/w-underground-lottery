@@ -90,7 +90,7 @@ class Drawer extends React.Component {
     };
     return (
       <div>
-        <Overlay active={active} />
+        <Overlay active={active} clickHandler={toggle} />
         <div style={drawerStyles}>
           <div style={{ ...styles.versionContainer, backgroundColor: themeColor }}>
             <a href="https://github.com/warizz/underground-lottery-on-fire/releases" target="_blank" rel="noopener noreferrer" style={{ color: 'white' }}>

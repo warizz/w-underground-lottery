@@ -26,16 +26,17 @@ class Overlay extends React.Component {
     return nextProps.active !== this.props.active;
   }
   render() {
-    const { active } = this.props;
+    const { active, clickHandler } = this.props;
     const style = active ? { ...styles.base, ...styles.active } : { ...styles.base, ...styles.inactive };
     return (
-      <div style={style}>&nbsp;</div>
+      <div onClick={clickHandler} style={style}>&nbsp;</div>
     );
   }
 }
 
 Overlay.propTypes = {
   active: PropTypes.bool.isRequired,
+  clickHandler: PropTypes.func,
 };
 
 export default Overlay;
