@@ -10,8 +10,8 @@ function initApplicationState(store) {
     store.dispatch(actions.user.setUsername(username));
     store.dispatch(actions.user.setPic(pic));
     services.data.getPeriods(username, (periods) => {
-      store.dispatch(actions.data.setFetching(false));
       store.dispatch(actions.data.setPeriods(periods));
+      store.dispatch(actions.data.setFetching(false));
     });
   };
 }

@@ -54,7 +54,7 @@ class SummaryPage extends React.Component {
     const { bets, result } = period;
     if (!bets || bets.length === 0) {
       return (
-        <div style={constants.commonStyle.placeholder}>{'no data'}</div>
+        <div style={constants.elementStyle.placeholder}>{'no data'}</div>
       );
     }
 
@@ -89,7 +89,7 @@ class SummaryPage extends React.Component {
               .includes(true);
             const itemStyle = paid ? styles.paidItem : {};
             return (
-              <div key={buyer.name} className="col-xs-12 col-md-12" style={constants.commonStyle.betCard}>
+              <div key={buyer.name} className="col-xs-12 col-md-12" style={constants.elementStyle.betCard}>
                 <div><b>{buyer.name}</b></div>
                 <ul>
                   {buyer.bets
@@ -145,8 +145,6 @@ class SummaryPage extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({ period: state.data.period, username: state.user.username });
-
 const mapDispatchToProps = dispatch => (
   {
     setPageName: pageName => dispatch(actions.layout.setPageName(pageName)),
@@ -160,4 +158,4 @@ SummaryPage.propTypes = {
   username: PropTypes.string.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SummaryPage);
+export default connect(null, mapDispatchToProps)(SummaryPage);
