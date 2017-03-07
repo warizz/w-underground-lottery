@@ -26,7 +26,7 @@
   },
   "homepage": "https://warizz.github.io/underground-lottery-on-fire",
   "name": "underground-lottery",
-  "version": "3.1.2",
+  "version": "3.1.6",
   "private": false,
   "scripts": {
     "deploy": "npm run build && gh-pages -d build",

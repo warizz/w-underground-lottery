@@ -1,6 +1,6 @@
-const CACHE_NAME = '3.1.2';
+const CACHE_NAME = '3.1.6';
 const urlsToCache = [
-  './',
+  '/underground-lottery-on-fire/',
 ];
 
 this.addEventListener('install', (event) => {
@@ -27,7 +27,7 @@ this.addEventListener('activate', (event) => {
     );
 });
 
-self.addEventListener('fetch', (event) => {
+this.addEventListener('fetch', (event) => {
   event
     .respondWith(
       caches
