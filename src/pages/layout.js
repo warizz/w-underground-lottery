@@ -34,14 +34,14 @@ class Layout extends React.Component {
     this.setState({ openDrawer: !this.state.openDrawer });
   }
   render() {
-    const { fetching, username, periods = [] } = this.props;
+    const { fetching, periods = [], userPic, username } = this.props;
     // pass username to content page
     const childrensProps = { username, periods, themeColor: constants.color.primary };
     const childrenWithProps = React.cloneElement(this.props.children, childrensProps);
     return (
       <div style={styles.base}>
         <ToolBar onClickMenuButton={this.drawerToggle} pageName={this.props.pageName} themeColor={constants.color.primary} />
-        <Drawer active={this.state.openDrawer} toggle={this.drawerToggle} username={this.props.username} themeColor={constants.color.primary} />
+        <Drawer active={this.state.openDrawer} toggle={this.drawerToggle} username={this.props.username} themeColor={constants.color.primary} userPic={userPic} />
         <div style={styles.content}>
           {fetching && (
             <div style={constants.elementStyle.placeholder}>
@@ -60,6 +60,7 @@ const mapStateToProps = state => (
     fetching: state.data.fetching,
     pageName: state.layout.pageName,
     periods: state.data.periods,
+    userPic: state.user.pic,
     username: state.user.username,
   }
 );
@@ -73,6 +74,7 @@ Layout.propTypes = {
   fetching: PropTypes.bool.isRequired,
   pageName: PropTypes.string,
   periods: PropTypes.arrayOf(constants.customPropType.periodShape),
+  userPic: PropTypes.string.isRequired,
   router: routerShape,
   username: PropTypes.string.isRequired,
 };

@@ -36,7 +36,9 @@ class SignInPage extends React.Component {
       if (loginResponse.authResponse) {
         window.FB.api('/me?fields=name,picture', (fields) => {
           const username = fields.name.replace(/\s+/g, '');
+          const pic = fields.picture.data.url;
           docCookies.setItem('underground-lottery_username', username, 60 * 60 * 24);
+          docCookies.setItem('underground-lottery_user-pic', pic, 60 * 60 * 24);
           this.props.setUsername(username);
           this.props.router.push('/');
         });
