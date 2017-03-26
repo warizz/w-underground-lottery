@@ -1,13 +1,13 @@
 const SET_FETCHING = 'SET_FETCHING';
-const SET_PERIODS = 'SET_PERIODs';
+const SET_CURRENT_PERIOD = 'SET_CURRENT_PERIOD';
 const setFetching = fetching => ({ type: SET_FETCHING, fetching });
-const setPeriods = periods => ({ type: SET_PERIODS, periods });
+const setCurrentPeriod = currentPeriod => ({ type: SET_CURRENT_PERIOD, currentPeriod });
 
 export default {
   type: {
     SET_FETCHING,
-    SET_PERIODS,
+    SET_CURRENT_PERIOD,
   },
   setFetching,
-  setPeriods,
+  setCurrentPeriod,
 };

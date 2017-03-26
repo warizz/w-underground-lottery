@@ -6,8 +6,8 @@ export default function (state = {}, action) {
   switch (action.type) {
     case type.SET_FETCHING:
       return { ...state, fetching: action.fetching };
-    case type.SET_PERIODS:
-      return { ...state, periods: action.periods };
+    case type.SET_CURRENT_PERIOD:
+      return { ...state, currentPeriod: action.currentPeriod };
     default:
       return { ...state };
   }
