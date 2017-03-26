@@ -32,13 +32,14 @@ class SignInPage extends React.Component {
   }
   authenFacebook(e) {
     e.preventDefault();
-    window.FB.login((loginResponse) => {
-      if (loginResponse.authResponse) {
+    window.FB.login((res) => {
+      if (res.authResponse) {
         window.FB.api('/me?fields=name,picture', (fields) => {
           const username = fields.name.replace(/\s+/g, '');
           const pic = fields.picture.data.url;
-          docCookies.setItem('underground-lottery_username', username, 60 * 60 * 24);
-          docCookies.setItem('underground-lottery_user-pic', pic, 60 * 60 * 24);
+          docCookies.setItem(`fbu_${process.env.REACT_APP_FB_ID}`, username, 60 * 60 * 24);
+          docCookies.setItem(`fbp_${process.env.REACT_APP_FB_ID}`, pic, 60 * 60 * 24);
+          docCookies.setItem(`fbat_${process.env.REACT_APP_FB_ID}`, res.authResponse.accessToken);
           this.props.setUsername(username);
           this.props.router.push('/');
         });
