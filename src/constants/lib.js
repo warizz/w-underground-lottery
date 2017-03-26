@@ -4,13 +4,14 @@ import services from '../services/index';
 
 function initApplicationState(store) {
   return () => {
-    const username = docCookies.getItem('underground-lottery_username');
-    const pic = docCookies.getItem('underground-lottery_user-pic');
-    store.dispatch(actions.data.setFetching(true));
+    const username = docCookies.getItem(`fbu_${process.env.REACT_APP_FB_ID}`);
+    const pic = docCookies.getItem(`fbp_${process.env.REACT_APP_FB_ID}`);
     store.dispatch(actions.user.setUsername(username));
     store.dispatch(actions.user.setPic(pic));
-    services.data.getPeriods(username, (periods) => {
-      store.dispatch(actions.data.setPeriods(periods));
+
+    store.dispatch(actions.data.setFetching(true));
+    services.data.getCurrentPeriod((currentPeriod) => {
+      store.dispatch(actions.data.setCurrentPeriod(currentPeriod));
       store.dispatch(actions.data.setFetching(false));
     });
   };
