@@ -72,18 +72,17 @@ class Home extends React.Component {
     this.setState({ faqOpen: !this.state.faqOpen });
   }
   render() {
-    const { periods, themeColor, username } = this.props;
-    const period = periods[0];
+    const { currentPeriod, themeColor, username } = this.props;
 
-    if (!period || !period.open) {
+    if (!currentPeriod || !currentPeriod.isOpen) {
       return (
         <div style={constants.elementStyle.placeholder}>
           {'ตลาดยังไม่เปิดจ้ะ'}
         </div>
       );
     }
-    if (period.result) {
-      const { bets, result } = period;
+    if (currentPeriod.result) {
+      const { bets, result } = currentPeriod;
       const rewardCallback = (number, price, reward, rewardType) => `ถูก ${rewardType} [${number}] ${price} x ${reward} = ${price * reward} บาท`;
       const userReward = bets
         .map(service.calculation.checkReward(result, rewardCallback))
@@ -105,7 +104,7 @@ class Home extends React.Component {
           )}
           <ResultDisplay
             {...result}
-            periodEndDate={moment(period.endDate).format('DD MMM YYYY')}
+            periodEndDate={moment(currentPeriod.endDate).format('DD MMM YYYY')}
           />
         </div>
       );
@@ -113,7 +112,7 @@ class Home extends React.Component {
     return (
       <div style={styles.base}>
         <FaqDialog active={this.state.faqOpen} toggle={this.switchFaqToggle} />
-        <BetList bets={period.bets.filter(b => b.username === username)} editHandler={this.setEditingBet} deleteHandler={this.handleDeleteBet(period.id)} faqHandler={this.switchFaqToggle} />
+        <BetList bets={currentPeriod.bets.filter(b => b.username === username)} editHandler={this.setEditingBet} deleteHandler={this.handleDeleteBet(currentPeriod.id)} faqHandler={this.switchFaqToggle} />
         <BetInputOverlay active={this.state.inputOpen} />
         <BetInput saveBetHandler={this.handleSaveBet} editingBet={this.state.editingBet} open={this.state.inputOpen} onClose={this.inputToggle} />
         <Fab active={!this.state.inputOpen} onClick={this.inputToggle} themeColor={themeColor}>
@@ -124,6 +123,8 @@ class Home extends React.Component {
   }
 }
 
+const mapStateToProps = state => ({ currentPeriod: state.data.currentPeriod });
+
 const mapDispatchToProps = dispatch => (
   {
     setPageName: pageName => dispatch(actions.layout.setPageName(pageName)),
@@ -131,11 +132,11 @@ const mapDispatchToProps = dispatch => (
 );
 
 Home.propTypes = {
-  periods: PropTypes.arrayOf(constants.customPropType.periodShape),
+  currentPeriod: constants.customPropType.periodShape,
   router: routerShape,
   setPageName: PropTypes.func,
   themeColor: PropTypes.string.isRequired,
   username: PropTypes.string.isRequired,
 };
 
-export default connect(null, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
