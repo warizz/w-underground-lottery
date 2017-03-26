@@ -1,4 +1,4 @@
-import firebase from './firebase';
+import axios from 'axios';
 
 function toArray(obj) {
   return Object.keys(obj).map(key => obj[key]);
