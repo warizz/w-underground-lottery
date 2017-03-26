@@ -2,12 +2,12 @@ import { PropTypes } from 'react';
 
 const betShape = PropTypes.shape({
   createdAt: PropTypes.instanceOf(Date),
+  createdBy: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   number: PropTypes.string.isRequired,
   price1: PropTypes.number,
   price2: PropTypes.number,
   price3: PropTypes.number,
-  username: PropTypes.string.isRequired,
 });
 
 const resultShape = PropTypes.shape({
