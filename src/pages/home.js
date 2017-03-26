@@ -19,7 +19,7 @@ const styles = {
   },
 };
 
-class BetPage extends React.Component {
+class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -130,7 +130,7 @@ const mapDispatchToProps = dispatch => (
   }
 );
 
-BetPage.propTypes = {
+Home.propTypes = {
   periods: PropTypes.arrayOf(constants.customPropType.periodShape),
   router: routerShape,
   setPageName: PropTypes.func,
@@ -138,4 +138,4 @@ BetPage.propTypes = {
   username: PropTypes.string.isRequired,
 };
 
-export default connect(null, mapDispatchToProps)(BetPage);
+export default connect(null, mapDispatchToProps)(Home);

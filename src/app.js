@@ -5,13 +5,13 @@ import { Provider } from 'react-redux';
 import reducer from './reducers/index';
 import Layout from './pages/layout';
 import SignInPage from './pages/sign-in';
-import BetPage from './pages/bet';
 import HistoryPage from './pages/history';
 import DashboardPage from './pages/dashboard';
 import SummaryPage from './pages/summary';
 import ResultPage from './pages/result';
 import FaqPage from './pages/faq';
 import lib from './constants/lib';
+import Page from './pages/index';
 
 const store = createStore(reducer);
 
@@ -22,8 +22,8 @@ class App extends React.Component {
         <Router history={browserHistory}>
           <Route path="/sign-in" component={SignInPage} />
           <Route component={Layout} onEnter={lib.initApplicationState(store)}>
-            <IndexRoute component={BetPage} />
-            <Route path="/" component={BetPage} />
+            <IndexRoute component={Page.Home} />
+            <Route path="/" component={Page.Home} />
             <Route path="/history" component={HistoryPage} />
             <Route path="/dashboard" component={DashboardPage} />
             <Route path="/dashboard/summary" component={SummaryPage} />
