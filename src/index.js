@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Perf from 'react-addons-perf';
-import { Router, Route, hashHistory, IndexRoute } from 'react-router';
+import { Router, Route, browserHistory, IndexRoute } from 'react-router';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import reducer from './reducers/index';
@@ -20,7 +20,7 @@ const store = createStore(reducer);
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router history={hashHistory}>
+    <Router history={browserHistory}>
       <Route path="/sign-in" component={SignInPage} />
       <Route component={Layout} onEnter={lib.initApplicationState(store)}>
         <IndexRoute component={BetPage} />
