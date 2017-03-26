@@ -1,7 +1,6 @@
 {
   "dependencies": {
     "doc-cookies": "^1.0.2",
-    "firebase": "^3.7.0",
     "moment": "^2.17.1",
     "react": "^15.4.2",
     "react-addons-perf": "^15.4.2",
@@ -21,15 +20,12 @@
     "eslint-plugin-promise": "^3.3.0",
     "eslint-plugin-react": "^6.2.2",
     "eslint-plugin-standard": "^2.0.0",
-    "gh-pages": "^0.12.0",
     "react-scripts": "0.8.4"
   },
-  "homepage": "https://warizz.github.io/underground-lottery-on-fire",
-  "name": "underground-lottery",
+  "name": "w-underground-lottery",
   "version": "3.1.6",
   "private": false,
   "scripts": {
-    "deploy": "npm run build && gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
