@@ -81,8 +81,21 @@ function setPaid(periodId, bets, paid) {
 
 }
 
-function insertBet(periodId, bet) {
-
+function insertBet(bet) {
+  return new Promise((resolve, reject) => {
+    const token = docCookies.getItem(`fbat_${fbAppId}`);
+    const data = bet;
+    axios
+      .request({
+        url: '/bet',
+        method: 'post',
+        baseURL,
+        headers: { 'x-access-token': token },
+        data,
+      })
+      .then(res => resolve(res.data))
+      .catch(error => reject(error));
+  });
 }
 
 function deleteBet(periodId, id) {

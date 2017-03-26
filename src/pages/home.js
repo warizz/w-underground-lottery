@@ -48,9 +48,10 @@ class Home extends React.Component {
     this.setState({ editingBet });
   }
   handleSaveBet(bet) {
-    const period = this.props.periods[0];
-    if (!period.open) return;
-    let inputBet = period.bets.find(item => item.number === bet.number);
+    const self = this;
+    const { currentPeriod } = this.props;
+    if (!currentPeriod.isOpen) return;
+    let inputBet = currentPeriod.bets.find(item => item.number === bet.number);
     // if number exists, update instead.
     if (inputBet) {
       inputBet.price1 = bet.price1 ? Number(bet.price1) : 0;
@@ -58,9 +59,13 @@ class Home extends React.Component {
       inputBet.price3 = bet.price3 ? Number(bet.price3) : 0;
     } else {
       inputBet = bet;
-      inputBet.username = this.props.username;
+      inputBet.period = currentPeriod.id;
     }
-    service.data.insertBet(period.id, inputBet);
+    service.data.insertBet(inputBet).then(() => {
+      service.data.getCurrentPeriod((res) => {
+        self.props.setCurrentPeriod(res);
+      });
+    });
   }
   handleDeleteBet(periodId) {
     return betId => service.data.deleteBet(periodId, betId);
@@ -73,7 +78,6 @@ class Home extends React.Component {
   }
   render() {
     const { currentPeriod, themeColor, username } = this.props;
-
     if (!currentPeriod || !currentPeriod.isOpen) {
       return (
         <div style={constants.elementStyle.placeholder}>
@@ -112,9 +116,19 @@ class Home extends React.Component {
     return (
       <div style={styles.base}>
         <FaqDialog active={this.state.faqOpen} toggle={this.switchFaqToggle} />
-        <BetList bets={currentPeriod.bets.filter(b => b.username === username)} editHandler={this.setEditingBet} deleteHandler={this.handleDeleteBet(currentPeriod.id)} faqHandler={this.switchFaqToggle} />
+        <BetList
+          bets={currentPeriod.bets}
+          editHandler={this.setEditingBet}
+          deleteHandler={this.handleDeleteBet(currentPeriod.id)}
+          faqHandler={this.switchFaqToggle}
+        />
         <BetInputOverlay active={this.state.inputOpen} />
-        <BetInput saveBetHandler={this.handleSaveBet} editingBet={this.state.editingBet} open={this.state.inputOpen} onClose={this.inputToggle} />
+        <BetInput
+          saveBetHandler={this.handleSaveBet}
+          editingBet={this.state.editingBet}
+          open={this.state.inputOpen}
+          onClose={this.inputToggle}
+        />
         <Fab active={!this.state.inputOpen} onClick={this.inputToggle} themeColor={themeColor}>
           <span style={{ fontSize: '30px' }}>+</span>
         </Fab>
@@ -127,6 +141,7 @@ const mapStateToProps = state => ({ currentPeriod: state.data.currentPeriod });
 
 const mapDispatchToProps = dispatch => (
   {
+    setCurrentPeriod: currentPeriod => dispatch(actions.data.setCurrentPeriod(currentPeriod)),
     setPageName: pageName => dispatch(actions.layout.setPageName(pageName)),
   }
 );
