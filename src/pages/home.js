@@ -28,7 +28,7 @@ class Home extends React.Component {
       faqOpen: false,
     };
     this.handleSaveBet = this.handleSaveBet.bind(this);
-    // this.handleDeleteBet = this.handleDeleteBet.bind(this);
+    this.handleDeleteBet = this.handleDeleteBet.bind(this);
     this.inputToggle = this.inputToggle.bind(this);
     this.setEditingBet = this.setEditingBet.bind(this);
     this.switchFaqToggle = this.switchFaqToggle.bind(this);
@@ -40,9 +40,6 @@ class Home extends React.Component {
     }
     this.props.setPageName('Bet');
   }
-  // shouldComponentUpdate(nextProps) {
-  //   return (nextProps.periods !== this.props.periods);
-  // }
   setEditingBet(editingBet) {
     this.inputToggle();
     this.setState({ editingBet });
@@ -67,8 +64,15 @@ class Home extends React.Component {
       });
     });
   }
-  handleDeleteBet(periodId) {
-    return betId => service.data.deleteBet(periodId, betId);
+  handleDeleteBet(id) {
+    const self = this;
+    service.data
+      .deleteBet(id)
+      .then(() => {
+        service.data.getCurrentPeriod((res) => {
+          self.props.setCurrentPeriod(res);
+        });
+      });
   }
   inputToggle() {
     this.setState({ editingBet: null, inputOpen: !this.state.inputOpen });
@@ -119,7 +123,7 @@ class Home extends React.Component {
         <BetList
           bets={currentPeriod.bets}
           editHandler={this.setEditingBet}
-          deleteHandler={this.handleDeleteBet(currentPeriod.id)}
+          deleteHandler={this.handleDeleteBet}
           faqHandler={this.switchFaqToggle}
         />
         <BetInputOverlay active={this.state.inputOpen} />
