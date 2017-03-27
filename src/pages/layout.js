@@ -41,7 +41,7 @@ class Layout extends React.Component {
     const childrenWithProps = React.cloneElement(this.props.children, childrensProps);
     return (
       <div style={styles.base}>
-        <Overlay active={fetching} zIndex={4} text="loading..." />
+        <Overlay active={fetching} zIndex={4} text="..." />
         <ToolBar onClickMenuButton={this.drawerToggle} pageName={this.props.pageName} themeColor={constants.color.primary} />
         <Drawer active={this.state.openDrawer} toggle={this.drawerToggle} username={this.props.username} themeColor={constants.color.primary} userPic={userPic} />
         <div style={styles.content}>
