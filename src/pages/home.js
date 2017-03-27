@@ -46,6 +46,7 @@ class Home extends React.Component {
   }
   handleSaveBet(bet) {
     const self = this;
+    self.props.setFetching(true);
     const { currentPeriod } = this.props;
     if (!currentPeriod.isOpen) return;
     let inputBet = currentPeriod.bets.find(item => item.number === bet.number);
@@ -59,6 +60,7 @@ class Home extends React.Component {
         .then(() => {
           service.data.getCurrentPeriod((res) => {
             self.props.setCurrentPeriod(res);
+            self.props.setFetching(false);
           });
         });
     } else {
@@ -69,6 +71,7 @@ class Home extends React.Component {
         .then(() => {
           service.data.getCurrentPeriod((res) => {
             self.props.setCurrentPeriod(res);
+            self.props.setFetching(false);
           });
         });
     }
@@ -155,6 +158,7 @@ const mapStateToProps = state => ({ currentPeriod: state.data.currentPeriod });
 const mapDispatchToProps = dispatch => (
   {
     setCurrentPeriod: currentPeriod => dispatch(actions.data.setCurrentPeriod(currentPeriod)),
+    setFetching: fetching => dispatch(actions.data.setFetching(fetching)),
     setPageName: pageName => dispatch(actions.layout.setPageName(pageName)),
   }
 );
@@ -162,6 +166,7 @@ const mapDispatchToProps = dispatch => (
 Home.propTypes = {
   currentPeriod: constants.customPropType.periodShape,
   router: routerShape,
+  setFetching: PropTypes.func.isRequired,
   setPageName: PropTypes.func,
   themeColor: PropTypes.string.isRequired,
   username: PropTypes.string.isRequired,
