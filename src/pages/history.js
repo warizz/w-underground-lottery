@@ -27,8 +27,6 @@ class HistoryPage extends React.Component {
       hasAlert: false,
       alertMessage: '',
     };
-    this.setList = this.setList.bind(this);
-    this.setAlert = this.setAlert.bind(this);
   }
   componentDidMount() {
     this.props.setPageName('History');
@@ -38,14 +36,8 @@ class HistoryPage extends React.Component {
       this.setState({ history: res });
     });
   }
-  setList(periods) {
-    this.setState({ periods });
-  }
-  setAlert(alertMessage) {
-    this.setState({ hasAlert: true, alertMessage });
-    setTimeout(() => this.setState({ hasAlert: false, alertMessage: '' }), 1000);
-  }
   clone(currentPeriod, bets) {
+    const self = this;
     return (e) => {
       e.preventDefault();
       const newBets = bets
@@ -57,17 +49,19 @@ class HistoryPage extends React.Component {
         })
         .filter(a => a);
       if (newBets.length === 0) {
-        this.setAlert('nothing to copy');
+        this.setState({ hasAlert: true, alertMessage: 'nothing to copy' });
         return;
       }
+      self.props.setFetching(true);
       service.data
-        .insertBets(currentPeriod.id, bets)
+        .insertBets(currentPeriod.id, newBets)
         .then(() => {
           service.data.getCurrentPeriod(
           () => {},
           (res) => {
             self.props.setCurrentPeriod(res);
             self.props.setFetching(false);
+            this.setState({ hasAlert: true, alertMessage: 'cloned' });
           });
         });
     };
@@ -112,12 +106,12 @@ class HistoryPage extends React.Component {
                 }
               </ul>
               {currentPeriod.isOpen && (
-                <button className="btn btn-primary btn-block" onClick={this.clone(h, h.bets, service.data.insertBet)}>clone</button>
+                <button className="btn btn-primary btn-block" onClick={this.clone(currentPeriod, h.bets, service.data.insertBet)}>clone</button>
               )}
             </div>
             ))}
         </div>
-        <Snackbar active={hasAlert} text={alertMessage} />
+        <Snackbar active={hasAlert} text={alertMessage} timer={2000} />
       </div>
     );
   }
@@ -132,6 +126,7 @@ const mapStateToProps = state => (
 
 const mapDispatchToProps = dispatch => (
   {
+    setCurrentPeriod: currentPeriod => dispatch(actions.data.setCurrentPeriod(currentPeriod)),
     setFetching: fetching => dispatch(actions.data.setFetching(fetching)),
     setPageName: pageName => dispatch(actions.layout.setPageName(pageName)),
   }
