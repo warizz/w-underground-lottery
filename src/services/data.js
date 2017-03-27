@@ -39,6 +39,21 @@ function getCurrentPeriod(callback) {
     });
 }
 
+function getHistory() {
+  return new Promise((resolve, reject) => {
+    const token = docCookies.getItem(`fbat_${fbAppId}`);
+    axios
+      .request({
+        url: '/history',
+        method: 'get',
+        baseURL,
+        headers: { 'x-access-token': token },
+      })
+      .then(res => resolve(res.data))
+      .catch(error => reject(error));
+  });
+}
+
 function openPeriod(endedAt) {
   return new Promise((resolve, reject) => {
     const token = docCookies.getItem(`fbat_${fbAppId}`);
@@ -147,6 +162,7 @@ export default {
   closePeriod,
   deleteBet,
   getCurrentPeriod,
+  getHistory,
   insertBet,
   openPeriod,
   setPaid,

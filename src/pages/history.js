@@ -23,7 +23,7 @@ class HistoryPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      periods: [],
+      history: [],
       hasAlert: false,
       alertMessage: '',
     };
@@ -32,7 +32,11 @@ class HistoryPage extends React.Component {
   }
   componentDidMount() {
     this.props.setPageName('History');
-    // lib.getHistory(this.props.username, this.setList);
+  }
+  componentWillReceiveProps() {
+    service.data.getHistory().then((res) => {
+      this.setState({ history: res });
+    });
   }
   setList(periods) {
     this.setState({ periods });
@@ -41,7 +45,7 @@ class HistoryPage extends React.Component {
     this.setState({ hasAlert: true, alertMessage });
     setTimeout(() => this.setState({ hasAlert: false, alertMessage: '' }), 1000);
   }
-  clone(currentPeriod, username, bets, insertCallback) {
+  clone(currentPeriod, bets, insertCallback) {
     return (e) => {
       e.preventDefault();
       const newBets = bets
@@ -51,7 +55,7 @@ class HistoryPage extends React.Component {
           delete newBet._id;
           newBet.period = currentPeriod.id;
           newBet.createdAt = new Date();
-          newBet.username = username;
+          // newBet.username = username;
           return newBet;
         })
         .filter(a => a);
@@ -65,14 +69,14 @@ class HistoryPage extends React.Component {
     };
   }
   render() {
-    const { periods, username } = this.props;
-    const history = periods.map((a) => {
-      const updated = Object.assign({}, a);
-      updated.bets = updated.bets.filter(b => b.username === username);
-      return updated;
-    });
     const { alertMessage, hasAlert } = this.state;
-    if (periods.length === 0) {
+    const { currentPeriod } = this.props;
+    const history = this.state.history.filter((h) => {
+      const { bets = [] } = h;
+      return bets.length > 0;
+    });
+
+    if (history.length === 0) {
       return (
         <div style={constants.elementStyle.placeholder}>{'no data'}</div>
       );
@@ -102,8 +106,8 @@ class HistoryPage extends React.Component {
                   })
                 }
               </ul>
-              {h.open && (
-                <button className="btn btn-primary btn-block" onClick={this.clone(h, username, h.bets, service.data.insertBet)}>clone</button>
+              {currentPeriod.isOpen && (
+                <button className="btn btn-primary btn-block" onClick={this.clone(h, h.bets, service.data.insertBet)}>clone</button>
               )}
             </div>
             ))}
@@ -116,19 +120,22 @@ class HistoryPage extends React.Component {
 
 const mapStateToProps = state => (
   {
-    period: state.data.period,
+    currentPeriod: state.data.currentPeriod,
     username: state.user.username,
   }
 );
 
 const mapDispatchToProps = dispatch => (
   {
+    setFetching: fetching => dispatch(actions.data.setFetching(fetching)),
     setPageName: pageName => dispatch(actions.layout.setPageName(pageName)),
   }
 );
 
 HistoryPage.propTypes = {
-  periods: PropTypes.arrayOf(constants.customPropType.periodShape),
+  currentPeriod: constants.customPropType.periodShape,
+  history: PropTypes.arrayOf(constants.customPropType.periodShape),
+  setFetching: PropTypes.func.isRequired,
   setPageName: PropTypes.func,
   username: PropTypes.string.isRequired,
 };
