@@ -75,7 +75,7 @@ class HistoryPage extends React.Component {
     const { currentPeriod } = this.props;
     const history = this.state.history.filter((h) => {
       const { bets = [] } = h;
-      return bets.length > 0;
+      return bets.length > 0 && h.id !== currentPeriod.id;
     });
 
     if (history.length === 0) {
