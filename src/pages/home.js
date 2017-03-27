@@ -32,6 +32,7 @@ class Home extends React.Component {
     this.inputToggle = this.inputToggle.bind(this);
     this.setEditingBet = this.setEditingBet.bind(this);
     this.switchFaqToggle = this.switchFaqToggle.bind(this);
+    this.errorHanlder = this.errorHanlder.bind(this);
   }
   componentDidMount() {
     if (!this.props.username) {
@@ -43,6 +44,11 @@ class Home extends React.Component {
   setEditingBet(editingBet) {
     this.inputToggle();
     this.setState({ editingBet });
+  }
+  errorHanlder(error) {
+    if (error.response.status === 401) {
+      this.props.router.push('/sign-in');
+    }
   }
   handleSaveBet(bet) {
     const self = this;
@@ -58,7 +64,7 @@ class Home extends React.Component {
       service.data
         .updateBet(inputBet)
         .then(() => {
-          service.data.getCurrentPeriod((res) => {
+          service.data.getCurrentPeriod(this.errorHanlder, (res) => {
             self.props.setCurrentPeriod(res);
             self.props.setFetching(false);
           });
@@ -69,7 +75,7 @@ class Home extends React.Component {
       service.data
         .insertBet(inputBet)
         .then(() => {
-          service.data.getCurrentPeriod((res) => {
+          service.data.getCurrentPeriod(this.errorHanlder, (res) => {
             self.props.setCurrentPeriod(res);
             self.props.setFetching(false);
           });
@@ -82,7 +88,7 @@ class Home extends React.Component {
     service.data
       .deleteBet(id)
       .then(() => {
-        service.data.getCurrentPeriod((res) => {
+        service.data.getCurrentPeriod(this.errorHanlder, (res) => {
           self.props.setCurrentPeriod(res);
           self.props.setFetching(false);
         });

@@ -45,17 +45,14 @@ class HistoryPage extends React.Component {
     this.setState({ hasAlert: true, alertMessage });
     setTimeout(() => this.setState({ hasAlert: false, alertMessage: '' }), 1000);
   }
-  clone(currentPeriod, bets, insertCallback) {
+  clone(currentPeriod, bets) {
     return (e) => {
       e.preventDefault();
       const newBets = bets
         .map((bet) => {
-          if (currentPeriod.bets.find(currentBet => currentBet.number === bet.number)) return null;
+          if (currentPeriod.isOpen && currentPeriod.bets.find(currentBet => currentBet.number === bet.number)) return null;
           const newBet = Object.assign({}, bet);
           delete newBet._id;
-          newBet.period = currentPeriod.id;
-          newBet.createdAt = new Date();
-          // newBet.username = username;
           return newBet;
         })
         .filter(a => a);
@@ -63,9 +60,14 @@ class HistoryPage extends React.Component {
         this.setAlert('nothing to copy');
         return;
       }
-      bets.forEach((a) => {
-        insertCallback(currentPeriod.id, a);
-      });
+      service.data
+        .insertBets(currentPeriod.id, bets)
+        .then(() => {
+          service.data.getCurrentPeriod((res) => {
+            self.props.setCurrentPeriod(res);
+            self.props.setFetching(false);
+          });
+        });
     };
   }
   render() {

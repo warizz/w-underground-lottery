@@ -4,7 +4,7 @@ import docCookies from 'doc-cookies';
 const baseURL = process.env.REACT_APP_API_URL;
 const fbAppId = process.env.REACT_APP_FB_APP_ID;
 
-function getCurrentPeriod(callback) {
+function getCurrentPeriod(errorHanlder, callback) {
   const token = docCookies.getItem(`fbat_${fbAppId}`);
   axios
     .request({
@@ -15,7 +15,8 @@ function getCurrentPeriod(callback) {
     })
     .then((res) => {
       callback(res.data);
-    });
+    })
+    .catch(errorHanlder);
 }
 
 function getHistory() {
