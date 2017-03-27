@@ -88,6 +88,23 @@ function insertBet(bet) {
   });
 }
 
+function insertBets(periodId, bets) {
+  return new Promise((resolve, reject) => {
+    const token = docCookies.getItem(`fbat_${fbAppId}`);
+    const data = bets;
+    axios
+      .request({
+        url: `/bets/${periodId}`,
+        method: 'post',
+        baseURL,
+        headers: { 'x-access-token': token },
+        data,
+      })
+      .then(res => resolve(res.data))
+      .catch(error => reject(error));
+  });
+}
+
 function updateBet(bet) {
   return new Promise((resolve, reject) => {
     const token = docCookies.getItem(`fbat_${fbAppId}`);
@@ -143,6 +160,7 @@ export default {
   getCurrentPeriod,
   getHistory,
   insertBet,
+  insertBets,
   openPeriod,
   setPaid,
   updateBet,
