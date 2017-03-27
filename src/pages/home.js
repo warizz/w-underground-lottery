@@ -54,15 +54,24 @@ class Home extends React.Component {
       inputBet.price1 = bet.price1 ? Number(bet.price1) : 0;
       inputBet.price2 = bet.price2 ? Number(bet.price2) : 0;
       inputBet.price3 = bet.price3 ? Number(bet.price3) : 0;
+      service.data
+        .updateBet(inputBet)
+        .then(() => {
+          service.data.getCurrentPeriod((res) => {
+            self.props.setCurrentPeriod(res);
+          });
+        });
     } else {
       inputBet = bet;
       inputBet.period = currentPeriod.id;
+      service.data
+        .insertBet(inputBet)
+        .then(() => {
+          service.data.getCurrentPeriod((res) => {
+            self.props.setCurrentPeriod(res);
+          });
+        });
     }
-    service.data.insertBet(inputBet).then(() => {
-      service.data.getCurrentPeriod((res) => {
-        self.props.setCurrentPeriod(res);
-      });
-    });
   }
   handleDeleteBet(id) {
     const self = this;
@@ -81,7 +90,7 @@ class Home extends React.Component {
     this.setState({ faqOpen: !this.state.faqOpen });
   }
   render() {
-    const { currentPeriod, themeColor, username } = this.props;
+    const { currentPeriod, themeColor } = this.props;
     if (!currentPeriod || !currentPeriod.isOpen) {
       return (
         <div style={constants.elementStyle.placeholder}>
