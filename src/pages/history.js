@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import actions from '../actions/index';
 import constants from '../constants/index';
-import Snackbar from '../components/snackbar';
 import service from '../services/index';
 
 const styles = {
@@ -24,8 +23,6 @@ class HistoryPage extends React.Component {
     super(props);
     this.state = {
       history: [],
-      hasAlert: false,
-      alertMessage: '',
     };
   }
   componentDidMount() {
@@ -61,13 +58,11 @@ class HistoryPage extends React.Component {
           (res) => {
             self.props.setCurrentPeriod(res);
             self.props.setFetching(false);
-            this.setState({ hasAlert: true, alertMessage: 'cloned' });
           });
         });
     };
   }
   render() {
-    const { alertMessage, hasAlert } = this.state;
     const { currentPeriod } = this.props;
     if (!currentPeriod) return null;
     const history = this.state.history.filter((h) => {
@@ -111,7 +106,6 @@ class HistoryPage extends React.Component {
             </div>
             ))}
         </div>
-        <Snackbar active={hasAlert} text={alertMessage} timer={2000} />
       </div>
     );
   }
