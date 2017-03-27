@@ -15,7 +15,6 @@ const styles = {
     top: '0',
     width: '100%',
     transition: 'opacity .5s',
-    zIndex: 1,
   },
   active: {
     top: 0,
@@ -32,8 +31,8 @@ class Overlay extends React.Component {
     return nextProps.active !== this.props.active;
   }
   render() {
-    const { active, clickHandler, text } = this.props;
-    const style = active ? { ...styles.base, ...styles.active } : { ...styles.base, ...styles.inactive };
+    const { active, clickHandler, text, zIndex = 1 } = this.props;
+    const style = active ? { ...styles.base, ...styles.active, zIndex } : { ...styles.base, ...styles.inactive, zIndex };
     return (
       <div onClick={clickHandler} style={style}>{text || ''}</div>
     );
@@ -44,6 +43,7 @@ Overlay.propTypes = {
   active: PropTypes.bool.isRequired,
   clickHandler: PropTypes.func,
   text: PropTypes.string,
+  zIndex: PropTypes.number,
 };
 
 export default Overlay;
