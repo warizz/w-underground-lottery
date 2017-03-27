@@ -19,6 +19,10 @@ class ResultInputPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      six: '',
+      two: '',
+      firstThree: '',
+      secondThree: '',
       active: false,
       message: '',
     };
