@@ -4,16 +4,20 @@ import services from '../services/index';
 
 function initApplicationState(store) {
   return () => {
-    const username = docCookies.getItem(`fbu_${process.env.REACT_APP_FB_ID}`);
-    const pic = docCookies.getItem(`fbp_${process.env.REACT_APP_FB_ID}`);
+    const username = docCookies.getItem(`fbu_${process.env.REACT_APP_FB_APP_ID}`);
+    const pic = docCookies.getItem(`fbp_${process.env.REACT_APP_FB_APP_ID}`);
     store.dispatch(actions.user.setUsername(username));
     store.dispatch(actions.user.setPic(pic));
 
     store.dispatch(actions.data.setFetching(true));
-    services.data.getCurrentPeriod((currentPeriod) => {
-      store.dispatch(actions.data.setCurrentPeriod(currentPeriod));
-      store.dispatch(actions.data.setFetching(false));
-    });
+    services.data.getCurrentPeriod(
+      () => {
+        store.dispatch(actions.data.setFetching(false));
+      },
+      (res) => {
+        store.dispatch(actions.data.setCurrentPeriod(res));
+        store.dispatch(actions.data.setFetching(false));
+      });
   };
 }
 
