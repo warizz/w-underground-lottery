@@ -89,7 +89,7 @@ class HistoryPage extends React.Component {
         <div style={styles.cardContainer} className="col-sm-12 col-md-3">
           {history.map(h => (
             <div key={h.id} className="col-xs-12" style={constants.elementStyle.betCard}>
-              <div>{moment(h.endDate).format('DD MMM YYYY')}</div>
+              <div>{moment(h.endedAt).format('DD MMM YYYY')}</div>
               <ul>
                 {h.bets
                   .map((bet) => {
