@@ -78,11 +78,13 @@ class Home extends React.Component {
   }
   handleDeleteBet(id) {
     const self = this;
+    self.props.setFetching(true);
     service.data
       .deleteBet(id)
       .then(() => {
         service.data.getCurrentPeriod((res) => {
           self.props.setCurrentPeriod(res);
+          self.props.setFetching(false);
         });
       });
   }
