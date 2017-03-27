@@ -5,7 +5,6 @@
     react/jsx-filename-extension: [1, { "extensions": [".js", ".jsx"] }],
     no-underscore-dangle: [2, { "allow": ["_id"] }],
     react/no-unused-prop-types: [2, { "skipShapeProps": true }],
-    arrow-parens: [2, "as-needed", { "requireForBlockBody": true }]
   },
   env: {
     browser: true
