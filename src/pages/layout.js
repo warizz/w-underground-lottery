@@ -6,6 +6,7 @@ import ToolBar from '../components/tool-bar';
 import Drawer from '../components/drawer';
 import * as UserActionCreators from '../actions/user';
 import constants from '../constants/index';
+import Overlay from '../components/overlay';
 
 const styles = {
   base: {
@@ -40,15 +41,11 @@ class Layout extends React.Component {
     const childrenWithProps = React.cloneElement(this.props.children, childrensProps);
     return (
       <div style={styles.base}>
+        <Overlay active={fetching} text="loading..." />
         <ToolBar onClickMenuButton={this.drawerToggle} pageName={this.props.pageName} themeColor={constants.color.primary} />
         <Drawer active={this.state.openDrawer} toggle={this.drawerToggle} username={this.props.username} themeColor={constants.color.primary} userPic={userPic} />
         <div style={styles.content}>
-          {fetching && (
-            <div style={constants.elementStyle.placeholder}>
-              {'fetching...'}
-            </div>
-          )}
-          {!fetching && periods && childrenWithProps}
+          {periods && childrenWithProps}
         </div>
       </div>
     );

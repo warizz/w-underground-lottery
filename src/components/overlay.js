@@ -2,8 +2,14 @@ import React, { PropTypes } from 'react';
 
 const styles = {
   base: {
+    alignItems: 'center',
     backgroundColor: 'rgba(0,0,0,0.5)',
+    color: 'white',
+    display: 'flex',
+    fontSize: '20px',
+    fontWeight: 'bold',
     height: '100vh',
+    justifyContent: 'center',
     left: '0',
     position: 'absolute',
     top: '0',
@@ -26,10 +32,10 @@ class Overlay extends React.Component {
     return nextProps.active !== this.props.active;
   }
   render() {
-    const { active, clickHandler } = this.props;
+    const { active, clickHandler, text } = this.props;
     const style = active ? { ...styles.base, ...styles.active } : { ...styles.base, ...styles.inactive };
     return (
-      <div onClick={clickHandler} style={style}>&nbsp;</div>
+      <div onClick={clickHandler} style={style}>{text || ''}</div>
     );
   }
 }
@@ -37,6 +43,7 @@ class Overlay extends React.Component {
 Overlay.propTypes = {
   active: PropTypes.bool.isRequired,
   clickHandler: PropTypes.func,
+  text: PropTypes.string,
 };
 
 export default Overlay;
