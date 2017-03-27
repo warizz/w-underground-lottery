@@ -63,7 +63,9 @@ class HistoryPage extends React.Component {
       service.data
         .insertBets(currentPeriod.id, bets)
         .then(() => {
-          service.data.getCurrentPeriod((res) => {
+          service.data.getCurrentPeriod(
+          () => {},
+          (res) => {
             self.props.setCurrentPeriod(res);
             self.props.setFetching(false);
           });
@@ -73,6 +75,7 @@ class HistoryPage extends React.Component {
   render() {
     const { alertMessage, hasAlert } = this.state;
     const { currentPeriod } = this.props;
+    if (!currentPeriod) return null;
     const history = this.state.history.filter((h) => {
       const { bets = [] } = h;
       return bets.length > 0 && h.id !== currentPeriod.id;
@@ -139,7 +142,6 @@ HistoryPage.propTypes = {
   history: PropTypes.arrayOf(constants.customPropType.periodShape),
   setFetching: PropTypes.func.isRequired,
   setPageName: PropTypes.func,
-  username: PropTypes.string.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(HistoryPage);
