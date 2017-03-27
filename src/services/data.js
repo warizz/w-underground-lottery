@@ -4,27 +4,6 @@ import docCookies from 'doc-cookies';
 const baseURL = process.env.REACT_APP_API_URL;
 const fbAppId = process.env.REACT_APP_FB_APP_ID;
 
-function toArray(obj) {
-  return Object.keys(obj).map(key => obj[key]);
-}
-
-function cleanBet(bet) {
-  const cleaned = Object.assign({}, bet);
-  cleaned.createdAt = new Date(bet.createdAt);
-  cleaned.price1 = Number(bet.price1);
-  cleaned.price2 = Number(bet.price2);
-  cleaned.price3 = Number(bet.price3);
-  return cleaned;
-}
-
-function cleanPeriod(obj) {
-  const cleaned = Object.assign({}, obj);
-  cleaned.bets = obj.bets ? toArray(obj.bets).map(cleanBet) : [];
-  cleaned.createdAt = new Date(obj.createdAt);
-  cleaned.endDate = new Date(obj.endDate);
-  return cleaned;
-}
-
 function getCurrentPeriod(callback) {
   const token = docCookies.getItem(`fbat_${fbAppId}`);
   axios
