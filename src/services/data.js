@@ -98,8 +98,19 @@ function insertBet(bet) {
   });
 }
 
-function deleteBet(periodId, id) {
-
+function deleteBet(id) {
+  return new Promise((resolve, reject) => {
+    const token = docCookies.getItem(`fbat_${fbAppId}`);
+    axios
+      .request({
+        url: `/bet/${id}`,
+        method: 'delete',
+        baseURL,
+        headers: { 'x-access-token': token },
+      })
+      .then(() => resolve())
+      .catch(error => reject(error));
+  });
 }
 
 function saveResult(periodId, result) {
