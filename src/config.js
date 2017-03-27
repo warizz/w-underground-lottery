@@ -1,9 +1,3 @@
-const baseApiUrl = 'http://10.50.1.109:3004/api';
-export const betUrl = `${baseApiUrl}/bet`;
-export const periodUrl = `${baseApiUrl}/period`;
-export const resultUrl = `${baseApiUrl}/result`;
-export const historyUrl = `${baseApiUrl}/history`;
-export const summaryUrl = `${baseApiUrl}/summary`;
 export const discountPercent = 0.1; // 1 means 100%
 export const admins = ['warizz', 'tob32'];
 export const appVersion = '3.1.6';
