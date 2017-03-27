@@ -2,7 +2,7 @@ import axios from 'axios';
 import docCookies from 'doc-cookies';
 
 const baseURL = process.env.REACT_APP_API_URL;
-const fbAppId = process.env.REACT_APP_FB_ID;
+const fbAppId = process.env.REACT_APP_FB_APP_ID;
 
 function toArray(obj) {
   return Object.keys(obj).map(key => obj[key]);
