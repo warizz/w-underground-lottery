@@ -4,7 +4,7 @@ import moment from 'moment';
 import actions from '../actions/index';
 import constants from '../constants/index';
 import Snackbar from '../components/snackbar';
-import services from '../services/index';
+import service from '../services/index';
 
 const validateNumber = value => /^[0-9]*$/.test(value);
 
@@ -18,13 +18,7 @@ const styles = {
 class ResultInputPage extends React.Component {
   constructor(props) {
     super(props);
-    const period = this.props.periods[0];
-    const result = { ...period.result };
     this.state = {
-      six: result.six || '',
-      two: result.two || '',
-      firstThree: result.firstThree || '',
-      secondThree: result.secondThree || '',
       active: false,
       message: '',
     };
@@ -33,6 +27,16 @@ class ResultInputPage extends React.Component {
   }
   componentDidMount() {
     this.props.setPageName('กรอกผลรางวัล');
+  }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.currentPeriod) {
+      this.setState({
+        six: nextProps.currentPeriod.result.six,
+        two: nextProps.currentPeriod.result.two,
+        firstThree: nextProps.currentPeriod.result.firstThree,
+        secondThree: nextProps.currentPeriod.result.secondThree,
+      });
+    }
   }
   onInputChange(key, length) {
     return (e) => {
@@ -52,22 +56,28 @@ class ResultInputPage extends React.Component {
   }
   handleSaveInput(e) {
     e.preventDefault();
-    const period = this.props.periods[0];
-    const result = {
+    const self = this;
+    const { currentPeriod } = this.props;
+    currentPeriod.result = {
       six: this.state.six,
       two: this.state.two,
       firstThree: this.state.firstThree,
       secondThree: this.state.secondThree,
     };
-    services
+    self.props.setFetching(true);
+    service
       .data
-      .saveResult(period.id, result)
-      .then(success => success && this.setAlert('saved'));
+      .updatePeriod(currentPeriod)
+      .then(() => {
+        service.data.getCurrentPeriod((res) => {
+          self.props.setCurrentPeriod(res);
+          self.props.setFetching(false);
+        });
+      });
   }
   render() {
-    console.log('result active', this.state.active);
-    const period = this.props.periods[0];
-    if (!period) {
+    const { currentPeriod } = this.props;
+    if (!currentPeriod) {
       return (
         <div />
       );
@@ -86,9 +96,9 @@ class ResultInputPage extends React.Component {
       <div style={styles.base}>
         <form className="col-sm-12 col-md-3">
           <h3 style={{ margin: '1em 0 1em 0', textAlign: 'center' }}>
-            {`งวดวันที่ ${moment(period.endDate).format('DD MMM YYYY')}`}
+            {`งวดวันที่ ${moment(currentPeriod.endedAt).format('DD MMM YYYY')}`}
           </h3>
-          <div className="row" style={constants.commonStyle.flexContainerColumnCenter}>
+          <div className="row" style={constants.elementStyle.flexContainerColumnCenter}>
             <div className={`form-group col-xs-6${sixInvalidAndDirty ? ' has-error' : ''}`}>
               <label className="control-label" htmlFor="six">รางวัลที่หนึ่ง</label>
               <input
@@ -103,7 +113,7 @@ class ResultInputPage extends React.Component {
               {sixInvalidAndDirty && <label className="control-label" htmlFor="six">ต้องเป็นเลข 6 ตัว</label>}
             </div>
           </div>
-          <div className="row" style={constants.commonStyle.flexContainerColumnCenter}>
+          <div className="row" style={constants.elementStyle.flexContainerColumnCenter}>
             <div className={`form-group col-xs-6${twoInvalidAndDirty ? ' has-error' : ''}`}>
               <label className="control-label" htmlFor="two">เลขท้ายสองตัว</label>
               <input
@@ -148,15 +158,19 @@ class ResultInputPage extends React.Component {
   }
 }
 
+const mapStateToProps = state => ({ currentPeriod: state.data.currentPeriod });
+
 const mapDispatchToProps = dispatch => (
   {
+    setCurrentPeriod: currentPeriod => dispatch(actions.data.setCurrentPeriod(currentPeriod)),
+    setFetching: fetching => dispatch(actions.data.setFetching(fetching)),
     setPageName: pageName => dispatch(actions.layout.setPageName(pageName)),
   }
 );
 
 ResultInputPage.propTypes = {
-  periods: PropTypes.arrayOf(constants.customPropType.periodShape),
+  currentPeriod: constants.customPropType.periodShape,
   setPageName: PropTypes.func,
 };
 
-export default connect(null, mapDispatchToProps)(ResultInputPage);
+export default connect(mapStateToProps, mapDispatchToProps)(ResultInputPage);

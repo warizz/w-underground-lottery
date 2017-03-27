@@ -39,10 +39,6 @@ function getCurrentPeriod(callback) {
     });
 }
 
-function getPeriods(username, callback) {
-
-}
-
 function openPeriod(endedAt) {
   return new Promise((resolve, reject) => {
     const token = docCookies.getItem(`fbat_${fbAppId}`);
@@ -130,18 +126,30 @@ function deleteBet(id) {
   });
 }
 
-function saveResult(periodId, result) {
-
+function updatePeriod(period) {
+  return new Promise((resolve, reject) => {
+    const token = docCookies.getItem(`fbat_${fbAppId}`);
+    const data = period;
+    axios
+      .request({
+        url: `/period/${data.id}`,
+        method: 'patch',
+        baseURL,
+        headers: { 'x-access-token': token },
+        data,
+      })
+      .then(res => resolve(res.data))
+      .catch(error => reject(error));
+  });
 }
 
 export default {
   closePeriod,
   deleteBet,
   getCurrentPeriod,
-  getPeriods,
   insertBet,
   openPeriod,
-  saveResult,
   setPaid,
   updateBet,
+  updatePeriod,
 };
