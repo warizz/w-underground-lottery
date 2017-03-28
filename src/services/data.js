@@ -51,6 +51,21 @@ function getHistory() {
   });
 }
 
+function getSummary(periodId) {
+  return new Promise((resolve, reject) => {
+    const token = docCookies.getItem(`fbat_${fbAppId}`);
+    axios
+      .request({
+        url: `/summary/${periodId}`,
+        method: 'get',
+        baseURL,
+        headers: { 'x-access-token': token },
+      })
+      .then(res => resolve(res.data))
+      .catch(error => reject(error));
+  });
+}
+
 function openPeriod(endedAt) {
   return new Promise((resolve, reject) => {
     const token = docCookies.getItem(`fbat_${fbAppId}`);
@@ -177,6 +192,7 @@ export default {
   deleteBet,
   getCurrentPeriod,
   getHistory,
+  getSummary,
   insertBet,
   insertBets,
   logIn,

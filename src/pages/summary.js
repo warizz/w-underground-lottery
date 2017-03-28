@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { routerShape } from 'react-router';
 import actions from '../actions/index';
 import FAB from '../components/fab';
 import constants from '../constants/index';
@@ -25,7 +24,8 @@ class SummaryPage extends React.Component {
     textarea.select();
     document.execCommand('copy');
     document.body.removeChild(textarea);
-    alert('copied to clipboard');
+    // TODO change to snackbar
+    alert('copied to clipboard'); // eslint-disable-line no-alert
   }
   constructor(props) {
     super(props);
@@ -33,8 +33,6 @@ class SummaryPage extends React.Component {
       period: '',
       processingUser: '',
     };
-    this.setPeriod = this.setPeriod.bind(this);
-    // this.setPaid = this.setPaid.bind(this);
   }
   componentDidMount() {
     // if username not in admin list, go back to index
@@ -43,15 +41,22 @@ class SummaryPage extends React.Component {
     // }
 
     this.props.setPageName('Summary');
-    // lib.getSummary(this.setPeriod);
   }
-  setPeriod(period) {
-    this.setState({ period });
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.currentPeriod) {
+      service
+        .data
+        .getSummary(nextProps.currentPeriod.id)
+        .then((res) => {
+          this.setState({ summary: res });
+        });
+    }
   }
   render() {
-    const { periods, themeColor } = this.props;
-    const period = periods[0];
-    const { bets, result } = period;
+    const { currentPeriod, themeColor } = this.props;
+    const { summary } = this.state;
+    if (!summary) return null;
+    const { bets, result } = summary;
     if (!bets || bets.length === 0) {
       return (
         <div style={constants.elementStyle.placeholder}>{'no data'}</div>
@@ -61,14 +66,14 @@ class SummaryPage extends React.Component {
     // this will get list of all buyers
     const temp = [];
     bets.map((a) => {
-      if (temp.indexOf(a.username) === -1) temp.push(a.username);
+      if (temp.indexOf(a.createdBy.name) === -1) temp.push(a.createdBy.name);
       return a;
     });
 
     // this will group bet of each buyer
     const buyers = temp.map(buyer => ({
       name: buyer,
-      bets: bets.filter(betItem => betItem.username === buyer),
+      bets: bets.filter(betItem => betItem.createdBy.name === buyer),
     }));
 
     const total = bets
@@ -120,13 +125,13 @@ class SummaryPage extends React.Component {
                   )}
                 </ul>
                 <div>
-                  {!period.open && this.state.processingUser === buyer.name && <span style={{ fontWeight: 'bold' }}>...</span>}
-                  {!period.open && this.state.processingUser !== buyer.name && (
+                  {!currentPeriod.isOpen && this.state.processingUser === buyer.name && <span style={{ fontWeight: 'bold' }}>...</span>}
+                  {!currentPeriod.isOpen && this.state.processingUser !== buyer.name && (
                     <label htmlFor={`paid-check-for-${buyer.name}`}>
                       <input
                         checked={buyer.bets.map(bet => bet.paid).includes(true)}
                         id={`paid-check-for-${buyer.name}`}
-                        onChange={() => service.data.setPaid(period.id, buyer.bets, !paid)}
+                        onChange={() => service.data.setPaid(currentPeriod.id, buyer.bets, !paid)}
                         style={{ marginRight: '1em' }}
                         type="checkbox"
                       />
@@ -145,6 +150,8 @@ class SummaryPage extends React.Component {
   }
 }
 
+const mapStateToProps = state => ({ currentPeriod: state.data.currentPeriod });
+
 const mapDispatchToProps = dispatch => (
   {
     setPageName: pageName => dispatch(actions.layout.setPageName(pageName)),
@@ -152,11 +159,9 @@ const mapDispatchToProps = dispatch => (
 );
 
 SummaryPage.propTypes = {
-  periods: PropTypes.arrayOf(constants.customPropType.periodShape),
-  router: routerShape,
+  currentPeriod: constants.customPropType.periodShape,
   setPageName: PropTypes.func,
   themeColor: PropTypes.string,
-  username: PropTypes.string.isRequired,
 };
 
-export default connect(null, mapDispatchToProps)(SummaryPage);
+export default connect(mapStateToProps, mapDispatchToProps)(SummaryPage);
