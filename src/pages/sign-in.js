@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { routerShape } from 'react-router';
 import docCookies from 'doc-cookies';
 import actions from '../actions/index';
+import service from '../services/index';
 
 const styles = {
   base: {
@@ -34,15 +35,18 @@ class SignInPage extends React.Component {
     e.preventDefault();
     window.FB.login((res) => {
       if (res.authResponse) {
-        window.FB.api('/me?fields=name,picture', (fields) => {
-          const username = fields.name.replace(/\s+/g, '');
-          const pic = fields.picture.data.url;
-          docCookies.setItem(`fbu_${process.env.REACT_APP_FB_APP_ID}`, username, 60 * 60 * 24);
-          docCookies.setItem(`fbp_${process.env.REACT_APP_FB_APP_ID}`, pic, 60 * 60 * 24);
-          docCookies.setItem(`fbat_${process.env.REACT_APP_FB_APP_ID}`, res.authResponse.accessToken);
-          this.props.setUsername(username);
-          this.props.router.push('/');
-        });
+        const accessToken = res.authResponse.accessToken;
+        service
+          .data
+          .logIn(accessToken)
+          .then((user) => {
+            docCookies.setItem(`fbu_${process.env.REACT_APP_FB_APP_ID}`, user.name, 60 * 60 * 24 * 30);
+            docCookies.setItem(`fbp_${process.env.REACT_APP_FB_APP_ID}`, user.picture, 60 * 60 * 24 * 30);
+            docCookies.setItem(`fbat_${process.env.REACT_APP_FB_APP_ID}`, user.access_token, 60 * 60 * 24 * 30);
+            this.props.setUsername(user.name);
+            this.props.router.push('/');
+          })
+          .catch(error => error.response);
       } else {
         // console.log('User cancelled login or did not fully authorize.');
       }

@@ -4,6 +4,23 @@ import docCookies from 'doc-cookies';
 const baseURL = process.env.REACT_APP_API_URL;
 const fbAppId = process.env.REACT_APP_FB_APP_ID;
 
+function logIn(accessToken) {
+  const data = {
+    access_token: accessToken,
+  };
+  return new Promise((resolve, reject) => {
+    axios
+      .request({
+        url: '/log_in',
+        method: 'post',
+        baseURL,
+        data,
+      })
+      .then(res => resolve(res.data))
+      .catch(error => reject(error));
+  });
+}
+
 function getCurrentPeriod(errorHanlder, callback) {
   const token = docCookies.getItem(`fbat_${fbAppId}`);
   axios
@@ -162,6 +179,7 @@ export default {
   getHistory,
   insertBet,
   insertBets,
+  logIn,
   openPeriod,
   setPaid,
   updateBet,
