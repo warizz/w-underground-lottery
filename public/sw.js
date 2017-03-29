@@ -1,6 +1,7 @@
-const CACHE_NAME = '4.0.0';
+const CACHE_NAME = '4.0.1';
 const urlsToCache = [
   './',
+  'https://w-underground-lottery-api.herokuapp.com',
 ];
 
 this.addEventListener('install', (event) => {
