@@ -11,12 +11,7 @@ function logIn(accessToken) {
   };
   return new Promise((resolve, reject) => {
     axios
-      .request({
-        url: '/log_in',
-        method: 'post',
-        baseURL,
-        data,
-      })
+      .post(`${baseURL}/log_in`, data)
       .then(res => resolve(res.data))
       .catch(error => reject(error));
   });
