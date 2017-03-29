@@ -1,10 +1,8 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { routerShape } from 'react-router';
 import ToolBar from '../components/tool-bar';
 import Drawer from '../components/drawer';
-import * as UserActionCreators from '../actions/user';
 import action from '../actions/index';
 import constants from '../constants/index';
 import Overlay from '../components/overlay';
