@@ -56,16 +56,16 @@
       Javascript was disabled
     </noscript>
   <script>
-    if ('serviceWorker' in navigator) {
-      window
-        .addEventListener('load', () => {
-          navigator
-            .serviceWorker
-            .register('sw.js')
-            .then((registration) => console.log('ServiceWorker registration successful with scope: ', registration.scope))
-            .catch((err) => console.log('ServiceWorker registration failed: ', err));
-        });
-    }
+    // if ('serviceWorker' in navigator) {
+    //   window
+    //     .addEventListener('load', () => {
+    //       navigator
+    //         .serviceWorker
+    //         .register('sw.js')
+    //         .then((registration) => console.log('ServiceWorker registration successful with scope: ', registration.scope))
+    //         .catch((err) => console.log('ServiceWorker registration failed: ', err));
+    //     });
+    // }
   </script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
