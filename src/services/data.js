@@ -3,6 +3,7 @@ import docCookies from 'doc-cookies';
 
 const baseURL = process.env.REACT_APP_API_URL;
 const fbAppId = process.env.REACT_APP_FB_APP_ID;
+const token = docCookies.getItem(`fbat_${fbAppId}`);
 
 function logIn(accessToken) {
   const data = {
@@ -22,7 +23,6 @@ function logIn(accessToken) {
 }
 
 function getCurrentPeriod(errorHanlder, callback) {
-  const token = docCookies.getItem(`fbat_${fbAppId}`);
   axios
     .request({
       url: '/period',
@@ -38,7 +38,6 @@ function getCurrentPeriod(errorHanlder, callback) {
 
 function getHistory() {
   return new Promise((resolve, reject) => {
-    const token = docCookies.getItem(`fbat_${fbAppId}`);
     axios
       .request({
         url: '/history',
@@ -53,7 +52,6 @@ function getHistory() {
 
 function getSummary(periodId) {
   return new Promise((resolve, reject) => {
-    const token = docCookies.getItem(`fbat_${fbAppId}`);
     axios
       .request({
         url: `/summary/${periodId}`,
@@ -68,7 +66,6 @@ function getSummary(periodId) {
 
 function openPeriod(endedAt) {
   return new Promise((resolve, reject) => {
-    const token = docCookies.getItem(`fbat_${fbAppId}`);
     const data = { endedAt };
     axios
       .request({
@@ -85,7 +82,6 @@ function openPeriod(endedAt) {
 
 function closePeriod(id) {
   return new Promise((resolve, reject) => {
-    const token = docCookies.getItem(`fbat_${fbAppId}`);
     const data = { isOpen: false };
     axios
       .request({
@@ -100,13 +96,8 @@ function closePeriod(id) {
   });
 }
 
-function setPaid(periodId, bets, paid) {
-
-}
-
 function insertBet(bet) {
   return new Promise((resolve, reject) => {
-    const token = docCookies.getItem(`fbat_${fbAppId}`);
     const data = bet;
     axios
       .request({
@@ -123,7 +114,6 @@ function insertBet(bet) {
 
 function insertBets(periodId, bets) {
   return new Promise((resolve, reject) => {
-    const token = docCookies.getItem(`fbat_${fbAppId}`);
     const data = bets;
     axios
       .request({
@@ -140,7 +130,6 @@ function insertBets(periodId, bets) {
 
 function updateBet(bet) {
   return new Promise((resolve, reject) => {
-    const token = docCookies.getItem(`fbat_${fbAppId}`);
     const data = bet;
     axios
       .request({
@@ -155,9 +144,24 @@ function updateBet(bet) {
   });
 }
 
+function updateBets(periodId, update) {
+  return new Promise((resolve, reject) => {
+    const data = update;
+    axios
+      .request({
+        url: `/bets/${periodId}`,
+        method: 'patch',
+        baseURL,
+        headers: { 'x-access-token': token },
+        data,
+      })
+      .then(res => resolve(res.data))
+      .catch(error => reject(error));
+  });
+}
+
 function deleteBet(id) {
   return new Promise((resolve, reject) => {
-    const token = docCookies.getItem(`fbat_${fbAppId}`);
     axios
       .request({
         url: `/bet/${id}`,
@@ -172,7 +176,6 @@ function deleteBet(id) {
 
 function updatePeriod(period) {
   return new Promise((resolve, reject) => {
-    const token = docCookies.getItem(`fbat_${fbAppId}`);
     const data = period;
     axios
       .request({
@@ -197,7 +200,7 @@ export default {
   insertBets,
   logIn,
   openPeriod,
-  setPaid,
   updateBet,
+  updateBets,
   updatePeriod,
 };

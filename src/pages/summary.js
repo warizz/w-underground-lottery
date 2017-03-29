@@ -35,11 +35,6 @@ class SummaryPage extends React.Component {
     };
   }
   componentDidMount() {
-    // if username not in admin list, go back to index
-    // if (config.admins.indexOf(this.props.username) === -1) {
-    //   this.props.router.push('/');
-    // }
-
     this.props.setPageName('Summary');
   }
   componentWillReceiveProps(nextProps) {
@@ -51,6 +46,19 @@ class SummaryPage extends React.Component {
           this.setState({ summary: res });
         });
     }
+  }
+  setPaid(periodId, isPaid) {
+    return () => {
+      service
+        .data
+        .updateBets(periodId, { isPaid })
+        .then(() => {
+          service
+            .data
+            .getSummary(periodId)
+            .then(res => this.setState({ summary: res }));
+        });
+    };
   }
   render() {
     const { currentPeriod, themeColor } = this.props;
@@ -90,7 +98,7 @@ class SummaryPage extends React.Component {
               .reduce((a, b) => a + b);
             // check if this user paid or not
             const paid = buyer.bets
-              .map(bet => bet.paid)
+              .map(bet => bet.isPaid)
               .includes(true);
             const itemStyle = paid ? styles.paidItem : {};
             return (
@@ -129,9 +137,9 @@ class SummaryPage extends React.Component {
                   {!currentPeriod.isOpen && this.state.processingUser !== buyer.name && (
                     <label htmlFor={`paid-check-for-${buyer.name}`}>
                       <input
-                        checked={buyer.bets.map(bet => bet.paid).includes(true)}
+                        checked={buyer.bets.map(bet => bet.isPaid).includes(true)}
                         id={`paid-check-for-${buyer.name}`}
-                        onChange={() => service.data.setPaid(currentPeriod.id, buyer.bets, !paid)}
+                        onChange={this.setPaid(currentPeriod.id, !paid)}
                         style={{ marginRight: '1em' }}
                         type="checkbox"
                       />
@@ -154,6 +162,7 @@ const mapStateToProps = state => ({ currentPeriod: state.data.currentPeriod });
 
 const mapDispatchToProps = dispatch => (
   {
+    setFetching: fetching => dispatch(actions.data.setFetching(fetching)),
     setPageName: pageName => dispatch(actions.layout.setPageName(pageName)),
   }
 );
