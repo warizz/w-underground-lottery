@@ -46,7 +46,7 @@ class HistoryPage extends React.Component {
         })
         .filter(a => a);
       if (newBets.length === 0) {
-        this.setState({ hasAlert: true, alertMessage: 'nothing to copy' });
+        self.props.setAlert('nothing to clone');
         return;
       }
       self.props.setFetching(true);
@@ -58,6 +58,7 @@ class HistoryPage extends React.Component {
           (res) => {
             self.props.setCurrentPeriod(res);
             self.props.setFetching(false);
+            self.props.setAlert('cloned');
           });
         });
     };
@@ -120,6 +121,7 @@ const mapStateToProps = state => (
 
 const mapDispatchToProps = dispatch => (
   {
+    setAlert: alert => dispatch(actions.layout.setAlert(alert)),
     setCurrentPeriod: currentPeriod => dispatch(actions.data.setCurrentPeriod(currentPeriod)),
     setFetching: fetching => dispatch(actions.data.setFetching(fetching)),
     setPageName: pageName => dispatch(actions.layout.setPageName(pageName)),

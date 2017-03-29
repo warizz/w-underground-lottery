@@ -54,7 +54,10 @@ class Snackbar extends React.Component {
     return (nextProps.active !== this.state.active) || (nextState.active !== this.state.active);
   }
   setTimer(timer) {
-    setTimeout(() => this.setState({ active: false }), timer);
+    setTimeout(() => {
+      this.setState({ active: false });
+      this.props.onClose();
+    }, timer);
   }
   render() {
     const { text } = this.props;
@@ -71,9 +74,10 @@ class Snackbar extends React.Component {
 }
 
 Snackbar.propTypes = {
-  active: PropTypes.bool.isRequired,
-  text: PropTypes.string.isRequired,
+  active: PropTypes.bool,
+  text: PropTypes.string,
   timer: PropTypes.number,
+  onClose: PropTypes.func.isRequired,
 };
 
 export default Snackbar;

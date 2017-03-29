@@ -5,8 +5,10 @@ import { routerShape } from 'react-router';
 import ToolBar from '../components/tool-bar';
 import Drawer from '../components/drawer';
 import * as UserActionCreators from '../actions/user';
+import action from '../actions/index';
 import constants from '../constants/index';
 import Overlay from '../components/overlay';
+import Snackbar from '../components/snackbar';
 
 const styles = {
   base: {
@@ -35,12 +37,13 @@ class Layout extends React.Component {
     this.setState({ openDrawer: !this.state.openDrawer });
   }
   render() {
-    const { fetching, periods = [], userPic, username } = this.props;
+    const { alert, fetching, periods = [], setAlert, userPic, username } = this.props;
     // pass username to content page
     const childrensProps = { username, periods, themeColor: constants.color.primary };
     const childrenWithProps = React.cloneElement(this.props.children, childrensProps);
     return (
       <div style={styles.base}>
+        <Snackbar active={alert ? true : false} text={alert} onClose={() => setAlert('')} />
         <Overlay active={fetching} zIndex={4} text="..." />
         <ToolBar onClickMenuButton={this.drawerToggle} pageName={this.props.pageName} themeColor={constants.color.primary} />
         <Drawer active={this.state.openDrawer} toggle={this.drawerToggle} username={this.props.username} themeColor={constants.color.primary} userPic={userPic} />
@@ -54,6 +57,7 @@ class Layout extends React.Component {
 
 const mapStateToProps = state => (
   {
+    alert: state.layout.alert,
     fetching: state.data.fetching,
     pageName: state.layout.pageName,
     periods: state.data.periods,
@@ -63,16 +67,20 @@ const mapStateToProps = state => (
 );
 
 const mapDispatchToProps = dispatch => (
-  bindActionCreators({ ...UserActionCreators }, dispatch)
+  {
+    setAlert: alert => dispatch(action.layout.setAlert(alert)),
+  }
 );
 
 Layout.propTypes = {
+  alert: PropTypes.string,
   children: PropTypes.node,
   fetching: PropTypes.bool.isRequired,
   pageName: PropTypes.string,
   periods: PropTypes.arrayOf(constants.customPropType.periodShape),
   userPic: PropTypes.string.isRequired,
   router: routerShape,
+  setAlert: PropTypes.func.isRequired,
   username: PropTypes.string.isRequired,
 };
 
