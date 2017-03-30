@@ -146,10 +146,13 @@ function updateBet(bet) {
   });
 }
 
-function updateBets(periodId, update) {
+function updateBets(periodId, userId, update) {
   const token = docCookies.getItem(`fbat_${fbAppId}`);
   return new Promise((resolve, reject) => {
-    const data = update;
+    const data = {
+      update,
+      userId,
+    };
     axios
       .request({
         url: `/bets/${periodId}`,

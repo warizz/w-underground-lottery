@@ -47,16 +47,21 @@ class SummaryPage extends React.Component {
         });
     }
   }
-  setPaid(periodId, isPaid) {
+  setPaid(periodId, userId, isPaid) {
+    const self = this;
     return () => {
+      self.props.setFetching(true);
       service
         .data
-        .updateBets(periodId, { isPaid })
+        .updateBets(periodId, userId, { isPaid })
         .then(() => {
           service
             .data
             .getSummary(periodId)
-            .then(res => this.setState({ summary: res }));
+            .then((res) => {
+              this.setState({ summary: res });
+              self.props.setFetching(false);
+            });
         });
     };
   }
@@ -80,8 +85,9 @@ class SummaryPage extends React.Component {
 
     // this will group bet of each buyer
     const buyers = temp.map(buyer => ({
-      name: buyer,
+      id: bets[0].createdBy.id,
       bets: bets.filter(betItem => betItem.createdBy.name === buyer),
+      name: buyer,
     }));
 
     const total = bets
@@ -139,7 +145,7 @@ class SummaryPage extends React.Component {
                       <input
                         checked={buyer.bets.map(bet => bet.isPaid).includes(true)}
                         id={`paid-check-for-${buyer.name}`}
-                        onChange={this.setPaid(currentPeriod.id, !paid)}
+                        onChange={this.setPaid(currentPeriod.id, buyer.id, !paid)}
                         style={{ marginRight: '1em' }}
                         type="checkbox"
                       />
