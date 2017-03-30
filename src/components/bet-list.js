@@ -134,7 +134,7 @@ class BetList extends React.Component {
                       break;
                   }
                   return (
-                    <div key={bet.id} className="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                    <div key={bet.id} className="col-xs-12 col-sm-3 col-md-3 col-lg-3" style={{ height: '170px', minHeight: '170px', maxHeight: '170px' }}>
                       <div style={constants.elementStyle.betCard}>
                         <div>
                           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
