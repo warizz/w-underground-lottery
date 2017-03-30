@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { routerShape } from 'react-router';
 import moment from 'moment';
-import BetList from '../components/bet-list';
+import BetList from '../components/bet-list/index';
 import BetInput from '../components/bet-input';
 import BetInputOverlay from '../components/overlay';
 import ResultDisplay from '../components/result-display';
@@ -47,6 +47,7 @@ class Home extends React.Component {
   }
   errorHanlder(error) {
     if (error.response.status === 401) {
+      console.log('not allow')
       this.props.router.push('/sign-in');
     }
   }

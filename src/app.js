@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import { Router, Route, browserHistory, IndexRoute } from 'react-router';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
