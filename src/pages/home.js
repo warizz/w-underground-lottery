@@ -94,10 +94,13 @@ class Home extends React.Component {
     service.data
       .deleteBet(id)
       .then(() => {
-        service.data.getCurrentPeriod(this.errorHanlder, (res) => {
-          self.props.setCurrentPeriod(res);
-          self.props.setFetching(false);
-        });
+        service.data
+          .getCurrentPeriod()
+          .then((res) => {
+            self.props.setCurrentPeriod(res);
+            self.props.setFetching(false);
+          })
+          .catch(this.errorHanlder);
       });
   }
   inputToggle() {
