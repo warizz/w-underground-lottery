@@ -47,7 +47,6 @@ class Home extends React.Component {
   }
   errorHanlder(error) {
     if (error.response.status === 401) {
-      console.log('not allow')
       this.props.router.push('/sign-in');
     }
   }
