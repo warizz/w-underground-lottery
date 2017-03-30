@@ -64,10 +64,13 @@ class Home extends React.Component {
       service.data
         .updateBet(inputBet)
         .then(() => {
-          service.data.getCurrentPeriod(this.errorHanlder, (res) => {
-            self.props.setCurrentPeriod(res);
-            self.props.setFetching(false);
-          });
+          service.data
+            .getCurrentPeriod()
+            .then((res) => {
+              self.props.setCurrentPeriod(res);
+              self.props.setFetching(false);
+            })
+            .catch(this.errorHanlder);
         });
     } else {
       inputBet = bet;
@@ -75,10 +78,13 @@ class Home extends React.Component {
       service.data
         .insertBet(inputBet)
         .then(() => {
-          service.data.getCurrentPeriod(this.errorHanlder, (res) => {
-            self.props.setCurrentPeriod(res);
-            self.props.setFetching(false);
-          });
+          service.data
+            .getCurrentPeriod()
+            .then((res) => {
+              self.props.setCurrentPeriod(res);
+              self.props.setFetching(false);
+            })
+            .catch(this.errorHanlder);
         });
     }
   }

@@ -10,12 +10,13 @@ function initApplicationState(store) {
     store.dispatch(actions.user.setPic(pic));
 
     store.dispatch(actions.data.setFetching(true));
-    services.data.getCurrentPeriod(
-      () => {
-        store.dispatch(actions.data.setFetching(false));
-      },
-      (res) => {
+    services.data
+      .getCurrentPeriod()
+      .then((res) => {
         store.dispatch(actions.data.setCurrentPeriod(res));
+        store.dispatch(actions.data.setFetching(false));
+      })
+      .catch(() => {
         store.dispatch(actions.data.setFetching(false));
       });
   };
