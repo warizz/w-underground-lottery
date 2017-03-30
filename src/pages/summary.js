@@ -85,7 +85,7 @@ class SummaryPage extends React.Component {
 
     // this will group bet of each buyer
     const buyers = temp.map(buyer => ({
-      id: bets[0].createdBy.id,
+      id: bets.filter(betItem => betItem.createdBy.name === buyer)[0].createdBy.id,
       bets: bets.filter(betItem => betItem.createdBy.name === buyer),
       name: buyer,
     }));
