@@ -16,8 +16,8 @@ function initApplicationState(store) {
         store.dispatch(actions.data.setCurrentPeriod(res));
         store.dispatch(actions.data.setFetching(false));
       })
-      .catch((error) => {
-        if (error.response.status === 401) window.location.href = '/sign-in';
+      .catch(() => {
+        // TODO: error handling here [error.response.status]
       });
   };
 }

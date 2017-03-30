@@ -27,7 +27,13 @@ function getCurrentPeriod() {
         headers: { 'x-access-token': token },
       })
       .then(res => resolve(res.data))
-      .catch(error => reject(error));
+      .catch((error) => {
+        if (error.response.status === 401) {
+          window.location.href = '/sign-in';
+          return;
+        }
+        reject(error);
+      });
   });
 }
 
