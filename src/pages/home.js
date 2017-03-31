@@ -35,20 +35,11 @@ class Home extends React.Component {
     this.errorHanlder = this.errorHanlder.bind(this);
   }
   componentDidMount() {
-    if (!this.props.username) {
-      this.props.router.push('/sign-in');
-      return;
-    }
     this.props.setPageName('Bet');
   }
   setEditingBet(editingBet) {
     this.inputToggle();
     this.setState({ editingBet });
-  }
-  errorHanlder(error) {
-    if (error.response.status === 401) {
-      this.props.router.push('/sign-in');
-    }
   }
   handleSaveBet(bet) {
     const self = this;
@@ -170,7 +161,11 @@ class Home extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({ currentPeriod: state.data.currentPeriod });
+const mapStateToProps = state => (
+  {
+    currentPeriod: state.data.currentPeriod,
+  }
+);
 
 const mapDispatchToProps = dispatch => (
   {
@@ -182,11 +177,9 @@ const mapDispatchToProps = dispatch => (
 
 Home.propTypes = {
   currentPeriod: constants.customPropType.periodShape,
-  router: routerShape,
   setFetching: PropTypes.func.isRequired,
   setPageName: PropTypes.func,
   themeColor: PropTypes.string.isRequired,
-  username: PropTypes.string.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
