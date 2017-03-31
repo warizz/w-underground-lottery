@@ -40,10 +40,7 @@ class SignInPage extends React.Component {
           .data
           .logIn(accessToken)
           .then((user) => {
-            docCookies.setItem(`fbu_${process.env.REACT_APP_FB_APP_ID}`, user.name, 60 * 60 * 24 * 30);
-            docCookies.setItem(`fbp_${process.env.REACT_APP_FB_APP_ID}`, user.picture, 60 * 60 * 24 * 30);
             docCookies.setItem(`fbat_${process.env.REACT_APP_FB_APP_ID}`, user.access_token, 60 * 60 * 24 * 30);
-            this.props.setUsername(user.name);
             this.props.router.push('/');
           })
           .catch(error => error.response);
@@ -73,7 +70,6 @@ const mapDispatchToProps = dispatch => (
 
 SignInPage.propTypes = {
   router: routerShape,
-  setUsername: PropTypes.func.isRequired,
 };
 
 export default connect(null, mapDispatchToProps)(SignInPage);

@@ -76,12 +76,12 @@ class Drawer extends React.Component {
     return nextProps.active !== this.props.active;
   }
   render() {
-    const { active, themeColor = 'black', toggle, username, userPic } = this.props;
+    const { active, isAdmin, themeColor = 'black', toggle, username, userPic } = this.props;
     if (!username) {
       return <div />;
     }
     // const isAdmin = props.username === 'warizz' || props.username === 'tob32';
-    const isAdmin = true;
+    // const isAdmin = true;
     const drawerStyles = active ? { ...styles.drawer.base, ...styles.drawer.active } : { ...styles.drawer.base, ...styles.drawer.inactive };
     const menuItemProps = {
       activeStyle: { ...styles.menuItem.base, ...styles.menuItem.active },
@@ -149,6 +149,7 @@ Drawer.propTypes = {
   toggle: PropTypes.func.isRequired,
   username: PropTypes.string.isRequired,
   userPic: PropTypes.string.isRequired,
+  isAdmin: PropTypes.bool.isRequired,
 };
 
 export default Drawer;

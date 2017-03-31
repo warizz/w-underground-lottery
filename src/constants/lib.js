@@ -1,23 +1,23 @@
-import docCookies from 'doc-cookies';
-import actions from '../actions/index';
-import services from '../services/index';
+import action from '../actions/index';
+import service from '../services/index';
 
 function initApplicationState(store) {
   return () => {
-    const username = docCookies.getItem(`fbu_${process.env.REACT_APP_FB_APP_ID}`);
-    const pic = docCookies.getItem(`fbp_${process.env.REACT_APP_FB_APP_ID}`);
-    store.dispatch(actions.user.setUsername(username));
-    store.dispatch(actions.user.setPic(pic));
-
-    store.dispatch(actions.data.setFetching(true));
-    services.data
-      .getCurrentPeriod()
-      .then((res) => {
-        store.dispatch(actions.data.setCurrentPeriod(res));
-        store.dispatch(actions.data.setFetching(false));
+    store.dispatch(action.data.setFetching(true));
+    Promise
+      .all([
+        service.data.getUser(),
+        service.data.getCurrentPeriod(),
+      ])
+      .then((values) => {
+        const [user, currentPeriod] = values;
+        store.dispatch(action.user.setUser(user));
+        store.dispatch(action.data.setCurrentPeriod(currentPeriod));
+        store.dispatch(action.data.setFetching(false));
       })
-      .catch(() => {
-        // TODO: error handling here [error.response.status]
+      .catch((error) => {
+        store.dispatch(action.layout.setAlert(error.response.message));
+        store.dispatch(action.data.setFetching(false));
       });
   };
 }

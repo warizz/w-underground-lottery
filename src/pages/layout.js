@@ -26,25 +26,21 @@ class Layout extends React.Component {
     };
     this.drawerToggle = this.drawerToggle.bind(this);
   }
-  componentDidMount() {
-    if (!this.props.username) {
-      this.props.router.push('/sign-in');
-    }
-  }
   drawerToggle() {
     this.setState({ openDrawer: !this.state.openDrawer });
   }
   render() {
-    const { alert, fetching, periods = [], setAlert, userPic, username } = this.props;
+    const { alert, fetching, periods = [], setAlert, user } = this.props;
+    if (!user) return null;
     // pass username to content page
-    const childrensProps = { username, periods, themeColor: constants.color.primary };
+    const childrensProps = { username: user.name, isAdmin: user.is_admin, periods, themeColor: constants.color.primary };
     const childrenWithProps = React.cloneElement(this.props.children, childrensProps);
     return (
       <div style={styles.base}>
-        <Snackbar active={alert ? true : false} text={alert} onClose={() => setAlert('')} />
+        <Snackbar active={!!alert} text={alert} onClose={() => setAlert('')} />
         <Overlay active={fetching} zIndex={4} text="..." />
         <ToolBar onClickMenuButton={this.drawerToggle} pageName={this.props.pageName} themeColor={constants.color.primary} />
-        <Drawer active={this.state.openDrawer} toggle={this.drawerToggle} username={this.props.username} themeColor={constants.color.primary} userPic={userPic} />
+        <Drawer active={this.state.openDrawer} toggle={this.drawerToggle} username={user.name} themeColor={constants.color.primary} userPic={user.picture} isAdmin={user.is_admin} />
         <div style={styles.content}>
           {periods && childrenWithProps}
         </div>
@@ -59,8 +55,7 @@ const mapStateToProps = state => (
     fetching: state.data.fetching,
     pageName: state.layout.pageName,
     periods: state.data.periods,
-    userPic: state.user.pic,
-    username: state.user.username,
+    user: state.user.user,
   }
 );
 
@@ -76,10 +71,13 @@ Layout.propTypes = {
   fetching: PropTypes.bool.isRequired,
   pageName: PropTypes.string,
   periods: PropTypes.arrayOf(constants.customPropType.periodShape),
-  userPic: PropTypes.string.isRequired,
   router: routerShape,
   setAlert: PropTypes.func.isRequired,
-  username: PropTypes.string.isRequired,
+  user: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    picture: PropTypes.string.isRequired,
+    is_admin: PropTypes.bool.isRequired,
+  }),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Layout);

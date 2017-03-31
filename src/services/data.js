@@ -5,9 +5,7 @@ const baseURL = process.env.REACT_APP_API_URL;
 const fbAppId = process.env.REACT_APP_FB_APP_ID;
 
 function logIn(accessToken) {
-  const data = {
-    access_token: accessToken,
-  };
+  const data = { access_token: accessToken };
   return new Promise((resolve, reject) => {
     axios
       .post(`${baseURL}/log_in`, data)
@@ -64,6 +62,27 @@ function getSummary(periodId) {
       })
       .then(res => resolve(res.data))
       .catch(error => reject(error));
+  });
+}
+
+function getUser() {
+  const token = docCookies.getItem(`fbat_${fbAppId}`);
+  return new Promise((resolve, reject) => {
+    axios
+      .request({
+        url: '/me',
+        method: 'get',
+        baseURL,
+        headers: { 'x-access-token': token },
+      })
+      .then(res => resolve(res.data))
+      .catch((error) => {
+        if (error.response.status === 401) {
+          window.location.href = '/sign-in';
+          return;
+        }
+        reject(error);
+      });
   });
 }
 
@@ -156,8 +175,8 @@ function updateBets(periodId, userId, update) {
   const token = docCookies.getItem(`fbat_${fbAppId}`);
   return new Promise((resolve, reject) => {
     const data = {
+      query: { createdBy: userId },
       update,
-      userId,
     };
     axios
       .request({
@@ -210,6 +229,7 @@ export default {
   getCurrentPeriod,
   getHistory,
   getSummary,
+  getUser,
   insertBet,
   insertBets,
   logIn,

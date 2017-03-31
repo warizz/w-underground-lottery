@@ -4,10 +4,8 @@ const { type } = user;
 
 export default function (state = {}, action) {
   switch (action.type) {
-    case type.SET_PIC:
-      return { ...state, pic: action.pic };
-    case type.SET_USERNAME:
-      return { ...state, username: action.username };
+    case type.SET_USER:
+      return { ...state, user: action.user };
     default:
       return { ...state };
   }
