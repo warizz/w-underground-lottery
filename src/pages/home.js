@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { routerShape } from 'react-router';
 import moment from 'moment';
 import BetList from '../components/bet-list/index';
 import BetInput from '../components/bet-input';
@@ -32,7 +31,6 @@ class Home extends React.Component {
     this.inputToggle = this.inputToggle.bind(this);
     this.setEditingBet = this.setEditingBet.bind(this);
     this.switchFaqToggle = this.switchFaqToggle.bind(this);
-    this.errorHanlder = this.errorHanlder.bind(this);
   }
   componentDidMount() {
     this.props.setPageName('Bet');

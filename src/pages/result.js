@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import actions from '../actions/index';
 import constants from '../constants/index';
-import Snackbar from '../components/snackbar';
 import service from '../services/index';
 
 const validateNumber = value => /^[0-9]*$/.test(value);
@@ -33,7 +32,7 @@ class ResultInputPage extends React.Component {
     this.props.setPageName('กรอกผลรางวัล');
   }
   componentWillReceiveProps(nextProps) {
-    if (nextProps.currentPeriod) {
+    if (nextProps.currentPeriod && nextProps.currentPeriod.result) {
       this.setState({
         six: nextProps.currentPeriod.result.six,
         two: nextProps.currentPeriod.result.two,
@@ -155,7 +154,6 @@ class ResultInputPage extends React.Component {
             </div>
           </div>
           <button className="btn btn-primary btn-block" onClick={this.handleSaveInput} disabled={!validInput}>save</button>
-          <Snackbar active={this.state.active} text={this.state.message} timer={2000} />
         </form>
       </div>
     );
