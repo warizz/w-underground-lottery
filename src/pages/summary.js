@@ -61,8 +61,10 @@ class SummaryPage extends React.Component {
             .then((res) => {
               this.setState({ summary: res });
               self.props.setFetching(false);
-            });
-        });
+            })
+            .catch(() => self.props.setFetching(false));
+        })
+        .catch(() => self.props.setFetching(false));
     };
   }
   render() {
