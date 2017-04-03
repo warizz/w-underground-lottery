@@ -27,8 +27,8 @@ class SignInPage extends React.Component {
     this.authenFacebook = this.authenFacebook.bind(this);
   }
   componentDidMount() {
-    const token = docCookies.getItem(`fbat_${process.env.REACT_APP_FB_APP_ID}`);
-    if (token) this.props.router.push('/');
+    const hasToken = docCookies.hasItem(`fbat_${process.env.REACT_APP_FB_APP_ID}`);
+    if (hasToken) this.props.router.push('/');
   }
   authenFacebook(e) {
     e.preventDefault();
