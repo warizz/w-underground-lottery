@@ -70,7 +70,6 @@ const styles = {
   },
 };
 
-
 class Drawer extends React.Component {
   shouldComponentUpdate(nextProps) {
     return nextProps.active !== this.props.active;
@@ -80,8 +79,6 @@ class Drawer extends React.Component {
     if (!username) {
       return <div />;
     }
-    // const isAdmin = props.username === 'warizz' || props.username === 'tob32';
-    // const isAdmin = true;
     const drawerStyles = active ? { ...styles.drawer.base, ...styles.drawer.active } : { ...styles.drawer.base, ...styles.drawer.inactive };
     const menuItemProps = {
       activeStyle: { ...styles.menuItem.base, ...styles.menuItem.active },
