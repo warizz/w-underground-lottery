@@ -100,7 +100,7 @@ class Home extends React.Component {
   }
   render() {
     const { currentPeriod, themeColor } = this.props;
-    if (!currentPeriod || !currentPeriod.isOpen) {
+    if (!currentPeriod || (!currentPeriod.isOpen && !currentPeriod.result)) {
       return (
         <div style={constants.elementStyle.placeholder}>
           {'ตลาดยังไม่เปิดจ้ะ'}
