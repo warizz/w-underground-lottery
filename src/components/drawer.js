@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
+import docCookies from 'doc-cookies';
 import * as config from '../config';
 import Overlay from './overlay';
 
@@ -71,6 +72,9 @@ const styles = {
 };
 
 class Drawer extends React.Component {
+  static logOut() {
+    docCookies.removeItem(`fbat_${process.env.REACT_APP_FB_APP_ID}`);
+  }
   shouldComponentUpdate(nextProps) {
     return nextProps.active !== this.props.active;
   }
@@ -128,7 +132,7 @@ class Drawer extends React.Component {
               </Link>
             </li>
             <li>
-              <Link to="/sign-in" {...menuItemProps}>
+              <Link to="/sign-in" {...menuItemProps} onClick={Drawer.logOut}>
                 <i className="material-icons">exit_to_app</i>
                 <span style={{ marginLeft: '1em' }}>Sign off</span>
               </Link>
