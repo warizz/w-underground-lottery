@@ -1,8 +1,6 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { routerShape } from 'react-router';
 import docCookies from 'doc-cookies';
-import actions from '../actions/index';
 import service from '../services/index';
 
 const styles = {
@@ -63,14 +61,8 @@ class SignInPage extends React.Component {
   }
 }
 
-const mapDispatchToProps = dispatch => (
-  {
-    setUsername: username => dispatch(actions.user.setUsername(username)),
-  }
-);
-
 SignInPage.propTypes = {
   router: routerShape,
 };
 
-export default connect(null, mapDispatchToProps)(SignInPage);
+export default SignInPage;
