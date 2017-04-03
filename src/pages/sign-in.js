@@ -22,7 +22,7 @@ class SignInPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: '',
+      fetching: false,
     };
     this.authenFacebook = this.authenFacebook.bind(this);
   }
@@ -32,6 +32,8 @@ class SignInPage extends React.Component {
   }
   authenFacebook(e) {
     e.preventDefault();
+    const self = this;
+    self.setState({ fetching: true });
     window.FB.login((res) => {
       if (res.authResponse) {
         const accessToken = res.authResponse.accessToken;
@@ -40,7 +42,8 @@ class SignInPage extends React.Component {
           .logIn(accessToken)
           .then((user) => {
             docCookies.setItem(`fbat_${process.env.REACT_APP_FB_APP_ID}`, user.access_token, 60 * 60 * 24 * 30);
-            this.props.router.push('/');
+            self.setState({ fetching: false });
+            self.props.router.push('/');
           })
           .catch(error => error.response);
       } else {
@@ -49,11 +52,19 @@ class SignInPage extends React.Component {
     }, { scope: 'public_profile' });
   }
   render() {
+    const { fetching } = this.state;
     return (
       <div style={styles.base}>
         <form className="container col-xs-12 col-sm-3 col-md-3">
           <div className="col-md-12 col-xs-12">
-            <button className="btn btn-primary" style={styles.button.signIn} onClick={this.authenFacebook}>{'facebook'}</button>
+            <button
+              className="btn btn-primary"
+              style={styles.button.signIn}
+              onClick={this.authenFacebook}
+              disabled={fetching}
+            >
+              {fetching ? '...' : 'facebook'}
+            </button>
           </div>
         </form>
       </div>
