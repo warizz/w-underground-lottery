@@ -29,7 +29,8 @@ class SignInPage extends React.Component {
     this.authenFacebook = this.authenFacebook.bind(this);
   }
   componentDidMount() {
-    // docCookies.removeItem('underground-lottery_username');
+    const token = docCookies.getItem(`fbat_${process.env.REACT_APP_FB_APP_ID}`);
+    if (token) this.props.router.push('/');
   }
   authenFacebook(e) {
     e.preventDefault();
