@@ -27,7 +27,8 @@ function getCurrentPeriod() {
       .then(res => resolve(res.data))
       .catch((error) => {
         if (error.response.status === 401) {
-          window.location.href = '/sign-in';
+          docCookies.removeItem(`fbat_${process.env.REACT_APP_FB_APP_ID}`);
+          window.location.href = '/log-in';
           return;
         }
         reject(error);
@@ -78,7 +79,8 @@ function getUser() {
       .then(res => resolve(res.data))
       .catch((error) => {
         if (error.response.status === 401) {
-          window.location.href = '/sign-in';
+          docCookies.removeItem(`fbat_${process.env.REACT_APP_FB_APP_ID}`);
+          window.location.href = '/log-in';
           return;
         }
         reject(error);
