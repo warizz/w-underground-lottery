@@ -11,8 +11,10 @@ import Snackbar from '../components/snackbar';
 const styles = {
   base: {
     width: '100%',
+    height: '100%',
   },
   content: {
+    height: '100%',
     marginTop: '50px',
     overflowX: 'hidden',
   },

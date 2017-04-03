@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import BetList from '../components/bet-list/index';
 import BetInput from '../components/bet-input';
-import BetInputOverlay from '../components/overlay';
 import ResultDisplay from '../components/result-display';
 import Fab from '../components/fab';
 import FaqDialog from '../components/faq-dialog';
@@ -14,7 +13,7 @@ import service from '../services/index';
 const styles = {
   base: {
     overflowX: 'auto',
-    height: '90vh',
+    height: '100%',
   },
 };
 
@@ -138,22 +137,44 @@ class Home extends React.Component {
     return (
       <div style={styles.base}>
         <FaqDialog active={this.state.faqOpen} toggle={this.switchFaqToggle} />
-        <BetList
-          bets={currentPeriod.bets}
-          editHandler={this.setEditingBet}
-          deleteHandler={this.handleDeleteBet}
-          faqHandler={this.switchFaqToggle}
-        />
-        <BetInputOverlay active={this.state.inputOpen} />
-        <BetInput
-          saveBetHandler={this.handleSaveBet}
-          editingBet={this.state.editingBet}
-          open={this.state.inputOpen}
-          onClose={this.inputToggle}
-        />
-        <Fab active={!this.state.inputOpen} onClick={this.inputToggle} themeColor={themeColor}>
-          <span style={{ fontSize: '30px' }}>+</span>
-        </Fab>
+        <div className="visible-lg" style={{ height: '100%' }}>
+          <div className="col-lg-10" style={{ height: '100%', overflowX: 'auto' }}>
+            <BetList
+              bets={currentPeriod.bets}
+              editHandler={this.setEditingBet}
+              deleteHandler={this.handleDeleteBet}
+              faqHandler={this.switchFaqToggle}
+            />
+          </div>
+          <div className="col-lg-2" style={{ padding: 0, height: '100%' }}>
+            <BetInput
+              saveBetHandler={this.handleSaveBet}
+              editingBet={this.state.editingBet}
+              open
+              onClose={this.inputToggle}
+            />
+          </div>
+        </div>
+        <div className="hidden-lg" style={{ height: '100%' }}>
+          {!this.state.inputOpen && (
+            <BetList
+              bets={currentPeriod.bets}
+              editHandler={this.setEditingBet}
+              deleteHandler={this.handleDeleteBet}
+              faqHandler={this.switchFaqToggle}
+            />
+          )}
+          {this.state.inputOpen && (
+            <BetInput
+              saveBetHandler={this.handleSaveBet}
+              editingBet={this.state.editingBet}
+              onClose={this.inputToggle}
+            />
+          )}
+          <Fab active={!this.state.inputOpen} onClick={this.inputToggle} themeColor={themeColor}>
+            <span style={{ fontSize: '30px' }}>+</span>
+          </Fab>
+        </div>
       </div>
     );
   }

@@ -18,18 +18,24 @@ const getRandomNumber = (minLength, maxLength) => {
 
 const styles = {
   base: {
+    position: 'relative',
     backgroundColor: 'white',
-    left: '0',
-    position: 'absolute',
-    right: '0',
-    transition: 'bottom .5s',
-    zIndex: 3,
+    height: '100%',
+    padding: '0 20px 0 20px',
+    width: '100%',
   },
-  active: {
-    bottom: 0,
+  helpIcon: {
+    border: 'none',
+    backgroundColor: 'transparent',
+    marginLeft: '.5em',
+    color: '#757575',
+    display: 'flex',
   },
-  inactive: {
-    bottom: '-100vh',
+  summary: {
+    fontWeight: 'bold',
+    margin: '20px 0',
+    display: 'flex',
+    alignItems: 'center',
   },
 };
 
@@ -78,9 +84,7 @@ class BetInput extends React.Component {
     };
   }
   handleNumberChange(e) {
-    if (validateNumber(e.target.value) === false) {
-      return;
-    }
+    if (validateNumber(e.target.value) === false) return;
     this.setState({
       enablePrice3: e.target.value.length > 2,
       number: e.target.value.substring(0, 3),
@@ -141,67 +145,69 @@ class BetInput extends React.Component {
     document.getElementById('number').focus();
   }
   render() {
+    const { price1, price2, price3 } = this.state;
     const controlStyles = this.props.open ? { ...styles.base, ...styles.active } : { ...styles.base, ...styles.inactive };
+    const total = Number(price1) + Number(price2) + Number(price3);
     return (
       <div className="container" style={controlStyles}>
+        <div style={styles.summary}>
+          {`Total: ${total} ฿`}
+        </div>
         <div className="row">
-          <div className="form-group col-xs-6 col-sm-2 col-md-2">
+          <div className="form-group col-xs-6">
             <label htmlFor="number">เลข</label>
             <input
+              autoFocus
               id="number"
               className="form-control"
               onChange={this.handleNumberChange}
-              tabIndex={this.props.open ? 0 : -1}
-              type="text"
+              type="number"
               value={this.state.number}
             />
           </div>
-          <div className="form-group col-xs-6 col-sm-2 col-md-2">
+          <div className="form-group col-xs-6">
             <label htmlFor="btn-random">&nbsp;</label>
             <button id="btn-random" className="btn btn-default btn-block" onClick={this.getRandomNumber}>random</button>
           </div>
-          <div className="form-group col-xs-12 col-sm-2 col-md-2">
+          <div className="form-group col-xs-12">
             {this.state.enablePrice3 === false && <label htmlFor="price1">บน</label>}
             {this.state.enablePrice3 && <label htmlFor="price1">เต็ง</label>}
             <input
               id="price1"
               className="form-control"
               onChange={this.handlePriceChange('price1')}
-              tabIndex={this.props.open ? 0 : -1}
-              type="text"
+              type="number"
               value={this.state.price1}
             />
           </div>
-          <div className="form-group col-xs-12 col-sm-2 col-md-2">
+          <div className="form-group col-xs-12">
             {this.state.enablePrice3 === false && <label htmlFor="price2">ล่าง</label>}
             {this.state.enablePrice3 && <label htmlFor="price1">โต๊ด</label>}
             <input
               id="price2"
               className="form-control"
               onChange={this.handlePriceChange('price2')}
-              tabIndex={this.props.open ? 0 : -1}
-              type="text"
+              type="number"
               value={this.state.price2}
             />
           </div>
-          <div className="form-group col-xs-12 col-sm-2 col-md-2" style={{ visibility: this.state.enablePrice3 ? 'visible' : 'hidden' }}>
+          <div className="form-group col-xs-12" style={{ visibility: this.state.enablePrice3 ? 'visible' : 'hidden' }}>
             <label htmlFor="price3">ล่าง</label>
             <input
               id="price3"
               className="form-control"
               onChange={this.handlePriceChange('price3')}
-              tabIndex={this.props.open ? 0 : -1}
-              type="text"
+              type="number"
               value={this.state.price3 || ''}
             />
           </div>
         </div>
         <div className="row">
-          <div className="form-group col-xs-12 col-sm-2 col-md-2">
-            <button className="btn btn-primary btn-block" onClick={this.handleSaveBet} tabIndex={this.props.open ? 0 : -1}>bet</button>
+          <div className="form-group col-xs-12">
+            <button className="btn btn-primary btn-block" onClick={this.handleSaveBet}>bet</button>
           </div>
-          <div className="form-group col-xs-12 col-sm-2 col-md-2">
-            <button className="btn btn-default btn-block" onClick={this.props.onClose} tabIndex={this.props.open ? 0 : -1}>cancel</button>
+          <div className="form-group col-xs-12 hidden-lg">
+            <button className="btn btn-default btn-block" onClick={this.props.onClose}>cancel</button>
           </div>
         </div>
       </div>

@@ -13,7 +13,7 @@ const styles = {
   },
   listContainer: {
     overflowX: 'auto',
-    maxHeight: '80vh',
+    paddingBottom: '50px',
   },
   placeholder: {
     display: 'flex',
@@ -65,7 +65,7 @@ class BetList extends React.Component {
     return (
       <div>
         <div className="container-fluid">
-          <div style={styles.summary} className="col-xs-12 col-md-12 col-lg-12">
+          <div style={styles.summary}>
             {total && `Total: ${total} ฿`}
             <button style={styles.helpIcon} onClick={this.props.faqHandler}>
               <i className="material-icons" style={{ fontSize: '16px' }}>help</i>
