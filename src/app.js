@@ -20,7 +20,7 @@ class App extends React.Component {
     return (
       <Provider store={store}>
         <Router history={browserHistory}>
-          <Route path="/sign-in" component={SignInPage} />
+          <Route path="/log-in" component={SignInPage} />
           <Route component={Layout} onEnter={lib.initApplicationState(store)}>
             <IndexRoute component={Page.Home} />
             <Route path="/" component={Page.Home} />

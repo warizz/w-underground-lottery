@@ -134,7 +134,7 @@ class Drawer extends React.Component {
             <li>
               <Link to="/sign-in" {...menuItemProps} onClick={Drawer.logOut}>
                 <i className="material-icons">exit_to_app</i>
-                <span style={{ marginLeft: '1em' }}>Sign off</span>
+                <span style={{ marginLeft: '1em' }}>Log out</span>
               </Link>
             </li>
           </ul>
