@@ -2,6 +2,7 @@ import React from 'react';
 import { routerShape } from 'react-router';
 import docCookies from 'doc-cookies';
 import service from '../services/index';
+import Snackbar from '../components/snackbar';
 
 const styles = {
   base: {
@@ -45,14 +46,20 @@ class SignInPage extends React.Component {
             self.setState({ fetching: false });
             self.props.router.push('/');
           })
-          .catch(error => error.response);
+          .catch(error => (
+            self.setState({
+              alertText: `${error.response.status}: ${error.response.statusText}`,
+              fetching: false,
+              hasAlert: true,
+            })
+          ));
       } else {
         // console.log('User cancelled login or did not fully authorize.');
       }
     }, { scope: 'public_profile' });
   }
   render() {
-    const { fetching } = this.state;
+    const { alertText, fetching, hasAlert } = this.state;
     return (
       <div style={styles.base}>
         <form className="container col-xs-12 col-sm-3 col-md-3">
@@ -67,6 +74,7 @@ class SignInPage extends React.Component {
             </button>
           </div>
         </form>
+        <Snackbar active={hasAlert} text={alertText} timer={2000} onClose={() => this.setState({ hasAlert: false, alertText: '' })} />
       </div>
     );
   }
