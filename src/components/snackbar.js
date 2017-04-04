@@ -14,6 +14,7 @@ const styles = {
     right: 0,
     transition: 'bottom .3s',
     width: '100%',
+    zIndex: 4,
   },
   inactive: {
     bottom: '-3em',

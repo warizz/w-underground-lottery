@@ -40,10 +40,45 @@ class Home extends React.Component {
     this.inputToggle();
     this.setState({ editingBet });
   }
-  handleSaveBet(bet) {
+  setAlert(alertText) {
+    return () => {
+      this.setState({
+        alertText,
+        fetching: false,
+        hasAlert: true,
+      });
+    };
+  }
+  switchFaqToggle() {
+    this.setState({ faqOpen: !this.state.faqOpen });
+  }
+  inputToggle() {
+    this.setState({ editingBet: null, inputOpen: !this.state.inputOpen });
+  }
+  handleDeleteBet(id) {
     const self = this;
     self.props.setFetching(true);
+    service.data
+    .deleteBet(id)
+    .then(() => {
+      service.data
+      .getCurrentPeriod()
+      .then((res) => {
+        self.props.setCurrentPeriod(res);
+        self.props.setFetching(false);
+      })
+      .catch(this.errorHanlder);
+    });
+  }
+  handleError(error) {
+    const alertText = `${error.response.status}: ${error.response.statusText}`;
+    this.setAlert(alertText);
+    this.props.setFetching(false);
+  }
+  handleSaveBet(bet) {
+    const self = this;
     const { currentPeriod } = this.props;
+    self.props.setFetching(true);
     if (!currentPeriod.isOpen) return;
     let inputBet = currentPeriod.bets.find(item => item.number === bet.number);
     let actor;
@@ -65,44 +100,10 @@ class Home extends React.Component {
             this.props.setCurrentPeriod(res);
             this.props.setFetching(false);
             this.setAlert('saved')();
+            this.setState({ editingBet: null })
           })
           .catch(this.handleError);
       });
-  }
-  handleError(error) {
-    const alertText = `${error.response.status}: ${error.response.statusText}`;
-    this.setAlert(alertText);
-    this.props.setFetching(false);
-  }
-  handleDeleteBet(id) {
-    const self = this;
-    self.props.setFetching(true);
-    service.data
-      .deleteBet(id)
-      .then(() => {
-        service.data
-          .getCurrentPeriod()
-          .then((res) => {
-            self.props.setCurrentPeriod(res);
-            self.props.setFetching(false);
-          })
-          .catch(this.errorHanlder);
-      });
-  }
-  inputToggle() {
-    this.setState({ editingBet: null, inputOpen: !this.state.inputOpen });
-  }
-  switchFaqToggle() {
-    this.setState({ faqOpen: !this.state.faqOpen });
-  }
-  setAlert(alertText) {
-    return () => {
-      this.setState({
-        alertText,
-        fetching: false,
-        hasAlert: true,
-      });
-    };
   }
   render() {
     const { alertText, hasAlert } = this.state;
@@ -178,6 +179,7 @@ class Home extends React.Component {
               saveBetHandler={this.handleSaveBet}
               editingBet={this.state.editingBet}
               onClose={this.inputToggle}
+              open={this.state.inputOpen}
             />
           )}
           <Fab active={!this.state.inputOpen} onClick={this.inputToggle} themeColor={themeColor}>

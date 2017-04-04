@@ -44,20 +44,19 @@ class BetInput extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      enablePrice3: false,
-      number: '',
-      price1: '',
-      price2: '',
-      price3: '',
+      enablePrice3: props.editingBet ? props.editingBet.number.toString().length > 2 : false,
+      id: props.editingBet ? props.editingBet.id : '',
+      number: props.editingBet ? props.editingBet.number : '',
+      price1: props.editingBet ? (props.editingBet.price1 || '') : '',
+      price2: props.editingBet ? (props.editingBet.price2 || '') : '',
+      price3: props.editingBet ? (props.editingBet.price3 || '') : '',
     };
     this.handleNumberChange = this.handleNumberChange.bind(this);
     this.handleSaveBet = this.handleSaveBet.bind(this);
     this.getRandomNumber = this.getRandomNumber.bind(this);
   }
   componentWillReceiveProps(nextProps) {
-    if (!nextProps.open) {
-      return;
-    }
+    if (!nextProps.open) return;
     this.setState({
       enablePrice3: nextProps.editingBet ? nextProps.editingBet.number.toString().length > 2 : false,
       id: nextProps.editingBet ? nextProps.editingBet.id : '',
@@ -75,12 +74,20 @@ class BetInput extends React.Component {
     const number = getRandomNumber(1, 3);
     this.setState({ enablePrice3: number.length > 2 });
     this.setState({ number });
+    document.getElementById('price1').focus();
+  }
+  setAlert(alertText) {
+    return () => {
+      this.setState({
+        alertText,
+        fetching: false,
+        hasAlert: true,
+      });
+    };
   }
   handlePriceChange(key) {
     return (e) => {
-      if (validateNumber(e.target.value) === false) {
-        return;
-      }
+      if (validateNumber(e.target.value) === false) return;
       this.setState({ [key]: e.target.value });
     };
   }
@@ -144,15 +151,6 @@ class BetInput extends React.Component {
       price3: '',
     });
     document.getElementById('number').focus();
-  }
-  setAlert(alertText) {
-    return () => {
-      this.setState({
-        alertText,
-        fetching: false,
-        hasAlert: true,
-      });
-    };
   }
   render() {
     const { alertText, hasAlert, price1, price2, price3 } = this.state;
