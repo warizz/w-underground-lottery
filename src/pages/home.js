@@ -120,8 +120,8 @@ class Home extends React.Component {
             </div>
           )}
           {userReward.length > 0 && (
-            <div className="alert alert-success">
-              <h1>ดีจวยด้วย คุณถูกรางวัล!</h1>
+            <div className="alert alert-success" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <h1 style={{ textAlign: 'center' }}>ดีจวยด้วย คุณถูกรางวัล!</h1>
               <ul>
                 {userReward.map((resultItem, index) => <li key={index}>{resultItem}</li>)}
               </ul>
