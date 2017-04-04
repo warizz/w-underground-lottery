@@ -1,4 +1,4 @@
-const CACHE_NAME = '4.1.0';
+const CACHE_NAME = '4.2.0';
 const urlsToCache = [
   './',
 ];
