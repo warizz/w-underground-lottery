@@ -54,7 +54,11 @@ class SignInPage extends React.Component {
             })
           ));
       } else {
-        // console.log('User cancelled login or did not fully authorize.');
+        self.setState({
+          alertText: 'facebook authentication failed',
+          fetching: false,
+          hasAlert: true,
+        });
       }
     }, { scope: 'public_profile' });
   }
