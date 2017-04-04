@@ -4,6 +4,7 @@ import actions from '../actions/index';
 import FAB from '../components/fab';
 import constants from '../constants/index';
 import service from '../services/index';
+import Snackbar from '../components/snackbar';
 
 const styles = {
   base: {
@@ -16,23 +17,14 @@ const styles = {
 };
 
 class SummaryPage extends React.Component {
-  static copyToClipboard() {
-    const textarea = document.createElement('textarea');
-    textarea.textContent = document.getElementById('for-clipboard').innerText;
-    textarea.style.position = 'fixed';
-    document.body.appendChild(textarea);
-    textarea.select();
-    document.execCommand('copy');
-    document.body.removeChild(textarea);
-    // TODO change to snackbar
-    alert('copied to clipboard'); // eslint-disable-line no-alert
-  }
   constructor(props) {
     super(props);
     this.state = {
       period: '',
       processingUser: '',
     };
+    this.copyToClipboard = this.copyToClipboard.bind(this);
+    this.handleError = this.handleError.bind(this);
   }
   componentDidMount() {
     this.props.setPageName('Summary');
@@ -62,14 +54,38 @@ class SummaryPage extends React.Component {
               this.setState({ summary: res });
               self.props.setFetching(false);
             })
-            .catch(() => self.props.setFetching(false));
+            .catch(this.handleError);
         })
-        .catch(() => self.props.setFetching(false));
+        .catch(this.handleError);
     };
+  }
+  setAlert(alertText) {
+    return () => {
+      this.setState({
+        alertText,
+        fetching: false,
+        hasAlert: true,
+      });
+    };
+  }
+  copyToClipboard() {
+    const textarea = document.createElement('textarea');
+    textarea.textContent = document.getElementById('for-clipboard').innerText;
+    textarea.style.position = 'fixed';
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+    this.setAlert('copied to clipboard')();
+  }
+  handleError(error) {
+    const alertText = `${error.response.status}: ${error.response.statusText}`;
+    this.setAlert(alertText);
+    this.props.setFetching(false);
   }
   render() {
     const { currentPeriod, themeColor } = this.props;
-    const { summary } = this.state;
+    const { alertText, hasAlert, summary } = this.state;
     if (!summary) return null;
     const { bets, result } = summary;
     if (!bets || bets.length === 0) {
@@ -98,7 +114,7 @@ class SummaryPage extends React.Component {
 
     return (
       <div style={styles.base}>
-        <div id="for-clipboard" className="col-sm-12 col-md-3" style={{ height: '90vh', overflow: 'auto' }}>
+        <div id="for-clipboard" className="col-xs-12 col-sm-6 col-md-4" style={{ height: '90vh', overflow: 'auto' }}>
           <div style={{ fontWeight: 'bold', margin: '0 0 1em 0' }}>{`Total: ${total}`}</div>
           {buyers.map((buyer) => {
             const sumPrice = buyer.bets
@@ -158,9 +174,10 @@ class SummaryPage extends React.Component {
             );
           })}
         </div>
-        <FAB active onClick={SummaryPage.copyToClipboard} themeColor={themeColor}>
+        <FAB active onClick={this.copyToClipboard} themeColor={themeColor}>
           <i className="material-icons">content_copy</i>
         </FAB>
+        <Snackbar active={hasAlert} text={alertText} onClose={() => this.setState({ hasAlert: false, alertText: '' })} />
       </div>
     );
   }
@@ -177,6 +194,7 @@ const mapDispatchToProps = dispatch => (
 
 SummaryPage.propTypes = {
   currentPeriod: constants.customPropType.periodShape,
+  setFetching: PropTypes.func.isRequired,
   setPageName: PropTypes.func,
   themeColor: PropTypes.string,
 };

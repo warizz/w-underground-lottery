@@ -4,6 +4,7 @@ import moment from 'moment';
 import actions from '../actions/index';
 import constants from '../constants/index';
 import service from '../services/index';
+import Snackbar from '../components/snackbar';
 
 const validateNumber = value => /^[0-9]*$/.test(value);
 
@@ -51,11 +52,17 @@ class ResultInputPage extends React.Component {
       this.setState({ [key]: e.target.value });
     };
   }
-  setAlert(message) {
-    this.setState({ active: true, message });
+  setAlert(alertText) {
+    return () => {
+      this.setState({
+        alertText,
+        fetching: false,
+        hasAlert: true,
+      });
+    };
   }
   componentWillUnMount() {
-    this.setState({ active: false, message: '' });
+    this.setState({ hasAlert: false, alertText: '' });
   }
   handleSaveInput(e) {
     e.preventDefault();
@@ -79,11 +86,13 @@ class ResultInputPage extends React.Component {
           .then((res) => {
             self.props.setCurrentPeriod(res);
             self.props.setFetching(false);
+            this.setAlert('saved')();
           })
-          .catch(this.errorHanlder);
+          .catch(error => this.setAlert(`${error.response.status}: ${error.response.statusText}`));
       });
   }
   render() {
+    const { alertText, hasAlert } = this.state;
     const { currentPeriod } = this.props;
     if (!currentPeriod) {
       return (
@@ -160,6 +169,7 @@ class ResultInputPage extends React.Component {
           </div>
           <button className="btn btn-primary btn-block" onClick={this.handleSaveInput} disabled={!validInput}>save</button>
         </form>
+        <Snackbar active={hasAlert} text={alertText} onClose={() => this.setState({ hasAlert: false, alertText: '' })} />
       </div>
     );
   }
