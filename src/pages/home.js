@@ -115,7 +115,7 @@ class Home extends React.Component {
       return (
         <div className="container-fluid" style={{ height: '90vh', overflowX: 'auto' }}>
           {userReward.length === 0 && (
-            <div className="alert">
+            <div className="alert" style={{ textAlign: 'center' }}>
               <h1>คุณไม่ถูกรางวัล คราวหน้าลองใหม่นะ :)</h1>
             </div>
           )}
