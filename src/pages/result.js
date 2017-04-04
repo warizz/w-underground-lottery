@@ -60,17 +60,18 @@ class ResultInputPage extends React.Component {
   handleSaveInput(e) {
     e.preventDefault();
     const self = this;
-    const { currentPeriod } = this.props;
-    currentPeriod.result = {
-      six: this.state.six,
-      two: this.state.two,
-      firstThree: this.state.firstThree,
-      secondThree: this.state.secondThree,
+    const update = {
+      result: {
+        six: this.state.six,
+        two: this.state.two,
+        firstThree: this.state.firstThree,
+        secondThree: this.state.secondThree,
+      },
     };
     self.props.setFetching(true);
     service
       .data
-      .updatePeriod(currentPeriod)
+      .updatePeriod(self.props.currentPeriod.id, update)
       .then(() => {
         service
           .data
