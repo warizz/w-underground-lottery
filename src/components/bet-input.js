@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import constants from '../constants/index';
+import Snackbar from '../components/snackbar';
 
 const validateNumber = value => /^[0-9]*$/.test(value);
 const getRandomNumber = (minLength, maxLength) => {
@@ -93,19 +94,19 @@ class BetInput extends React.Component {
   }
   handleSaveBet() {
     if (!this.state.number) {
-      alert('number can not be blank');
+      this.setAlert('number can not be blank')();
       return;
     }
 
     if (!this.state.price1 && !this.state.price2 && !this.state.price3) {
-      alert('at least 1 price must be filled');
+      this.setAlert('at least 1 price must be filled')();
       return;
     }
 
     if (this.state.number.length === 1) {
       if ((this.state.price1 && Number(this.state.price1) < 100)
         || (this.state.price2 && Number(this.state.price2) < 100)) {
-        alert('เลขวิ่ง ขั้นต่ำ 100');
+        this.setAlert('เลขวิ่ง ขั้นต่ำ 100')();
         return;
       }
     }
@@ -114,14 +115,14 @@ class BetInput extends React.Component {
       if ((this.state.price1 && Number(this.state.price1) < 10)
         || (this.state.price2 && Number(this.state.price2) < 10)
         || (this.state.price3 && Number(this.state.price3) < 10)) {
-        alert('ขั้นต่ำ 10');
+        this.setAlert('ขั้นต่ำ 10')();
         return;
       }
     }
 
     if (this.state.number.length > 2 && this.state.price2) {
       if (!this.state.price1) {
-        alert('โต๊ด ต้อง เต็ง');
+        this.setAlert('โต๊ด ต้อง เต็ง')();
         return;
       }
     }
@@ -144,12 +145,22 @@ class BetInput extends React.Component {
     });
     document.getElementById('number').focus();
   }
+  setAlert(alertText) {
+    return () => {
+      this.setState({
+        alertText,
+        fetching: false,
+        hasAlert: true,
+      });
+    };
+  }
   render() {
-    const { price1, price2, price3 } = this.state;
+    const { alertText, hasAlert, price1, price2, price3 } = this.state;
     const controlStyles = this.props.open ? { ...styles.base, ...styles.active } : { ...styles.base, ...styles.inactive };
     const total = Number(price1) + Number(price2) + Number(price3);
     return (
       <div className="container" style={controlStyles}>
+        <Snackbar active={hasAlert} text={alertText} timer={2000} onClose={() => this.setState({ hasAlert: false, alertText: '' })} />
         <div style={styles.summary}>
           {`Total: ${total} ฿`}
         </div>

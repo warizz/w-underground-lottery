@@ -9,6 +9,7 @@ import FaqDialog from '../components/faq-dialog';
 import actions from '../actions/index';
 import constants from '../constants/index';
 import service from '../services/index';
+import Snackbar from '../components/snackbar';
 
 const styles = {
   base: {
@@ -25,6 +26,7 @@ class Home extends React.Component {
       editingBet: null,
       faqOpen: false,
     };
+    this.handleError = this.handleError.bind(this);
     this.handleSaveBet = this.handleSaveBet.bind(this);
     this.handleDeleteBet = this.handleDeleteBet.bind(this);
     this.inputToggle = this.inputToggle.bind(this);
@@ -44,37 +46,33 @@ class Home extends React.Component {
     const { currentPeriod } = this.props;
     if (!currentPeriod.isOpen) return;
     let inputBet = currentPeriod.bets.find(item => item.number === bet.number);
-    // if number exists, update instead.
+    let actor;
     if (inputBet) {
       inputBet.price1 = bet.price1 ? Number(bet.price1) : 0;
       inputBet.price2 = bet.price2 ? Number(bet.price2) : 0;
       inputBet.price3 = bet.price3 ? Number(bet.price3) : 0;
-      service.data
-        .updateBet(inputBet)
-        .then(() => {
-          service.data
-            .getCurrentPeriod()
-            .then((res) => {
-              self.props.setCurrentPeriod(res);
-              self.props.setFetching(false);
-            })
-            .catch(this.errorHanlder);
-        });
+      actor = service.data.updateBet;
     } else {
       inputBet = bet;
       inputBet.period = currentPeriod.id;
-      service.data
-        .insertBet(inputBet)
-        .then(() => {
-          service.data
-            .getCurrentPeriod()
-            .then((res) => {
-              self.props.setCurrentPeriod(res);
-              self.props.setFetching(false);
-            })
-            .catch(this.errorHanlder);
-        });
+      actor = service.data.insertBet;
     }
+    actor(inputBet)
+      .then(() => {
+        service.data
+          .getCurrentPeriod()
+          .then((res) => {
+            this.props.setCurrentPeriod(res);
+            this.props.setFetching(false);
+            this.setAlert('saved')();
+          })
+          .catch(this.handleError);
+      });
+  }
+  handleError(error) {
+    const alertText = `${error.response.status}: ${error.response.statusText}`;
+    this.setAlert(alertText);
+    this.props.setFetching(false);
   }
   handleDeleteBet(id) {
     const self = this;
@@ -97,7 +95,17 @@ class Home extends React.Component {
   switchFaqToggle() {
     this.setState({ faqOpen: !this.state.faqOpen });
   }
+  setAlert(alertText) {
+    return () => {
+      this.setState({
+        alertText,
+        fetching: false,
+        hasAlert: true,
+      });
+    };
+  }
   render() {
+    const { alertText, hasAlert } = this.state;
     const { currentPeriod, themeColor } = this.props;
     if (!currentPeriod || (!currentPeriod.isOpen && !currentPeriod.result)) {
       return (
@@ -136,6 +144,7 @@ class Home extends React.Component {
     }
     return (
       <div style={styles.base}>
+        <Snackbar active={hasAlert} text={alertText} timer={1000} onClose={() => this.setState({ hasAlert: false, alertText: '' })} />
         <FaqDialog active={this.state.faqOpen} toggle={this.switchFaqToggle} />
         <div className="visible-lg" style={{ height: '100%' }}>
           <div className="col-lg-10" style={{ height: '100%', overflowX: 'auto' }}>
@@ -196,6 +205,7 @@ const mapDispatchToProps = dispatch => (
 
 Home.propTypes = {
   currentPeriod: constants.customPropType.periodShape,
+  setCurrentPeriod: PropTypes.func.isRequired,
   setFetching: PropTypes.func.isRequired,
   setPageName: PropTypes.func,
   themeColor: PropTypes.string.isRequired,
