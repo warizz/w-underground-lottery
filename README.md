@@ -1,6 +1,8 @@
+[demo](https://w-underground-lottery.herokuapp.com)
+
 ## required
 
-.env at project's root/
+```.env``` at project's ```root/```
 
 ```
 REACT_APP_FB_APP_ID={FB_APP_ID}
