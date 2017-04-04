@@ -208,13 +208,13 @@ function deleteBet(id) {
   });
 }
 
-function updatePeriod(period) {
+function updatePeriod(id, update) {
   const token = docCookies.getItem(`fbat_${fbAppId}`);
   return new Promise((resolve, reject) => {
-    const data = period;
+    const data = update;
     axios
       .request({
-        url: `/period/${data.id}`,
+        url: `/period/${id}`,
         method: 'patch',
         baseURL,
         headers: { 'x-access-token': token },

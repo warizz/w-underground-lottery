@@ -72,10 +72,14 @@ class ResultInputPage extends React.Component {
       .data
       .updatePeriod(currentPeriod)
       .then(() => {
-        service.data.getCurrentPeriod((res) => {
-          self.props.setCurrentPeriod(res);
-          self.props.setFetching(false);
-        });
+        service
+          .data
+          .getCurrentPeriod()
+          .then((res) => {
+            self.props.setCurrentPeriod(res);
+            self.props.setFetching(false);
+          })
+          .catch(this.errorHanlder);
       });
   }
   render() {
