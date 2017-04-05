@@ -4,6 +4,7 @@ import moment from 'moment';
 import actions from '../actions/index';
 import constants from '../constants/index';
 import service from '../services/index';
+import Snackbar from '../components/snackbar';
 
 const styles = {
   base: {
@@ -22,16 +23,21 @@ class HistoryPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      alertText: '',
+      hasAlert: false,
       history: [],
     };
+    this.handleError = this.handleError.bind(this);
   }
   componentDidMount() {
     this.props.setPageName('History');
   }
   componentWillReceiveProps() {
-    service.data.getHistory().then((res) => {
-      this.setState({ history: res });
-    });
+    service
+      .data
+      .getHistory()
+      .then(res => this.setState({ history: res }))
+      .catch(this.handleError);
   }
   clone(currentPeriod, bets) {
     const self = this;
@@ -53,22 +59,30 @@ class HistoryPage extends React.Component {
       service.data
         .insertBets(currentPeriod.id, newBets)
         .then(() => {
-          service.data.getCurrentPeriod(
-          () => {},
-          (res) => {
-            self.props.setCurrentPeriod(res);
-            self.props.setFetching(false);
-            self.props.setAlert('cloned');
-          });
+          service
+            .data
+            .getCurrentPeriod()
+            .then((res) => {
+              self.props.setCurrentPeriod(res);
+              self.props.setFetching(false);
+              this.setState({ alertText: 'cloned', hasAlert: true });
+            })
+            .catch(this.handleError);
         });
     };
   }
+  handleError(error) {
+    const alertText = `${error.response.status}: ${error.response.statusText}`;
+    this.setAlert(alertText);
+    this.props.setFetching(false);
+  }
   render() {
+    const { alertText, hasAlert } = this.state;
     const { currentPeriod } = this.props;
     if (!currentPeriod) return null;
     const history = this.state.history.filter((h) => {
       const { bets = [] } = h;
-      return bets.length > 0 && h.id !== currentPeriod.id;
+      return bets.length > 0;
     });
 
     if (history.length === 0) {
@@ -79,6 +93,7 @@ class HistoryPage extends React.Component {
 
     return (
       <div style={styles.base}>
+        <Snackbar active={hasAlert} text={alertText} timer={1000} onClose={() => this.setState({ hasAlert: false, alertText: '' })} />
         <div style={styles.cardContainer} className="col-sm-12 col-md-3">
           {history.map(h => (
             <div key={h.id} className="col-xs-12" style={constants.elementStyle.betCard}>
@@ -115,13 +130,11 @@ class HistoryPage extends React.Component {
 const mapStateToProps = state => (
   {
     currentPeriod: state.data.currentPeriod,
-    username: state.user.username,
   }
 );
 
 const mapDispatchToProps = dispatch => (
   {
-    setAlert: alert => dispatch(actions.layout.setAlert(alert)),
     setCurrentPeriod: currentPeriod => dispatch(actions.data.setCurrentPeriod(currentPeriod)),
     setFetching: fetching => dispatch(actions.data.setFetching(fetching)),
     setPageName: pageName => dispatch(actions.layout.setPageName(pageName)),
@@ -130,7 +143,6 @@ const mapDispatchToProps = dispatch => (
 
 HistoryPage.propTypes = {
   currentPeriod: constants.customPropType.periodShape,
-  history: PropTypes.arrayOf(constants.customPropType.periodShape),
   setFetching: PropTypes.func.isRequired,
   setPageName: PropTypes.func,
 };

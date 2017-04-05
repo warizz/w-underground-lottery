@@ -67,7 +67,7 @@ class Home extends React.Component {
         self.props.setCurrentPeriod(res);
         self.props.setFetching(false);
       })
-      .catch(this.errorHanlder);
+      .catch(this.handleError);
     });
   }
   handleError(error) {
