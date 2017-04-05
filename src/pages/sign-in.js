@@ -41,8 +41,8 @@ class SignInPage extends React.Component {
         service
           .data
           .logIn(accessToken)
-          .then((user) => {
-            docCookies.setItem(`fbat_${process.env.REACT_APP_FB_APP_ID}`, user.access_token, 60 * 60 * 24 * 30);
+          .then(({ access_token }) => {
+            docCookies.setItem(`fbat_${process.env.REACT_APP_FB_APP_ID}`, access_token, 60 * 60 * 24 * 30);
             self.setState({ fetching: false });
             self.props.router.push('/');
           })

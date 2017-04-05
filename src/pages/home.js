@@ -100,7 +100,7 @@ class Home extends React.Component {
             this.props.setCurrentPeriod(res);
             this.props.setFetching(false);
             this.setAlert('saved')();
-            this.setState({ editingBet: null })
+            this.setState({ editingBet: null });
           })
           .catch(this.handleError);
       });

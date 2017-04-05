@@ -155,10 +155,14 @@ function logIn(accessToken) {
 }
 
 function logOut(accessToken) {
-  const data = { access_token: accessToken };
   return new Promise((resolve, reject) => {
     axios
-      .patch(`${baseURL}/log_out`, data)
+      .request({
+        url: `${baseURL}/log_out`,
+        method: 'patch',
+        baseURL,
+        headers: { 'x-access-token': accessToken },
+      })
       .then(res => resolve(res.data))
       .catch(error => reject(error));
   });
