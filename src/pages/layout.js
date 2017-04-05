@@ -42,7 +42,15 @@ class Layout extends React.Component {
         <Snackbar active={!!alert} text={alert} onClose={() => setAlert('')} />
         <Overlay active={fetching} zIndex={4} text="..." />
         <ToolBar onClickMenuButton={this.drawerToggle} pageName={this.props.pageName} themeColor={constants.color.primary} />
-        <Drawer active={this.state.openDrawer} toggle={this.drawerToggle} username={user.name} themeColor={constants.color.primary} userPic={user.picture} isAdmin={user.is_admin} />
+        <Drawer
+          active={this.state.openDrawer}
+          isAdmin={user.is_admin}
+          router={this.props.router}
+          toggle={this.drawerToggle}
+          themeColor={constants.color.primary}
+          username={user.name}
+          userPic={user.picture}
+        />
         <div style={styles.content}>
           {periods && childrenWithProps}
         </div>

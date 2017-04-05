@@ -1,8 +1,10 @@
 import React, { PropTypes } from 'react';
-import { Link } from 'react-router';
+import { Link, routerShape } from 'react-router';
 import docCookies from 'doc-cookies';
 import * as config from '../config';
 import Overlay from './overlay';
+import service from '../services/index';
+import Snackbar from './snackbar';
 
 const styles = {
   drawer: {
@@ -55,6 +57,7 @@ const styles = {
       alignItems: 'center',
       border: 'none',
       color: 'black',
+      cursor: 'pointer',
       display: 'flex',
       height: '5em',
       listStyleType: 'none',
@@ -72,13 +75,33 @@ const styles = {
 };
 
 class Drawer extends React.Component {
-  static logOut() {
-    docCookies.removeItem(`fbat_${process.env.REACT_APP_FB_APP_ID}`);
+  constructor(props) {
+    super(props);
+    this.state = {
+      alertText: '',
+      hasAlert: false,
+    };
+    this.logOut = this.logOut.bind(this);
   }
   shouldComponentUpdate(nextProps) {
     return nextProps.active !== this.props.active;
   }
+  logOut() {
+    const cookieName = `fbat_${process.env.REACT_APP_FB_APP_ID}`;
+    const accessToken = docCookies.getItem(cookieName);
+    service
+      .data
+      .logOut(accessToken)
+      .then(() => this.props.router.push('/log-in'))
+      .catch(error => (
+        this.setState({
+          alertText: `${error.response.status}: ${error.response.statusText}`,
+          hasAlert: true,
+        })
+      ));
+  }
   render() {
+    const { alertText, hasAlert } = this.state;
     const { active, isAdmin, themeColor = 'black', toggle, username, userPic } = this.props;
     if (!username) {
       return <div />;
@@ -92,6 +115,7 @@ class Drawer extends React.Component {
     return (
       <div>
         <Overlay active={active} clickHandler={toggle} />
+        <Snackbar active={hasAlert} text={alertText} timer={2000} onClose={() => this.setState({ hasAlert: false, alertText: '' })} />
         <div style={drawerStyles}>
           <div style={{ ...styles.versionContainer, backgroundColor: themeColor }}>
             <a href="https://github.com/warizz/underground-lottery-on-fire/releases" target="_blank" rel="noopener noreferrer" style={{ color: 'white' }}>
@@ -132,10 +156,10 @@ class Drawer extends React.Component {
               </Link>
             </li>
             <li>
-              <Link to="/log-in" {...menuItemProps} onClick={Drawer.logOut}>
+              <div to="/log-in" {...menuItemProps} onClick={this.logOut}>
                 <i className="material-icons">exit_to_app</i>
                 <span style={{ marginLeft: '1em' }}>Log out</span>
-              </Link>
+              </div>
             </li>
           </ul>
         </div>
@@ -151,6 +175,7 @@ Drawer.propTypes = {
   username: PropTypes.string.isRequired,
   userPic: PropTypes.string.isRequired,
   isAdmin: PropTypes.bool.isRequired,
+  router: routerShape,
 };
 
 export default Drawer;
