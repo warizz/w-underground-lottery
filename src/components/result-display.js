@@ -35,7 +35,7 @@ const styles = {
 const ResultDisplay = props => (
   <div style={styles.base}>
     <h2>ผลรางวัลงวด</h2>
-    <h1 style={{ fontWeight: '700' }}>{props.periodEndDate}</h1>
+    <h1 style={{ fontWeight: '700' }}>{props.endedAt}</h1>
     <section style={styles.six}>
       <h2>รางวัลที่หนึ่ง</h2>
       <span style={{ fontSize: '50px' }}>{props.six}</span>
@@ -59,7 +59,7 @@ ResultDisplay.propTypes = {
   two: PropTypes.string.isRequired,
   firstThree: PropTypes.string.isRequired,
   secondThree: PropTypes.string.isRequired,
-  periodEndDate: PropTypes.string.isRequired,
+  endedAt: PropTypes.string.isRequired,
 };
 
 export default ResultDisplay;

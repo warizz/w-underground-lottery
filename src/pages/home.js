@@ -138,7 +138,7 @@ class Home extends React.Component {
           )}
           <ResultDisplay
             {...result}
-            periodEndDate={moment(currentPeriod.endDate).format('DD MMM YYYY')}
+            endedAt={moment(currentPeriod.endedAt).format('DD MMM YYYY')}
           />
         </div>
       );
