@@ -24,7 +24,7 @@
     "react-scripts": "0.8.4"
   },
   "name": "w-underground-lottery",
-  "version": "4.2.3",
+  "version": "4.2.4",
   "private": false,
   "scripts": {
     "start": "react-scripts start",
