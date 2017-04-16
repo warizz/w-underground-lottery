@@ -57,7 +57,7 @@ const checkReward = (result, callback) => (bet) => {
     // ล่าง
     if (bet.price2) {
       if (bet.number === result.two) {
-        return callback(bet.number, bet.price2, reward, rewardType.UPPER);
+        return callback(bet.number, bet.price2, reward, rewardType.BELOW);
       }
     }
   } else if (bet.number.toString().length === 1) {
