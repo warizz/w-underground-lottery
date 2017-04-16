@@ -87,7 +87,8 @@ class SummaryPage extends React.Component {
     const { currentPeriod, themeColor } = this.props;
     const { alertText, hasAlert, summary } = this.state;
     if (!summary) return null;
-    const { bets, result } = summary;
+    const { bets } = summary;
+    const result = currentPeriod.result;
     if (!bets || bets.length === 0) {
       return (
         <div style={constants.elementStyle.placeholder}>{'no data'}</div>
@@ -131,7 +132,7 @@ class SummaryPage extends React.Component {
                 <ul>
                   {buyer.bets
                     .map((betItem) => {
-                      const rewardCallback = (number, price, reward) => `ถูก เต็ง [${number}] ${price} x ${reward} = ${price * reward} บาท`;
+                      const rewardCallback = (number, price, reward, rewardType) => `ถูก ${rewardType} [${number}] ${price} x ${reward} = ${price * reward} บาท`;
                       const reward = service.calculation.checkReward(result, rewardCallback)(betItem);
                       if (reward) {
                         const winningItemStyle = { ...itemStyle, fontWeight: 'bold', color: '#B71C1C' };
