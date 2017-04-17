@@ -101,14 +101,7 @@ class Home extends React.Component {
   }
   render() {
     const { alertText, hasAlert } = this.state;
-    const { currentPeriod, themeColor, user } = this.props;
-    if (!currentPeriod || (!currentPeriod.isOpen && !currentPeriod.result)) {
-      return (
-        <div style={constants.elementStyle.placeholder}>
-          {'ตลาดยังไม่เปิดจ้ะ'}
-        </div>
-      );
-    }
+    const { currentPeriod = {}, themeColor, user } = this.props;
     if (currentPeriod.result) {
       const { bets, result } = currentPeriod;
       const rewardCallback = (number, price, reward, rewardType) => `ถูก ${rewardType} [${number}] ${price} x ${reward} = ${price * reward} บาท`;
@@ -156,15 +149,19 @@ class Home extends React.Component {
               editHandler={this.setEditingBet}
               deleteHandler={this.handleDeleteBet}
               faqHandler={this.switchFaqToggle}
+              isEditable={currentPeriod.isOpen}
+              periodEndedAt={moment(currentPeriod.endedAt).format('DD MMM YYYY')}
             />
           </div>
           <div className="hidden-xs">
-            <BetInput
-              saveBetHandler={this.handleSaveBet}
-              editingBet={this.state.editingBet}
-              open
-              onClose={this.inputToggle}
-            />
+            {currentPeriod.isOpen && (
+              <BetInput
+                saveBetHandler={this.handleSaveBet}
+                editingBet={this.state.editingBet}
+                open
+                onClose={this.inputToggle}
+              />
+            )}
           </div>
         </div>
         <div className="visible-xs">

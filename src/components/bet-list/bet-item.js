@@ -72,7 +72,7 @@ class BetItem extends React.Component {
     return () => this.props.deleteHandler(id);
   }
   render() {
-    const { bet } = this.props;
+    const { bet, isEditable } = this.props;
     const price1Label = bet.number.length > 2 ? 'เต็ง' : 'บน';
     const price2Label = bet.number.length > 2 ? 'โต๊ด' : 'ล่าง';
     const price3Label = 'ล่าง';
@@ -135,14 +135,16 @@ class BetItem extends React.Component {
             {bet.price3 > 0 && <span style={style.detail.reward}>{price3Reward}</span>}
           </div>
         </div>
-        <div style={style.action.container}>
-          <button style={{ ...style.action.button.base, ...style.action.button.edit }} onClick={this.handleEdit(bet)}>
-            {'edit'}
-          </button>
-          <button style={{ ...style.action.button.base, ...style.action.button.delete }} onClick={this.handleDelete(bet.id)}>
-            {'delete'}
-          </button>
-        </div>
+        {isEditable && (
+          <div style={style.action.container}>
+            <button style={{ ...style.action.button.base, ...style.action.button.edit }} onClick={this.handleEdit(bet)}>
+              {'edit'}
+            </button>
+            <button style={{ ...style.action.button.base, ...style.action.button.delete }} onClick={this.handleDelete(bet.id)}>
+              {'delete'}
+            </button>
+          </div>
+        )}
       </div>
     );
   }
@@ -152,6 +154,7 @@ BetItem.propTypes = {
   bet: constants.customPropType.betShape,
   editHandler: PropTypes.func.isRequired,
   deleteHandler: PropTypes.func.isRequired,
+  isEditable: PropTypes.bool,
 };
 
 export default BetItem;

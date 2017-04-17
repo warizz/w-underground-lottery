@@ -9,15 +9,25 @@ const style = {
     maxWidth: '300px',
   },
   summary: {
-    backgroundColor: 'white',
-    border: '1px solid #b8bfc3',
-    borderRadius: '5px',
-    padding: '10px',
-    fontWeight: 'bold',
-    margin: '0 0 10px 0',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    container: {
+      backgroundColor: 'white',
+      border: '1px solid #b8bfc3',
+      borderRadius: '5px',
+      fontWeight: 'bold',
+      margin: '0 0 10px 0',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'space-between',
+    },
+    item: {
+      base: {
+        padding: '10px',
+      },
+      date: {
+        borderBottom: '1px solid #b8bfc3',
+        textAlign: 'center',
+      },
+    },
   },
 };
 
@@ -38,14 +48,17 @@ class BetList extends React.Component {
     return () => this.props.deleteHandler(betId);
   }
   render() {
-    const { bets = [], deleteHandler, editHandler } = this.props;
+    const { bets = [], deleteHandler, editHandler, periodEndedAt } = this.props;
     const total = bets.length > 0 ? bets
       .map(BetList.calculateTotal)
       .reduce((a, b) => a + b) : null;
     return (
       <div style={style.container}>
-        <div style={style.summary}>
-          <div>{`total: ${total || 0} ฿`}</div>
+        <div style={style.summary.container}>
+          <div style={{ ...style.summary.item.base, ...style.summary.item.date }}>
+            {periodEndedAt}
+          </div>
+          <div style={style.summary.item.base}>{`total: ${total || 0} ฿`}</div>
         </div>
         <div>
           {bets.length > 0 && (
@@ -67,6 +80,7 @@ BetList.propTypes = {
   deleteHandler: PropTypes.func.isRequired,
   editHandler: PropTypes.func.isRequired,
   bets: PropTypes.arrayOf(constants.customPropType.betShape),
+  periodEndedAt: PropTypes.string.isRequired,
 };
 
 export default BetList;
