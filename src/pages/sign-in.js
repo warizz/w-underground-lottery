@@ -1,39 +1,30 @@
-import React from 'react';
-import { routerShape } from 'react-router';
+import React, { PropTypes } from 'react';
 import docCookies from 'doc-cookies';
 import service from '../services/index';
 import Snackbar from '../components/snackbar';
+import './sign-in.css';
 
-const style = {
-  base: {
-    alignItems: 'center',
-    display: 'flex',
-    flexDirection: 'column',
-    height: '100%',
-    justifyContent: 'center',
-    width: '100%',
-  },
-  button: {
-    logIn: {
-      width: '300px',
-      backgroundColor: '#2185d0',
-      color: 'white',
-      border: 'none',
-      borderRadius: '2px',
-      padding: '10px',
-      maxWidth: '300px',
-    },
-  },
-  message: {
-    width: '300px',
-    maxWidth: '300px',
-    background: '#f8f8f9',
-    color: 'rgba(0,0,0,.87)',
-    borderRadius: '5px',
-    padding: '10px',
-    border: '1px solid #b8bfc3',
-    marginTop: '10px',
-  },
+const fetchFbSdk = () => {
+  window.fbAsyncInit = () => {
+    window.FB.init({
+      appId: process.env.REACT_APP_FB_APP_ID,
+      cookie: true,
+      xfbml: true,
+      version: 'v2.8',
+    });
+    window.FB.AppEvents.logPageView();
+  };
+
+  ((d, s, id) => {
+    const fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) {
+      return;
+    }
+    const js = d.createElement(s);
+    js.id = id;
+    js.src = '//connect.facebook.net/en_US/sdk.js';
+    fjs.parentNode.insertBefore(js, fjs);
+  })(document, 'script', 'facebook-jssdk');
 };
 
 class SignInPage extends React.Component {
@@ -48,26 +39,7 @@ class SignInPage extends React.Component {
     const hasToken = docCookies.hasItem(`fbat_${process.env.REACT_APP_FB_APP_ID}`);
     if (hasToken) this.props.router.push('/');
 
-    window.fbAsyncInit = () => {
-      window.FB.init({
-        appId: process.env.REACT_APP_FB_APP_ID,
-        cookie: true,
-        xfbml: true,
-        version: 'v2.8',
-      });
-      window.FB.AppEvents.logPageView();
-    };
-
-    ((d, s, id) => {
-      const fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) {
-        return;
-      }
-      const js = d.createElement(s);
-      js.id = id;
-      js.src = '//connect.facebook.net/en_US/sdk.js';
-      fjs.parentNode.insertBefore(js, fjs);
-    })(document, 'script', 'facebook-jssdk');
+    fetchFbSdk();
   }
   authenFacebook(e) {
     e.preventDefault();
@@ -103,15 +75,11 @@ class SignInPage extends React.Component {
   render() {
     const { alertText, fetching, hasAlert } = this.state;
     return (
-      <div style={style.base}>
-        <button
-          style={style.button.logIn}
-          onClick={this.authenFacebook}
-          disabled={fetching}
-        >
+      <div className="sign-in">
+        <button className="sign-in" onClick={this.authenFacebook} disabled={fetching}>
           {fetching ? '...' : 'log in with facebook'}
         </button>
-        <div style={style.message}>
+        <div className="message">
           <b>{'why log in with facebook?'}</b>
           <li>{'don\'t reinvent the wheel: facebook already have great security by 1000 top class engineers keeping your password safe.'}</li>
           <li>{'this app need only your username and profile picture, it can do no harm.'}</li>
@@ -123,7 +91,9 @@ class SignInPage extends React.Component {
 }
 
 SignInPage.propTypes = {
-  router: routerShape,
+  router: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }),
 };
 
 export default SignInPage;

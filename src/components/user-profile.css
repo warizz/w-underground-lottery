@@ -1,0 +1,65 @@
+div.user-profile
+{
+    position: relative;
+
+    overflow: hidden;
+
+    width: 300px;
+    max-width: 300px;
+    height: 100%;
+
+    border: 1px solid #b8bfc3;
+    border-radius: 5px;
+    background-color: white;
+}
+
+div.user-profile > div.detail
+{
+    display: flex;
+    flex-direction: column;
+
+    padding: 10px;
+
+    align-items: center;
+}
+
+div.user-profile > div.detail > img.picture
+{
+    width: 70px;
+    height: 70px;
+
+    border-radius: 100%;
+    background-color: white;
+
+    align-items: center;
+}
+
+div.user-profile > div.detail > div.name
+{
+    font-weight: bold;
+
+    margin: 10px 0 0 0;
+}
+
+div.user-profile > div.action
+{
+    display: flex;
+    flex-direction: column;
+
+    background-color: rgb(246, 247, 249);
+}
+
+div.user-profile > div.action > .button
+{
+    font-weight: bold;
+
+    width: 100%;
+    padding: 10px;
+
+    text-align: center;
+
+    color: rgb(148, 146, 146);
+    border: none;
+    border-top: 1px solid rgb(184, 191, 195);
+    background-color: transparent;
+}
