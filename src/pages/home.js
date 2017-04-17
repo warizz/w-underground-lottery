@@ -4,7 +4,6 @@ import moment from 'moment';
 import BetList from '../components/bet-list/index';
 import BetInput from '../components/bet-input';
 import ResultDisplay from '../components/result-display';
-import Fab from '../components/fab';
 import actions from '../actions/index';
 import constants from '../constants/index';
 import service from '../services/index';
@@ -192,7 +191,6 @@ Home.propTypes = {
   setCurrentPeriod: PropTypes.func.isRequired,
   setFetching: PropTypes.func.isRequired,
   setPageName: PropTypes.func,
-  themeColor: PropTypes.string.isRequired,
   user: PropTypes.shape({
     name: PropTypes.string.isRequired,
     picture: PropTypes.string.isRequired,
