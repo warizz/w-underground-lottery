@@ -6,6 +6,45 @@ import constants from '../constants/index';
 import service from '../services/index';
 import Snackbar from '../components/snackbar';
 
+const style = {
+  bet: {
+    container: {
+      border: '1px solid #b8bfc3',
+      borderRadius: '5px',
+      overflow: 'hidden',
+      maxWidth: '300px',
+      width: '300px',
+      margin: '0 0 10px 0',
+    },
+    title: {
+      backgroundColor: 'white',
+      borderBottom: '1px solid #b8bfc3',
+      padding: '10px',
+      fontWeight: 'bold',
+    },
+    body: {
+      backgroundColor: 'white',
+      padding: '10px',
+    },
+    action: {
+      container: {
+        backgroundColor: '#F6F7F9',
+        borderTop: '1px solid #b8bfc3',
+      },
+      button: {
+        clone: {
+          backgroundColor: 'transparent',
+          border: 'none',
+          fontWeight: 'bold',
+          padding: '10px',
+          width: '100%',
+          color: 'rgb(148, 146, 146)',
+        },
+      },
+    },
+  }
+}
+
 const styles = {
   base: {
     display: 'flex',
@@ -94,31 +133,35 @@ class HistoryPage extends React.Component {
     return (
       <div style={styles.base}>
         <Snackbar active={hasAlert} text={alertText} timer={1000} onClose={() => this.setState({ hasAlert: false, alertText: '' })} />
-        <div style={styles.cardContainer} className="col-sm-12 col-md-3">
+        <div style={styles.cardContainer}>
           {history.map(h => (
-            <div key={h.id} className="col-xs-12" style={constants.elementStyle.betCard}>
-              <div>{moment(h.endedAt).format('DD MMM YYYY')}</div>
-              <ul>
-                {h.bets
-                  .map((bet) => {
-                    const price1Label = bet.number.length > 2 ? ' เต็ง ' : ' บน ';
-                    const price2Label = bet.number.length > 2 ? ' โต๊ด ' : ' ล่าง ';
-                    const price3Label = ' ล่าง ';
-                    let historyItem = `${bet.number} =`;
-                    historyItem += bet.price1 ? `${price1Label}${bet.price1}` : '';
-                    historyItem += bet.price2 ? `${price2Label}${bet.price2}` : '';
-                    historyItem += bet.price3 ? `${price3Label}${bet.price3}` : '';
-                    return (
-                      <li key={`bet-it--${bet.id}`}>
-                        {historyItem}
-                      </li>
-                    );
-                  })
-                }
-              </ul>
-              {currentPeriod.isOpen && (
-                <button className="btn btn-primary btn-block" onClick={this.clone(currentPeriod, h.bets, service.data.insertBet)}>clone</button>
-              )}
+            <div key={h.id} style={style.bet.container}>
+              <div style={style.bet.title}>{moment(h.endedAt).format('DD MMM YYYY')}</div>
+              <div style={style.bet.body}>
+                <ul>
+                  {h.bets
+                    .map((bet) => {
+                      const price1Label = bet.number.length > 2 ? ' เต็ง ' : ' บน ';
+                      const price2Label = bet.number.length > 2 ? ' โต๊ด ' : ' ล่าง ';
+                      const price3Label = ' ล่าง ';
+                      let historyItem = `${bet.number} =`;
+                      historyItem += bet.price1 ? `${price1Label}${bet.price1}` : '';
+                      historyItem += bet.price2 ? `${price2Label}${bet.price2}` : '';
+                      historyItem += bet.price3 ? `${price3Label}${bet.price3}` : '';
+                      return (
+                        <li key={`bet-it--${bet.id}`}>
+                          {historyItem}
+                        </li>
+                      );
+                    })
+                  }
+                </ul>
+              </div>
+              <div style={style.bet.action.container}>
+                {currentPeriod.isOpen && (
+                  <button style={style.bet.action.button.clone} onClick={this.clone(currentPeriod, h.bets, service.data.insertBet)}>clone</button>
+                )}
+              </div>
             </div>
             ))}
         </div>

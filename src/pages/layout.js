@@ -9,14 +9,11 @@ import Overlay from '../components/overlay';
 import Snackbar from '../components/snackbar';
 
 const styles = {
-  base: {
-    width: '100%',
-    height: '100%',
-  },
   content: {
-    height: '100%',
-    marginTop: '50px',
-    overflowX: 'hidden',
+    marginTop: '70px',
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'column',
   },
 };
 
@@ -33,12 +30,13 @@ class Layout extends React.Component {
   }
   render() {
     const { alert, fetching, periods = [], setAlert, user } = this.props;
+    console.log(user);
     if (!user) return null;
     // pass username to content page
-    const childrensProps = { username: user.name, isAdmin: user.is_admin, periods, themeColor: constants.color.primary };
+    const childrensProps = { user, isAdmin: user.is_admin, periods, themeColor: constants.color.primary };
     const childrenWithProps = React.cloneElement(this.props.children, childrensProps);
     return (
-      <div style={styles.base}>
+      <div>
         <Snackbar active={!!alert} text={alert} onClose={() => setAlert('')} />
         <Overlay active={fetching} zIndex={4} text="..." />
         <ToolBar onClickMenuButton={this.drawerToggle} pageName={this.props.pageName} themeColor={constants.color.primary} />

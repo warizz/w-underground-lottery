@@ -10,13 +10,7 @@ import actions from '../actions/index';
 import constants from '../constants/index';
 import service from '../services/index';
 import Snackbar from '../components/snackbar';
-
-const styles = {
-  base: {
-    overflowX: 'auto',
-    height: '100%',
-  },
-};
+import UserProfile from '../components/user-profile';
 
 class Home extends React.Component {
   constructor(props) {
@@ -107,7 +101,7 @@ class Home extends React.Component {
   }
   render() {
     const { alertText, hasAlert } = this.state;
-    const { currentPeriod, themeColor } = this.props;
+    const { currentPeriod, themeColor, user } = this.props;
     if (!currentPeriod || (!currentPeriod.isOpen && !currentPeriod.result)) {
       return (
         <div style={constants.elementStyle.placeholder}>
@@ -122,7 +116,7 @@ class Home extends React.Component {
         .map(service.calculation.checkReward(result, rewardCallback))
         .filter(a => a); // remove null elements
       return (
-        <div className="container-fluid" style={{ height: '90vh', overflowX: 'auto' }}>
+        <div>
           {userReward.length === 0 && (
             <div className="alert" style={{ textAlign: 'center' }}>
               <h1>คุณไม่ถูกรางวัล คราวหน้าลองใหม่นะ :)</h1>
@@ -144,11 +138,19 @@ class Home extends React.Component {
       );
     }
     return (
-      <div style={styles.base}>
-        <Snackbar active={hasAlert} text={alertText} timer={1000} onClose={() => this.setState({ hasAlert: false, alertText: '' })} />
-        <FaqDialog active={this.state.faqOpen} toggle={this.switchFaqToggle} />
-        <div className="visible-lg" style={{ height: '100%' }}>
-          <div className="col-lg-10" style={{ height: '100%', overflowX: 'auto' }}>
+      <div>
+        {
+          // <Snackbar active={hasAlert} text={alertText} timer={1000} onClose={() => this.setState({ hasAlert: false, alertText: '' })} />
+          // <FaqDialog active={this.state.faqOpen} toggle={this.switchFaqToggle} />
+        }
+        <div style={{ display: 'flex', alignItems: 'flex-start' }}>
+          <div className="visible-md visible-lg">
+            <UserProfile name={user.name} pictureUrl={user.picture} />
+          </div>
+          <div style={{ margin: '0 10px' }}>
+            <div className="visible-xs visible-sm" style={{ margin: '0 0 10px 0' }}>
+              <UserProfile name={user.name} pictureUrl={user.picture} />
+            </div>
             <BetList
               bets={currentPeriod.bets}
               editHandler={this.setEditingBet}
@@ -156,7 +158,7 @@ class Home extends React.Component {
               faqHandler={this.switchFaqToggle}
             />
           </div>
-          <div className="col-lg-2" style={{ padding: 0, height: '100%' }}>
+          <div className="hidden-xs">
             <BetInput
               saveBetHandler={this.handleSaveBet}
               editingBet={this.state.editingBet}
@@ -165,23 +167,7 @@ class Home extends React.Component {
             />
           </div>
         </div>
-        <div className="hidden-lg" style={{ height: '100%' }}>
-          {!this.state.inputOpen && (
-            <BetList
-              bets={currentPeriod.bets}
-              editHandler={this.setEditingBet}
-              deleteHandler={this.handleDeleteBet}
-              faqHandler={this.switchFaqToggle}
-            />
-          )}
-          {this.state.inputOpen && (
-            <BetInput
-              saveBetHandler={this.handleSaveBet}
-              editingBet={this.state.editingBet}
-              onClose={this.inputToggle}
-              open={this.state.inputOpen}
-            />
-          )}
+        <div className="visible-xs">
           <Fab active={!this.state.inputOpen} onClick={this.inputToggle} themeColor={themeColor}>
             <span style={{ fontSize: '30px' }}>+</span>
           </Fab>
@@ -211,6 +197,10 @@ Home.propTypes = {
   setFetching: PropTypes.func.isRequired,
   setPageName: PropTypes.func,
   themeColor: PropTypes.string.isRequired,
+  user: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    picture: PropTypes.string.isRequired,
+  }),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

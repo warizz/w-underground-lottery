@@ -17,26 +17,52 @@ const getRandomNumber = (minLength, maxLength) => {
   return number;
 };
 
-const styles = {
-  base: {
+const style = {
+  container: {
     position: 'relative',
     backgroundColor: 'white',
     height: '100%',
-    padding: '0 20px 0 20px',
-    width: '100%',
+    width: '300px',
+    maxWidth: '300px',
+    border: '1px solid #b8bfc3',
+    borderRadius: '5px',
+    overflow: 'hidden',
   },
-  helpIcon: {
-    border: 'none',
-    backgroundColor: 'transparent',
-    marginLeft: '.5em',
-    color: '#757575',
-    display: 'flex',
+  body: {
+    padding: '10px',
   },
-  summary: {
-    fontWeight: 'bold',
-    margin: '20px 0',
+  inputGroup: {
     display: 'flex',
-    alignItems: 'center',
+    flexDirection: 'column',
+    margin: '0 0 10px 0',
+  },
+  input: {
+    border: '1px solid #d9d9d9',
+    borderTop: '1.5px solid #c0c0c0',
+    padding: '5px 5px 5px 10px',
+    letterSpacing: '3px',
+  },
+  action: {
+    container: {
+      backgroundColor: '#F6F7F9',
+      borderTop: '1px solid #b8bfc3',
+    },
+    button: {
+      base: {
+        backgroundColor: 'transparent',
+        border: 'none',
+        fontWeight: 'bold',
+        padding: '10px',
+        width: '50%',
+      },
+      cancel: {
+        color: 'rgb(148, 146, 146)',
+        borderRight: '1px solid #b8bfc3',
+      },
+      bet: {
+        color: '#286090',
+      },
+    },
   },
 };
 
@@ -153,71 +179,64 @@ class BetInput extends React.Component {
     document.getElementById('number').focus();
   }
   render() {
-    const { alertText, hasAlert, price1, price2, price3 } = this.state;
-    const controlStyles = this.props.open ? { ...styles.base, ...styles.active } : { ...styles.base, ...styles.inactive };
-    const total = Number(price1) + Number(price2) + Number(price3);
+    const { alertText, hasAlert } = this.state;
     return (
-      <div className="container" style={controlStyles}>
+      <div style={style.container}>
         <Snackbar active={hasAlert} text={alertText} timer={2000} onClose={() => this.setState({ hasAlert: false, alertText: '' })} />
-        <div style={styles.summary}>
-          {`Total: ${total} ฿`}
-        </div>
-        <div className="row">
-          <div className="form-group col-xs-6">
+        <div style={style.body}>
+          <div style={style.inputGroup}>
             <label htmlFor="number">เลข</label>
             <input
               autoFocus
               id="number"
-              className="form-control"
               onChange={this.handleNumberChange}
+              style={{ ...style.input, width: '70px' }}
               type="number"
               value={this.state.number}
             />
           </div>
-          <div className="form-group col-xs-6">
-            <label htmlFor="btn-random">&nbsp;</label>
-            <button id="btn-random" className="btn btn-default btn-block" onClick={this.getRandomNumber}>random</button>
-          </div>
-          <div className="form-group col-xs-12">
+          {
+            // <div>
+            //   <label htmlFor="btn-random">&nbsp;</label>
+            //   <button id="btn-random" onClick={this.getRandomNumber}>random</button>
+            // </div>
+          }
+          <div style={style.inputGroup}>
             {this.state.enablePrice3 === false && <label htmlFor="price1">บน</label>}
             {this.state.enablePrice3 && <label htmlFor="price1">เต็ง</label>}
             <input
               id="price1"
-              className="form-control"
               onChange={this.handlePriceChange('price1')}
+              style={{ ...style.input, width: '120px' }}
               type="number"
               value={this.state.price1}
             />
           </div>
-          <div className="form-group col-xs-12">
+          <div style={style.inputGroup}>
             {this.state.enablePrice3 === false && <label htmlFor="price2">ล่าง</label>}
             {this.state.enablePrice3 && <label htmlFor="price1">โต๊ด</label>}
             <input
               id="price2"
-              className="form-control"
               onChange={this.handlePriceChange('price2')}
+              style={{ ...style.input, width: '120px' }}
               type="number"
               value={this.state.price2}
             />
           </div>
-          <div className="form-group col-xs-12" style={{ visibility: this.state.enablePrice3 ? 'visible' : 'hidden' }}>
+          <div style={{ ...style.inputGroup, visibility: this.state.enablePrice3 ? 'visible' : 'hidden' }}>
             <label htmlFor="price3">ล่าง</label>
             <input
               id="price3"
-              className="form-control"
               onChange={this.handlePriceChange('price3')}
+              style={{ ...style.input, width: '120px' }}
               type="number"
               value={this.state.price3 || ''}
             />
           </div>
         </div>
-        <div className="row">
-          <div className="form-group col-xs-12">
-            <button className="btn btn-primary btn-block" onClick={this.handleSaveBet}>bet</button>
-          </div>
-          <div className="form-group col-xs-12 hidden-lg">
-            <button className="btn btn-default btn-block" onClick={this.props.onClose}>cancel</button>
-          </div>
+        <div style={style.action.container}>
+          <button style={{ ...style.action.button.base, ...style.action.button.cancel }} onClick={this.props.onClose}>cancel</button>
+          <button style={{ ...style.action.button.base, ...style.action.button.bet }} onClick={this.handleSaveBet}>bet</button>
         </div>
       </div>
     );

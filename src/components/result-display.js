@@ -7,7 +7,6 @@ const styles = {
     flexDirection: 'column',
     alignItems: 'center',
     marginTop: '1em',
-    overflow: 'hidden',
   },
   six: {
     display: 'flex',

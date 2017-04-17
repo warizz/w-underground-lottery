@@ -1,24 +1,66 @@
 import React, { PropTypes } from 'react';
 import constants from '../../constants/index';
 
-const styles = {
-  helpIcon: {
-    border: 'none',
-    backgroundColor: 'transparent',
-    marginLeft: '.5em',
-    color: '#757575',
-    display: 'flex',
+const style = {
+  container: {
+    border: '1px solid #b8bfc3',
+    borderRadius: '5px',
+    overflow: 'hidden',
+    maxWidth: '300px',
+    width: '300px',
+    margin: '0 0 10px 0',
   },
-  priceItem: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+  detail: {
+    container: {
+      backgroundColor: 'white',
+      padding: '10px',
+      display: 'flex',
+      flexDirection: 'column',
+    },
+    header: {
+      container: {
+        display: 'flex',
+        justifyContent: 'space-between',
+      },
+      reward: {
+        display: 'flex',
+        alignItems: 'center',
+        fontWeight: 'bold',
+      },
+    },
+    price: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+    },
+    reward: {
+      display: 'flex',
+      alignItems: 'center',
+      color: '#689F38',
+      fontWeight: 'bold',
+    },
   },
-  reward: {
-    display: 'flex',
-    alignItems: 'center',
-    color: '#689F38',
-    fontWeight: 'bold',
+  action: {
+    container: {
+      backgroundColor: '#F6F7F9',
+      borderTop: '1px solid #b8bfc3',
+    },
+    button: {
+      base: {
+        backgroundColor: 'transparent',
+        border: 'none',
+        fontWeight: 'bold',
+        padding: '10px',
+        width: '50%',
+      },
+      edit: {
+        color: 'rgb(148, 146, 146)',
+        borderRight: '1px solid #b8bfc3',
+      },
+      delete: {
+        color: 'rgb(191, 58, 58)',
+      },
+    },
   },
 };
 
@@ -30,7 +72,7 @@ class BetItem extends React.Component {
     return () => this.props.deleteHandler(id);
   }
   render() {
-    const { bet, faqHandler } = this.props;
+    const { bet } = this.props;
     const price1Label = bet.number.length > 2 ? 'เต็ง' : 'บน';
     const price2Label = bet.number.length > 2 ? 'โต๊ด' : 'ล่าง';
     const price3Label = 'ล่าง';
@@ -74,43 +116,32 @@ class BetItem extends React.Component {
         break;
     }
     return (
-      <div key={bet.id} className="col-xs-12 col-sm-3 col-md-3 col-lg-3" style={{ margin: '0 0 10px 0' }}>
-        <div style={{ ...constants.elementStyle.betCard, height: '170px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-          <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <span><b>{bet.number}</b></span>
-              <span style={{ display: 'flex', alignItems: 'center', fontWeight: 'bold' }}>
-                <button style={styles.helpIcon} onClick={faqHandler}>
-                  <i className="material-icons" style={{ fontSize: '16px' }}>help</i>
-                </button>
-                reward
-              </span>
-            </div>
-            <div style={styles.priceItem}>
-              {bet.price1 > 0 ? `${price1Label} ${bet.price1}` : null}
-              {bet.price1 > 0 && <span style={styles.reward}>{price1Reward}</span>}
-            </div>
-            <div style={styles.priceItem}>
-              {bet.price2 > 0 ? `${price2Label} ${bet.price2}` : null}
-              {bet.price2 > 0 && <span style={styles.reward}>{price2Reward}</span>}
-            </div>
-            <div style={styles.priceItem}>
-              {bet.price3 > 0 ? `${price3Label} ${bet.price3}` : null}
-              {bet.price3 > 0 && <span style={styles.reward}>{price3Reward}</span>}
-            </div>
+      <div key={bet.id} style={style.container}>
+        <div style={style.detail.container}>
+          <div style={style.detail.header.container}>
+            <span><b>{bet.number}</b></span>
+            <span style={style.detail.header.reward}>reward</span>
           </div>
-          <div className="row center-xs">
-            <div className="col-xs-12 col-sm-12 col-md-6 col-lg-6" style={{ marginTop: '.5em' }}>
-              <button className="btn btn-default btn-block" onClick={this.handleEdit(bet)}>
-                {'edit'}
-              </button>
-            </div>
-            <div className="col-xs-12 col-sm-12 col-md-6 col-lg-6" style={{ marginTop: '.5em' }}>
-              <button className="btn btn-danger btn-block" onClick={this.handleDelete(bet.id)}>
-                {'delete'}
-              </button>
-            </div>
+          <div style={style.detail.price}>
+            {bet.price1 > 0 ? `${price1Label} ${bet.price1}` : null}
+            {bet.price1 > 0 && <span style={style.detail.reward}>{price1Reward}</span>}
           </div>
+          <div style={style.detail.price}>
+            {bet.price2 > 0 ? `${price2Label} ${bet.price2}` : null}
+            {bet.price2 > 0 && <span style={style.detail.reward}>{price2Reward}</span>}
+          </div>
+          <div style={style.detail.price}>
+            {bet.price3 > 0 ? `${price3Label} ${bet.price3}` : null}
+            {bet.price3 > 0 && <span style={style.detail.reward}>{price3Reward}</span>}
+          </div>
+        </div>
+        <div style={style.action.container}>
+          <button style={{ ...style.action.button.base, ...style.action.button.edit }} onClick={this.handleEdit(bet)}>
+            {'edit'}
+          </button>
+          <button style={{ ...style.action.button.base, ...style.action.button.delete }} onClick={this.handleDelete(bet.id)}>
+            {'delete'}
+          </button>
         </div>
       </div>
     );
@@ -121,7 +152,6 @@ BetItem.propTypes = {
   bet: constants.customPropType.betShape,
   editHandler: PropTypes.func.isRequired,
   deleteHandler: PropTypes.func.isRequired,
-  faqHandler: PropTypes.func.isRequired,
 };
 
 export default BetItem;

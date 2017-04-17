@@ -42,7 +42,7 @@ class FAB extends React.Component {
     const baseStyle = { ...styles.base, backgroundColor: themeColor };
     const fabStyles = active ? { ...baseStyle, ...styles.active } : { ...baseStyle, ...styles.inactive };
     return (
-      <div style={styles.container}>
+      <div style={{ ...styles.container, zIndex: active ? 'inherit' : -1 }}>
         <button style={fabStyles} tabIndex={active ? 0 : -1} onClick={onClick}>
           {children}
         </button>
