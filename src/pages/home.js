@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import docCookies from 'doc-cookies';
 import BetList from '../components/bet-list/index';
 import BetInput from '../components/bet-input';
 import ResultDisplay from '../components/result-display';
@@ -23,7 +24,7 @@ class Home extends React.Component {
     this.handleDeleteBet = this.handleDeleteBet.bind(this);
     this.inputToggle = this.inputToggle.bind(this);
     this.setEditingBet = this.setEditingBet.bind(this);
-    // this.switchFaqToggle = this.switchFaqToggle.bind(this);
+    this.logOut = this.logOut.bind(this);
   }
   componentDidMount() {
     this.props.setPageName('Home');
@@ -94,6 +95,20 @@ class Home extends React.Component {
           .catch(this.handleError);
       });
   }
+  logOut() {
+    const cookieName = `fbat_${process.env.REACT_APP_FB_APP_ID}`;
+    const accessToken = docCookies.getItem(cookieName);
+    service
+      .data
+      .logOut(accessToken)
+      .then(() => this.props.router.push('/log-in'))
+      .catch(error => (
+        this.setState({
+          alertText: `${error.response.status}: ${error.response.statusText}`,
+          hasAlert: true,
+        })
+      ));
+  }
   render() {
     const { currentPeriod = {}, user } = this.props;
     if (currentPeriod.result) {
@@ -132,11 +147,11 @@ class Home extends React.Component {
         }
         <div style={{ display: 'flex', alignItems: 'flex-start' }}>
           <div className="visible-md visible-lg">
-            <UserProfile name={user.name} pictureUrl={user.picture} isAdmin={user.is_admin} />
+            <UserProfile name={user.name} pictureUrl={user.picture} isAdmin={user.is_admin} logOutHandler={this.logOut} />
           </div>
           <div style={{ margin: '0 10px' }}>
             <div className="visible-xs visible-sm" style={{ margin: '0 0 10px 0' }}>
-              <UserProfile name={user.name} pictureUrl={user.picture} isAdmin={user.is_admin} />
+              <UserProfile name={user.name} pictureUrl={user.picture} isAdmin={user.is_admin} logOutHandler={this.logOut} />
             </div>
             {
               currentPeriod.isOpen && (

@@ -153,6 +153,7 @@ class SummaryPage extends React.Component {
     this.setAlert(alertText);
     this.props.setFetching(false);
   }
+
   render() {
     const { currentPeriod } = this.props;
     const { alertText, hasAlert, summary } = this.state;

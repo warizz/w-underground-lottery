@@ -66,7 +66,7 @@ const UserProfile = props => (
         <Link to="/dashboard" style={style.action.button}>go to admin dashboard</Link>
       )}
       <Link to="/history" style={style.action.button}>see history</Link>
-      <button style={style.action.button}>log out</button>
+      <button style={style.action.button} onClick={props.logOutHandler}>log out</button>
     </div>
   </div>
 );
@@ -75,6 +75,7 @@ UserProfile.propTypes = {
   isAdmin: PropTypes.bool,
   pictureUrl: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  logOutHandler: PropTypes.func.isRequired,
 };
 
 export default UserProfile;
