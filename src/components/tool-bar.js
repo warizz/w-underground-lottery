@@ -38,11 +38,10 @@ class ToolBar extends React.Component {
           <i className="material-icons">home</i>
         )}
         {pageName !== 'Home' && (
-        <button style={styles.iconButton} onClick={() => history.back()}>
-          <i className="material-icons">keyboard_backspace</i>
-        </button>
-          )
-        }
+          <button style={styles.iconButton} onClick={() => history.back()}>
+            <i className="material-icons">keyboard_backspace</i>
+          </button>
+        )}
         <span style={styles.appName}>{pageName}</span>
       </div>
     );
@@ -50,9 +49,7 @@ class ToolBar extends React.Component {
 }
 
 ToolBar.propTypes = {
-  onClickMenuButton: PropTypes.func,
   pageName: PropTypes.string,
-  themeColor: PropTypes.string,
 };
 
 export default ToolBar;

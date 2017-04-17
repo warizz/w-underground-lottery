@@ -1,8 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { routerShape } from 'react-router';
 import ToolBar from '../components/tool-bar';
-import Drawer from '../components/drawer';
 import action from '../actions/index';
 import constants from '../constants/index';
 import Overlay from '../components/overlay';
@@ -38,16 +36,7 @@ class Layout extends React.Component {
       <div>
         <Snackbar active={!!alert} text={alert} onClose={() => setAlert('')} />
         <Overlay active={fetching} zIndex={4} text="..." />
-        <ToolBar onClickMenuButton={this.drawerToggle} pageName={this.props.pageName} themeColor={constants.color.primary} />
-        <Drawer
-          active={this.state.openDrawer}
-          isAdmin={user.is_admin}
-          router={this.props.router}
-          toggle={this.drawerToggle}
-          themeColor={constants.color.primary}
-          username={user.name}
-          userPic={user.picture}
-        />
+        <ToolBar pageName={this.props.pageName} />
         <div style={styles.content}>
           {periods && childrenWithProps}
         </div>
@@ -78,7 +67,6 @@ Layout.propTypes = {
   fetching: PropTypes.bool.isRequired,
   pageName: PropTypes.string,
   periods: PropTypes.arrayOf(constants.customPropType.periodShape),
-  router: routerShape,
   setAlert: PropTypes.func.isRequired,
   user: PropTypes.shape({
     name: PropTypes.string.isRequired,
