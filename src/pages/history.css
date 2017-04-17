@@ -1,0 +1,63 @@
+div.history > div.bet-list > div.placeholder
+{
+    overflow: hidden;
+
+    width: 300px;
+    max-width: 300px;
+    margin: 0 0 10px 0;
+    padding: 10px;
+
+    text-align: center;
+
+    border: 3px dotted #b8bfc3;
+    border-radius: 5px;
+}
+
+div.history > div.bet-list > div.bet-item
+{
+    overflow: hidden;
+
+    width: 300px;
+    max-width: 300px;
+    margin: 0 0 10px 0;
+
+    border: 1px solid #b8bfc3;
+    border-radius: 5px;
+}
+
+div.history > div.bet-list > div.bet-item > div.title
+{
+    font-weight: bold;
+
+    padding: 10px;
+
+    text-align: center;
+
+    border-bottom: 1px solid #b8bfc3;
+    background-color: white;
+}
+
+div.history > div.bet-list > div.bet-item > div.body
+{
+    padding: 10px;
+
+    background-color: white;
+}
+
+div.history > div.bet-list > div.bet-item > div.action
+{
+    border-top: 1px solid #b8bfc3;
+    background-color: #f6f7f9;
+}
+
+div.history > div.bet-list > div.bet-item > div.action > button.clone
+{
+    font-weight: bold;
+
+    width: 100%;
+    padding: 10px;
+
+    color: rgb(148, 146, 146);
+    border: none;
+    background-color: transparent;
+}

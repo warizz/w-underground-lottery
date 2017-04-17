@@ -5,46 +5,7 @@ import actions from '../actions/index';
 import constants from '../constants/index';
 import service from '../services/index';
 import Snackbar from '../components/snackbar';
-
-const style = {
-  bet: {
-    container: {
-      border: '1px solid #b8bfc3',
-      borderRadius: '5px',
-      overflow: 'hidden',
-      maxWidth: '300px',
-      width: '300px',
-      margin: '0 0 10px 0',
-    },
-    title: {
-      backgroundColor: 'white',
-      borderBottom: '1px solid #b8bfc3',
-      padding: '10px',
-      fontWeight: 'bold',
-      textAlign: 'center',
-    },
-    body: {
-      backgroundColor: 'white',
-      padding: '10px',
-    },
-    action: {
-      container: {
-        backgroundColor: '#F6F7F9',
-        borderTop: '1px solid #b8bfc3',
-      },
-      button: {
-        clone: {
-          backgroundColor: 'transparent',
-          border: 'none',
-          fontWeight: 'bold',
-          padding: '10px',
-          width: '100%',
-          color: 'rgb(148, 146, 146)',
-        },
-      },
-    },
-  },
-};
+import './history.css';
 
 class HistoryPage extends React.Component {
   constructor(props) {
@@ -111,21 +72,15 @@ class HistoryPage extends React.Component {
       const { bets = [] } = h;
       return bets.length > 0;
     });
-
-    if (history.length === 0) {
-      return (
-        <div style={constants.elementStyle.placeholder}>{'no data'}</div>
-      );
-    }
-
     return (
-      <div>
+      <div className="history">
         <Snackbar active={hasAlert} text={alertText} timer={1000} onClose={() => this.setState({ hasAlert: false, alertText: '' })} />
-        <div>
-          {history.map(h => (
-            <div key={h.id} style={style.bet.container}>
-              <div style={style.bet.title}>{moment(h.endedAt).format('DD MMM YYYY')}</div>
-              <div style={style.bet.body}>
+        <div className="bet-list">
+          {history.length === 0 && <div className="placeholder">{'you have no history here, make one!'}</div>}
+          {history.length > 0 && history.map(h => (
+            <div key={h.id} className="bet-item">
+              <div className="title">{moment(h.endedAt).format('DD MMM YYYY')}</div>
+              <div className="body">
                 <ul>
                   {h.bets
                     .map((bet) => {
@@ -145,9 +100,9 @@ class HistoryPage extends React.Component {
                   }
                 </ul>
               </div>
-              <div style={style.bet.action.container}>
+              <div className="action">
                 {currentPeriod.isOpen && (
-                  <button style={style.bet.action.button.clone} onClick={this.clone(currentPeriod, h.bets, service.data.insertBet)}>clone</button>
+                  <button className="clone" onClick={this.clone(currentPeriod, h.bets, service.data.insertBet)}>clone</button>
                 )}
               </div>
             </div>
