@@ -154,7 +154,6 @@ class SummaryPage extends React.Component {
     this.props.setFetching(false);
   }
   render() {
-    console.log(history);
     const { currentPeriod } = this.props;
     const { alertText, hasAlert, summary } = this.state;
     if (!summary) return null;
