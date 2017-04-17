@@ -5,6 +5,7 @@ import moment from 'moment';
 import actions from '../actions/index';
 import constants from '../constants/index';
 import service from '../services/index';
+import Summary from './summary';
 
 const style = {
   container: {
@@ -136,6 +137,9 @@ class DashboardPage extends React.Component {
             </div>
           </div>
         )}
+        <div style={{ margin: '10px 0 0 0' }}>
+          <Summary />
+        </div>
       </div>
     );
   }

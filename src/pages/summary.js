@@ -2,7 +2,6 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import actions from '../actions/index';
-import FAB from '../components/fab';
 import constants from '../constants/index';
 import service from '../services/index';
 import Snackbar from '../components/snackbar';
@@ -90,6 +89,16 @@ class SummaryPage extends React.Component {
     this.copyToClipboard = this.copyToClipboard.bind(this);
     this.handleError = this.handleError.bind(this);
   }
+  componentDidMount() {
+    if (this.props.currentPeriod) {
+      service
+        .data
+        .getSummary(this.props.currentPeriod.id)
+        .then((res) => {
+          this.setState({ summary: res });
+        });
+    }
+  }
   componentWillReceiveProps(nextProps) {
     if (nextProps.currentPeriod) {
       service
@@ -145,6 +154,7 @@ class SummaryPage extends React.Component {
     this.props.setFetching(false);
   }
   render() {
+    console.log(history);
     const { currentPeriod } = this.props;
     const { alertText, hasAlert, summary } = this.state;
     if (!summary) return null;
