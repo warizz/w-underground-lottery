@@ -145,11 +145,11 @@ class Home extends React.Component {
         }
         <div style={{ display: 'flex', alignItems: 'flex-start' }}>
           <div className="visible-md visible-lg">
-            <UserProfile name={user.name} pictureUrl={user.picture} />
+            <UserProfile name={user.name} pictureUrl={user.picture} isAdmin={user.is_admin} />
           </div>
           <div style={{ margin: '0 10px' }}>
             <div className="visible-xs visible-sm" style={{ margin: '0 0 10px 0' }}>
-              <UserProfile name={user.name} pictureUrl={user.picture} />
+              <UserProfile name={user.name} pictureUrl={user.picture} isAdmin={user.isAdmin} />
             </div>
             <BetList
               bets={currentPeriod.bets}
@@ -200,6 +200,7 @@ Home.propTypes = {
   user: PropTypes.shape({
     name: PropTypes.string.isRequired,
     picture: PropTypes.string.isRequired,
+    is_admin: PropTypes.bool.isRequired,
   }),
 };
 

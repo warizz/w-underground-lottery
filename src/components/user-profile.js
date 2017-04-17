@@ -62,6 +62,9 @@ const UserProfile = props => (
       <div style={style.detail.name}>{props.name}</div>
     </div>
     <div style={style.action.container}>
+      {props.isAdmin && (
+        <Link to="/dashboard" style={style.action.button}>go to admin dashboard</Link>
+      )}
       <Link to="/history" style={style.action.button}>see history</Link>
       <button style={style.action.button}>log out</button>
     </div>
@@ -69,6 +72,7 @@ const UserProfile = props => (
 );
 
 UserProfile.propTypes = {
+  isAdmin: PropTypes.bool,
   pictureUrl: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
 };
