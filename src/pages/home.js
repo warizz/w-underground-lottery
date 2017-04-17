@@ -5,7 +5,6 @@ import BetList from '../components/bet-list/index';
 import BetInput from '../components/bet-input';
 import ResultDisplay from '../components/result-display';
 import Fab from '../components/fab';
-import FaqDialog from '../components/faq-dialog';
 import actions from '../actions/index';
 import constants from '../constants/index';
 import service from '../services/index';
@@ -25,7 +24,7 @@ class Home extends React.Component {
     this.handleDeleteBet = this.handleDeleteBet.bind(this);
     this.inputToggle = this.inputToggle.bind(this);
     this.setEditingBet = this.setEditingBet.bind(this);
-    this.switchFaqToggle = this.switchFaqToggle.bind(this);
+    // this.switchFaqToggle = this.switchFaqToggle.bind(this);
   }
   componentDidMount() {
     this.props.setPageName('Home');
@@ -42,9 +41,6 @@ class Home extends React.Component {
         hasAlert: true,
       });
     };
-  }
-  switchFaqToggle() {
-    this.setState({ faqOpen: !this.state.faqOpen });
   }
   inputToggle() {
     this.setState({ editingBet: null, inputOpen: !this.state.inputOpen });
@@ -100,8 +96,7 @@ class Home extends React.Component {
       });
   }
   render() {
-    const { alertText, hasAlert } = this.state;
-    const { currentPeriod = {}, themeColor, user } = this.props;
+    const { currentPeriod = {}, user } = this.props;
     if (currentPeriod.result) {
       const { bets, result } = currentPeriod;
       const rewardCallback = (number, price, reward, rewardType) => `ถูก ${rewardType} [${number}] ${price} x ${reward} = ${price * reward} บาท`;
@@ -142,8 +137,19 @@ class Home extends React.Component {
           </div>
           <div style={{ margin: '0 10px' }}>
             <div className="visible-xs visible-sm" style={{ margin: '0 0 10px 0' }}>
-              <UserProfile name={user.name} pictureUrl={user.picture} isAdmin={user.isAdmin} />
+              <UserProfile name={user.name} pictureUrl={user.picture} isAdmin={user.is_admin} />
             </div>
+            {
+              currentPeriod.isOpen && (
+                <div className="visible-xs" style={{ marginBottom: '10px' }}>
+                  <BetInput
+                    saveBetHandler={this.handleSaveBet}
+                    editingBet={this.state.editingBet}
+                    onClose={this.inputToggle}
+                  />
+                </div>
+              )
+            }
             <BetList
               bets={currentPeriod.bets}
               editHandler={this.setEditingBet}
@@ -158,16 +164,9 @@ class Home extends React.Component {
               <BetInput
                 saveBetHandler={this.handleSaveBet}
                 editingBet={this.state.editingBet}
-                open
-                onClose={this.inputToggle}
               />
             )}
           </div>
-        </div>
-        <div className="visible-xs">
-          <Fab active={!this.state.inputOpen} onClick={this.inputToggle} themeColor={themeColor}>
-            <span style={{ fontSize: '30px' }}>+</span>
-          </Fab>
         </div>
       </div>
     );

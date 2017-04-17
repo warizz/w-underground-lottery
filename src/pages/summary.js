@@ -1,10 +1,74 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import moment from 'moment';
 import actions from '../actions/index';
 import FAB from '../components/fab';
 import constants from '../constants/index';
 import service from '../services/index';
 import Snackbar from '../components/snackbar';
+
+const style = {
+  summary: {
+    container: {
+      backgroundColor: 'white',
+      border: '1px solid #b8bfc3',
+      borderRadius: '5px',
+      fontWeight: 'bold',
+      margin: '0 0 10px 0',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'space-between',
+      overflow: 'hidden',
+    },
+    item: {
+      base: {
+        padding: '10px',
+      },
+      date: {
+        borderBottom: '1px solid #b8bfc3',
+        textAlign: 'center',
+      },
+    },
+  },
+  list: {
+    item: {
+      container: {
+        position: 'relative',
+        width: '300px',
+        maxWidth: '300px',
+        border: '1px solid #b8bfc3',
+        borderRadius: '5px',
+        overflow: 'hidden',
+      },
+      title: {
+        borderBottom: '1px solid #b8bfc3',
+        padding: '10px',
+        backgroundColor: 'white',
+      },
+      body: {
+        backgroundColor: 'white',
+        padding: '10px',
+      },
+    },
+  },
+  action: {
+    container: {
+      display: 'flex',
+      flexDirection: 'column',
+      backgroundColor: 'rgb(246, 247, 249)',
+    },
+    button: {
+      width: '100%',
+      backgroundColor: 'transparent',
+      border: 'none',
+      borderTop: '1px solid rgb(184, 191, 195)',
+      padding: '10px',
+      fontWeight: 'bold',
+      color: 'rgb(148, 146, 146)',
+      cursor: 'pointer',
+    },
+  },
+};
 
 const styles = {
   base: {
@@ -25,9 +89,6 @@ class SummaryPage extends React.Component {
     };
     this.copyToClipboard = this.copyToClipboard.bind(this);
     this.handleError = this.handleError.bind(this);
-  }
-  componentDidMount() {
-    this.props.setPageName('Summary');
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.currentPeriod) {
@@ -84,7 +145,7 @@ class SummaryPage extends React.Component {
     this.props.setFetching(false);
   }
   render() {
-    const { currentPeriod, themeColor } = this.props;
+    const { currentPeriod } = this.props;
     const { alertText, hasAlert, summary } = this.state;
     if (!summary) return null;
     const { bets } = summary;
@@ -114,70 +175,79 @@ class SummaryPage extends React.Component {
       .reduce((a, b) => a + b, 0);
 
     return (
-      <div style={styles.base}>
-        <div id="for-clipboard" className="col-xs-12 col-sm-6 col-md-4" style={{ height: '90vh', overflow: 'auto' }}>
-          <div style={{ fontWeight: 'bold', margin: '0 0 1em 0' }}>{`Total: ${total}`}</div>
-          {buyers.map((buyer) => {
-            const sumPrice = buyer.bets
-              .map(service.calculation.calculateTotal(result))
-              .reduce((a, b) => a + b);
-            // check if this user paid or not
-            const paid = buyer.bets
-              .map(bet => bet.isPaid)
-              .includes(true);
-            const itemStyle = paid ? styles.paidItem : {};
-            return (
-              <div key={buyer.name} className="col-xs-12 col-md-12" style={constants.elementStyle.betCard}>
-                <div><b>{buyer.name}</b></div>
-                <ul>
-                  {buyer.bets
-                    .map((betItem) => {
-                      const rewardCallback = (number, price, reward, rewardType) => `ถูก ${rewardType} [${number}] ${price} x ${reward} = ${price * reward} บาท`;
-                      const reward = service.calculation.checkReward(result, rewardCallback)(betItem);
-                      if (reward) {
-                        const winningItemStyle = { ...itemStyle, fontWeight: 'bold', color: '#B71C1C' };
-                        return (
-                          <li key={`bet-it--${betItem.id}`} style={winningItemStyle}>
-                            {reward}
-                          </li>
-                        );
-                      }
-                      const price1Label = betItem.number.length > 2 ? ' เต็ง ' : ' บน ';
-                      const price2Label = betItem.number.length > 2 ? ' โต๊ด ' : ' ล่าง ';
-                      const price3Label = ' ล่าง ';
-                      let bet = `${betItem.number} =`;
-                      bet += betItem.price1 ? `${price1Label}${betItem.price1}` : '';
-                      bet += betItem.price2 ? `${price2Label}${betItem.price2}` : '';
-                      bet += betItem.price3 ? `${price3Label}${betItem.price3}` : '';
-                      return (
-                        <li key={`bet-it--${betItem.id}`} style={itemStyle}>
-                          {bet}
-                        </li>
-                      );
-                    }
-                  )}
-                </ul>
-                <div>
-                  {!currentPeriod.isOpen && this.state.processingUser === buyer.name && <span style={{ fontWeight: 'bold' }}>...</span>}
-                  {!currentPeriod.isOpen && this.state.processingUser !== buyer.name && (
-                    <label htmlFor={`paid-check-for-${buyer.name}`}>
-                      <input
-                        checked={buyer.bets.map(bet => bet.isPaid).includes(true)}
-                        id={`paid-check-for-${buyer.name}`}
-                        onChange={this.setPaid(currentPeriod.id, buyer.id, !paid)}
-                        style={{ marginRight: '1em' }}
-                        type="checkbox"
-                      />
-                      {paid ? 'จ่ายแล้ว' : `ต้องจ่ายทั้งหมด: ${sumPrice}`}</label>
-                  )}
+      <div>
+        <div>
+          <div style={style.summary.container}>
+            <div style={{ ...style.summary.item.base, ...style.summary.item.date }}>
+              {moment(currentPeriod.endedAt).format('D MMMM YYYY')}
+            </div>
+            <div style={style.summary.item.base}>{`total: ${total} ฿`}</div>
+            <div style={style.action.container}>
+              <button style={style.action.button} onClick={this.copyToClipboard}>copy to clipboard</button>
+            </div>
+          </div>
+          <div id="for-clipboard">
+            {buyers.map((buyer) => {
+              const sumPrice = buyer.bets
+                .map(service.calculation.calculateTotal(result))
+                .reduce((a, b) => a + b);
+              // check if this user paid or not
+              const paid = buyer.bets
+                .map(bet => bet.isPaid)
+                .includes(true);
+              const itemStyle = paid ? styles.paidItem : {};
+              return (
+                <div key={buyer.name} style={style.list.item.container}>
+                  <div style={style.list.item.title}>{buyer.name}</div>
+                  <div style={style.list.item.body}>
+                    <ul>
+                      {buyer.bets
+                        .map((betItem) => {
+                          const rewardCallback = (number, price, reward, rewardType) => `ถูก ${rewardType} [${number}] ${price} x ${reward} = ${price * reward} บาท`;
+                          const reward = service.calculation.checkReward(result, rewardCallback)(betItem);
+                          if (reward) {
+                            const winningItemStyle = { ...itemStyle, fontWeight: 'bold', color: '#B71C1C' };
+                            return (
+                              <li key={`bet-it--${betItem.id}`} style={winningItemStyle}>
+                                {reward}
+                              </li>
+                            );
+                          }
+                          const price1Label = betItem.number.length > 2 ? ' เต็ง ' : ' บน ';
+                          const price2Label = betItem.number.length > 2 ? ' โต๊ด ' : ' ล่าง ';
+                          const price3Label = ' ล่าง ';
+                          let bet = `${betItem.number} =`;
+                          bet += betItem.price1 ? `${price1Label}${betItem.price1}` : '';
+                          bet += betItem.price2 ? `${price2Label}${betItem.price2}` : '';
+                          bet += betItem.price3 ? `${price3Label}${betItem.price3}` : '';
+                          return (
+                            <li key={`bet-it--${betItem.id}`} style={itemStyle}>
+                              {bet}
+                            </li>
+                          );
+                        }
+                      )}
+                    </ul>
+                  </div>
+                  <div style={style.action.container}>
+                    {!currentPeriod.isOpen && this.state.processingUser === buyer.name && <span style={{ fontWeight: 'bold' }}>...</span>}
+                    {!currentPeriod.isOpen && this.state.processingUser !== buyer.name && (
+                      <label htmlFor={`paid-check-for-${buyer.name}`} style={style.action.button}>
+                        <input
+                          checked={buyer.bets.map(bet => bet.isPaid).includes(true)}
+                          id={`paid-check-for-${buyer.name}`}
+                          onChange={this.setPaid(currentPeriod.id, buyer.id, !paid)}
+                          style={{ marginRight: '1em' }}
+                          type="checkbox"
+                        />
+                        {paid ? 'จ่ายแล้ว' : `ต้องจ่ายทั้งหมด: ${sumPrice} ฿`}</label>
+                    )}
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
-        <FAB active onClick={this.copyToClipboard} themeColor={themeColor}>
-          <i className="material-icons">content_copy</i>
-        </FAB>
         <Snackbar active={hasAlert} text={alertText} onClose={() => this.setState({ hasAlert: false, alertText: '' })} />
       </div>
     );
@@ -196,8 +266,6 @@ const mapDispatchToProps = dispatch => (
 SummaryPage.propTypes = {
   currentPeriod: constants.customPropType.periodShape,
   setFetching: PropTypes.func.isRequired,
-  setPageName: PropTypes.func,
-  themeColor: PropTypes.string,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SummaryPage);

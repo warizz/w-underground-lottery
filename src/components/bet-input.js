@@ -40,7 +40,17 @@ const style = {
     border: '1px solid #d9d9d9',
     borderTop: '1.5px solid #c0c0c0',
     padding: '5px 5px 5px 10px',
-    letterSpacing: '3px',
+  },
+  button: {
+    random: {
+      background: '#e0e1e2 none',
+      color: 'rgba(0,0,0,.6)',
+      height: '32px',
+      border: 'none',
+      borderRadius: '3px',
+      padding: '5px 10px',
+      margin: '0 0 10px 10px',
+    },
   },
   action: {
     container: {
@@ -80,9 +90,9 @@ class BetInput extends React.Component {
     this.handleNumberChange = this.handleNumberChange.bind(this);
     this.handleSaveBet = this.handleSaveBet.bind(this);
     this.getRandomNumber = this.getRandomNumber.bind(this);
+    this.reset = this.reset.bind(this);
   }
   componentWillReceiveProps(nextProps) {
-    if (!nextProps.open) return;
     this.setState({
       enablePrice3: nextProps.editingBet ? nextProps.editingBet.number.toString().length > 2 : false,
       id: nextProps.editingBet ? nextProps.editingBet.id : '',
@@ -93,8 +103,7 @@ class BetInput extends React.Component {
     });
   }
   shouldComponentUpdate(nextProps, nextState) {
-    return (nextProps.open !== this.props.open)
-      || (nextState !== this.state);
+    return (nextState !== this.state);
   }
   getRandomNumber() {
     const number = getRandomNumber(1, 3);
@@ -110,6 +119,16 @@ class BetInput extends React.Component {
         hasAlert: true,
       });
     };
+  }
+  reset() {
+    this.setState({
+      enablePrice3: false,
+      id: '',
+      number: '',
+      price1: '',
+      price2: '',
+      price3: '',
+    });
   }
   handlePriceChange(key) {
     return (e) => {
@@ -184,59 +203,58 @@ class BetInput extends React.Component {
       <div style={style.container}>
         <Snackbar active={hasAlert} text={alertText} timer={2000} onClose={() => this.setState({ hasAlert: false, alertText: '' })} />
         <div style={style.body}>
-          <div style={style.inputGroup}>
-            <label htmlFor="number">เลข</label>
-            <input
-              autoFocus
-              id="number"
-              onChange={this.handleNumberChange}
-              style={{ ...style.input, width: '70px' }}
-              type="number"
-              value={this.state.number}
-            />
+          <div style={{ display: 'flex', alignItems: 'flex-end' }}>
+            <div style={style.inputGroup}>
+              <label htmlFor="number">เลข</label>
+              <input
+                autoFocus
+                id="number"
+                onChange={this.handleNumberChange}
+                style={{ ...style.input, width: '70px' }}
+                type="number"
+                value={this.state.number}
+              />
+            </div>
+            <button style={style.button.random} onClick={this.getRandomNumber}>random</button>
           </div>
-          {
-            // <div>
-            //   <label htmlFor="btn-random">&nbsp;</label>
-            //   <button id="btn-random" onClick={this.getRandomNumber}>random</button>
-            // </div>
-          }
-          <div style={style.inputGroup}>
-            {this.state.enablePrice3 === false && <label htmlFor="price1">บน</label>}
-            {this.state.enablePrice3 && <label htmlFor="price1">เต็ง</label>}
-            <input
-              id="price1"
-              onChange={this.handlePriceChange('price1')}
-              style={{ ...style.input, width: '120px' }}
-              type="number"
-              value={this.state.price1}
-            />
-          </div>
-          <div style={style.inputGroup}>
-            {this.state.enablePrice3 === false && <label htmlFor="price2">ล่าง</label>}
-            {this.state.enablePrice3 && <label htmlFor="price1">โต๊ด</label>}
-            <input
-              id="price2"
-              onChange={this.handlePriceChange('price2')}
-              style={{ ...style.input, width: '120px' }}
-              type="number"
-              value={this.state.price2}
-            />
-          </div>
-          <div style={{ ...style.inputGroup, visibility: this.state.enablePrice3 ? 'visible' : 'hidden' }}>
-            <label htmlFor="price3">ล่าง</label>
-            <input
-              id="price3"
-              onChange={this.handlePriceChange('price3')}
-              style={{ ...style.input, width: '120px' }}
-              type="number"
-              value={this.state.price3 || ''}
-            />
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <div style={style.inputGroup}>
+              {this.state.enablePrice3 === false && <label htmlFor="price1">บน</label>}
+              {this.state.enablePrice3 && <label htmlFor="price1">เต็ง</label>}
+              <input
+                id="price1"
+                onChange={this.handlePriceChange('price1')}
+                style={{ ...style.input, width: '85px' }}
+                type="number"
+                value={this.state.price1}
+              />
+            </div>
+            <div style={style.inputGroup}>
+              {this.state.enablePrice3 === false && <label htmlFor="price2">ล่าง</label>}
+              {this.state.enablePrice3 && <label htmlFor="price1">โต๊ด</label>}
+              <input
+                id="price2"
+                onChange={this.handlePriceChange('price2')}
+                style={{ ...style.input, width: '85px' }}
+                type="number"
+                value={this.state.price2}
+              />
+            </div>
+            <div style={{ ...style.inputGroup, visibility: this.state.enablePrice3 ? 'visible' : 'hidden' }}>
+              <label htmlFor="price3">ล่าง</label>
+              <input
+                id="price3"
+                onChange={this.handlePriceChange('price3')}
+                style={{ ...style.input, width: '85px' }}
+                type="number"
+                value={this.state.price3 || ''}
+              />
+            </div>
           </div>
         </div>
         <div style={style.action.container}>
-          <button style={{ ...style.action.button.base, ...style.action.button.cancel }} onClick={this.props.onClose}>cancel</button>
-          <button style={{ ...style.action.button.base, ...style.action.button.bet }} onClick={this.handleSaveBet}>bet</button>
+          <button style={{ ...style.action.button.base, ...style.action.button.cancel }} onClick={this.reset}>reset</button>
+          <button style={{ ...style.action.button.base, ...style.action.button.bet }} onClick={this.handleSaveBet}>save</button>
         </div>
       </div>
     );
@@ -245,8 +263,6 @@ class BetInput extends React.Component {
 
 BetInput.propTypes = {
   editingBet: constants.customPropType.betShape,
-  onClose: PropTypes.func.isRequired,
-  open: PropTypes.bool.isRequired,
   saveBetHandler: PropTypes.func.isRequired,
 };
 

@@ -6,10 +6,61 @@ import actions from '../actions/index';
 import constants from '../constants/index';
 import service from '../services/index';
 
-const styles = {
-  base: {
-    marginTop: '20px',
-    ...constants.elementStyle.flexContainerColumnCenter,
+const style = {
+  container: {
+    position: 'relative',
+    backgroundColor: 'white',
+    width: '300px',
+    maxWidth: '300px',
+    border: '1px solid #b8bfc3',
+    borderRadius: '5px',
+    overflow: 'hidden',
+  },
+  body: {
+    container: {
+      padding: '10px',
+    },
+    input: {
+      group: {
+        display: 'flex',
+        flexDirection: 'column',
+        margin: '0 0 10px 0',
+      },
+      label: {},
+      textBox: {
+        border: '1px solid #d9d9d9',
+        borderTop: '1.5px solid #c0c0c0',
+        padding: '5px 5px 5px 10px',
+        letterSpacing: '3px',
+      },
+    },
+  },
+  action: {
+    container: {
+      backgroundColor: '#F6F7F9',
+    },
+    button: {
+      base: {
+        backgroundColor: 'transparent',
+        border: 'none',
+        fontWeight: 'bold',
+        padding: '10px',
+        width: '100%',
+      },
+      result: {
+        color: 'rgb(148, 146, 146)',
+        display: 'block',
+        borderTop: '1px solid #b8bfc3',
+        textAlign: 'center',
+      },
+      open: {
+        color: '#286090',
+        borderTop: '1px solid #b8bfc3',
+      },
+      close: {
+        color: 'rgb(191, 58, 58)',
+      },
+    },
   },
 };
 
@@ -23,7 +74,7 @@ class DashboardPage extends React.Component {
     this.closePeriod = this.closePeriod.bind(this);
   }
   componentWillMount() {
-    this.props.setPageName('Host dashboard');
+    this.props.setPageName('Admin dashboard');
   }
   onEndDateChange() {
     return e => this.setState({ endDate: e.target.value });
@@ -42,46 +93,49 @@ class DashboardPage extends React.Component {
   closePeriod() {
     const self = this;
     self.props.setFetching(true);
-    const { _id } = this.props.currentPeriod;
+    const { id } = this.props.currentPeriod;
     service.data
-      .closePeriod(_id)
-      .then((currentPeriod) => {
-        self.props.setCurrentPeriod(currentPeriod);
-        self.props.setFetching(false);
+      .closePeriod(id)
+      .then(() => {
+        service.data
+          .getCurrentPeriod()
+          .then((res) => {
+            self.props.setCurrentPeriod(res);
+            self.props.setFetching(false);
+          });
       });
   }
   render() {
     const { currentPeriod } = this.props;
     return (
-      <div style={styles.base}>
-        <div className="container-fluid">
-          {(!currentPeriod || !currentPeriod.isOpen) && (
-            <div className="row">
-              <div className="col-xs-12">
-                <label htmlFor="txt--start-date">วันหวยออก</label>
-                <input type="date" className="form-control" id="txt--start-date" value={this.state.endDate} onChange={this.onEndDateChange()} />
-              </div>
-              <div className="col-xs-12">
-                <button className="btn btn-primary btn-block" style={{ marginBottom: '1em' }} onClick={this.openPeriod}>
-                  <span>เปิดแทง</span>
-                </button>
-              </div>
-              <div className="col-xs-12">
-                <Link to={'/dashboard/result'} className="btn btn-default btn-block">
-                  <span>กรอกผลรางวัลงวดล่าสุด</span>
-                </Link>
+      <div>
+        {(!currentPeriod || !currentPeriod.isOpen) && (
+          <div style={style.container}>
+            <div style={style.body.container}>
+              <div style={style.body.input.group}>
+                <label htmlFor="txt-start-date">วันหวยออก</label>
+                <input type="date" id="txt-start-date" style={style.body.input.textBox} value={this.state.endDate} onChange={this.onEndDateChange()} />
               </div>
             </div>
-          )}
-          {currentPeriod && currentPeriod.isOpen && (
-            <button className="btn btn-danger btn-block" style={{ marginBottom: '1em' }} onClick={this.closePeriod}>
-              <span>ปิดรับแทง</span>
-            </button>
-          )}
-          <Link to={'/dashboard/summary'} className="btn btn-default btn-block" style={{ marginTop: '1em' }}>
-            <span>ดูสรุปยอดของงวดล่าสุด</span>
-          </Link>
-        </div>
+            <div style={style.action.container}>
+              <button style={{ ...style.action.button.base, ...style.action.button.open }} onClick={this.openPeriod}>
+                <span>เปิดแทง</span>
+              </button>
+              <Link to="/dashboard/result" style={{ ...style.action.button.base, ...style.action.button.result }}>
+                กรอกผลรางวัลงวดล่าสุด
+              </Link>
+            </div>
+          </div>
+        )}
+        {currentPeriod && currentPeriod.isOpen && (
+          <div style={style.container}>
+            <div style={style.action.container}>
+              <button style={{ ...style.action.button.base, ...style.action.button.close }} onClick={this.closePeriod}>
+                <span>ปิดรับแทง</span>
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     );
   }
