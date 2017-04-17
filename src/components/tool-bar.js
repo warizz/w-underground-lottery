@@ -2,14 +2,13 @@ import React, { PropTypes } from 'react';
 
 const styles = {
   appName: {
-    color: 'white',
     fontSize: '1em',
     fontWeight: 'bold',
     marginLeft: '1em',
   },
   base: {
     alignItems: 'center',
-    boxShadow: '0 3px 4px 0 rgba(0,0,0,0.14), 0 3px 3px -2px rgba(0,0,0,0.12), 0 1px 8px 0 rgba(0,0,0,0.2)',
+    backgroundColor: '#E9EBEE',
     display: 'flex',
     height: '50px',
     padding: '0 20px',
@@ -17,6 +16,7 @@ const styles = {
     top: 0,
     width: '100%',
     zIndex: 1,
+    opacity: '0.8',
   },
   iconButton: {
     backgroundColor: 'transparent',
@@ -31,13 +31,18 @@ class ToolBar extends React.Component {
     return nextProps.pageName !== this.props.pageName;
   }
   render() {
-    const { themeColor = 'black', onClickMenuButton, pageName } = this.props;
-    const baseStyle = Object.assign(styles.base, { backgroundColor: themeColor });
+    const { pageName } = this.props;
     return (
-      <div style={baseStyle}>
-        <button style={styles.iconButton} onClick={onClickMenuButton}>
-          <i style={{ color: 'white' }} className="material-icons">menu</i>
+      <div style={styles.base}>
+        {pageName === 'Home' && (
+          <i className="material-icons">home</i>
+        )}
+        {pageName !== 'Home' && (
+        <button style={styles.iconButton} onClick={() => history.back()}>
+          <i className="material-icons">keyboard_backspace</i>
         </button>
+          )
+        }
         <span style={styles.appName}>{pageName}</span>
       </div>
     );

@@ -10,7 +10,7 @@ import Snackbar from '../components/snackbar';
 
 const styles = {
   content: {
-    marginTop: '70px',
+    marginTop: '50px',
     display: 'flex',
     alignItems: 'center',
     flexDirection: 'column',
@@ -30,7 +30,6 @@ class Layout extends React.Component {
   }
   render() {
     const { alert, fetching, periods = [], setAlert, user } = this.props;
-    console.log(user);
     if (!user) return null;
     // pass username to content page
     const childrensProps = { user, isAdmin: user.is_admin, periods, themeColor: constants.color.primary };

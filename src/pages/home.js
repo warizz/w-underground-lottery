@@ -28,7 +28,7 @@ class Home extends React.Component {
     this.switchFaqToggle = this.switchFaqToggle.bind(this);
   }
   componentDidMount() {
-    this.props.setPageName('Bet');
+    this.props.setPageName('Home');
   }
   setEditingBet(editingBet) {
     this.inputToggle();

@@ -42,19 +42,6 @@ const style = {
         },
       },
     },
-  }
-}
-
-const styles = {
-  base: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    marginTop: '1em',
-  },
-  cardContainer: {
-    height: '90vh',
-    overflow: 'auto',
   },
 };
 
@@ -131,9 +118,9 @@ class HistoryPage extends React.Component {
     }
 
     return (
-      <div style={styles.base}>
+      <div>
         <Snackbar active={hasAlert} text={alertText} timer={1000} onClose={() => this.setState({ hasAlert: false, alertText: '' })} />
-        <div style={styles.cardContainer}>
+        <div>
           {history.map(h => (
             <div key={h.id} style={style.bet.container}>
               <div style={style.bet.title}>{moment(h.endedAt).format('DD MMM YYYY')}</div>
