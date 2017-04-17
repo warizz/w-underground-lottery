@@ -21,6 +21,7 @@ const style = {
       borderBottom: '1px solid #b8bfc3',
       padding: '10px',
       fontWeight: 'bold',
+      textAlign: 'center',
     },
     body: {
       backgroundColor: 'white',
