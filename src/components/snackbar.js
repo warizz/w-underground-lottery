@@ -1,35 +1,5 @@
 import React, { PropTypes } from 'react';
-
-const styles = {
-  active: {
-    bottom: '1em',
-  },
-  base: {
-    display: 'flex',
-    height: '3em',
-    justifyContent: 'center',
-    left: 0,
-    padding: '0 1em',
-    position: 'fixed',
-    right: 0,
-    transition: 'bottom .3s',
-    width: '100%',
-    zIndex: 4,
-  },
-  inactive: {
-    bottom: '-3em',
-  },
-  snackbar: {
-    alignItems: 'center',
-    backgroundColor: 'black',
-    boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)',
-    color: 'orange',
-    display: 'flex',
-    height: '100%',
-    paddingLeft: '1em',
-    width: '300px',
-  },
-};
+import './snackbar.css';
 
 class Snackbar extends React.Component {
   componentWillMount() {
@@ -63,12 +33,10 @@ class Snackbar extends React.Component {
   render() {
     const { text } = this.props;
     const { active } = this.state;
-    const baseStyle = active ? { ...styles.base, ...styles.active } : { ...styles.base, ...styles.inactive };
+    const containerClassName = `snackbar${active ? ' active' : ' inactive'}`;
     return (
-      <div style={baseStyle}>
-        <div style={styles.snackbar}>
-          {text}
-        </div>
+      <div className={containerClassName}>
+        <div className="body">{text}</div>
       </div>
     );
   }

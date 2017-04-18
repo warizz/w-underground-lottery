@@ -1,0 +1,51 @@
+div.snackbar
+{
+    position: fixed;
+    z-index: 4;
+    bottom: 0;
+
+    display: flex;
+
+    width: 100%;
+
+    justify-content: center;
+}
+
+div.snackbar.active
+{
+    visibility: visible;
+}
+
+div.snackbar.inactive
+{
+    visibility: hidden;
+}
+
+div.snackbar > div.body
+{
+    display: flex;
+
+    padding: 10px;
+
+    color: orange;
+    background-color: black;
+    box-shadow: 0 3px 6px rgba(0,0,0,.16), 0 3px 6px rgba(0,0,0,.23);
+
+    align-items: center;
+}
+
+@media (max-width: 420px)
+{
+    div.snackbar > div.body
+    {
+        width: 100vw;
+    }
+}
+
+@media (min-width: 420px)
+{
+    div.snackbar > div.body
+    {
+        width: 300px;
+    }
+}
