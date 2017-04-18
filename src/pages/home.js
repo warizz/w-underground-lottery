@@ -8,7 +8,6 @@ import ResultDisplay from '../components/result-display';
 import actions from '../actions/index';
 import constants from '../constants/index';
 import service from '../services/index';
-import Snackbar from '../components/snackbar';
 import UserProfile from '../components/user-profile';
 
 class Home extends React.Component {
@@ -145,10 +144,6 @@ class Home extends React.Component {
     }
     return (
       <div>
-        {
-          // <Snackbar active={hasAlert} text={alertText} timer={1000} onClose={() => this.setState({ hasAlert: false, alertText: '' })} />
-          // <FaqDialog active={this.state.faqOpen} toggle={this.switchFaqToggle} />
-        }
         <div style={{ display: 'flex', alignItems: 'flex-start' }}>
           <div className="visible-md visible-lg">
             <UserProfile name={user.name} pictureUrl={user.picture} isAdmin={user.is_admin} logOutHandler={this.logOut} />
@@ -214,6 +209,9 @@ Home.propTypes = {
     name: PropTypes.string.isRequired,
     picture: PropTypes.string.isRequired,
     is_admin: PropTypes.bool.isRequired,
+  }),
+  router: PropTypes.shape({
+    push: PropTypes.func.isRequired,
   }),
 };
 
