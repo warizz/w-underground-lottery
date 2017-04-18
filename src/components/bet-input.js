@@ -202,7 +202,7 @@ class BetInput extends React.Component {
     return (
       <div style={style.container}>
         <Snackbar active={hasAlert} text={alertText} timer={2000} onClose={() => this.setState({ hasAlert: false, alertText: '' })} />
-        <div style={style.body}>
+        <div id="bet-editor" style={style.body}>
           <div style={{ display: 'flex', alignItems: 'flex-end' }}>
             <div style={style.inputGroup}>
               <label htmlFor="number">เลข</label>

@@ -32,6 +32,10 @@ class Home extends React.Component {
   setEditingBet(editingBet) {
     this.inputToggle();
     this.setState({ editingBet });
+    const editor = document.getElementById('bet-editor');
+    if (editor) {
+      editor.scrollIntoView(false);
+    }
   }
   setAlert(alertText) {
     return () => {
