@@ -5,15 +5,9 @@ import actions from '../actions/index';
 import constants from '../constants/index';
 import service from '../services/index';
 import Snackbar from '../components/snackbar';
+import './result.css';
 
 const validateNumber = value => /^[0-9]*$/.test(value);
-
-const styles = {
-  base: {
-    marginTop: '1em',
-    ...constants.elementStyle.flexContainerColumnCenter,
-  },
-};
 
 class ResultInputPage extends React.Component {
   constructor(props) {
@@ -110,65 +104,63 @@ class ResultInputPage extends React.Component {
     const secondThreeInvalidAndDirty = !secondThreeValid && this.state.secondThreeDirty;
     const validInput = sixValid && twoValid && firstThreeValid && secondThreeValid;
     return (
-      <div style={styles.base}>
-        <form className="col-sm-12 col-md-3">
-          <h3 style={{ margin: '1em 0 1em 0', textAlign: 'center' }}>
-            {`งวดวันที่ ${moment(currentPeriod.endedAt).format('DD MMM YYYY')}`}
-          </h3>
-          <div className="row" style={constants.elementStyle.flexContainerColumnCenter}>
-            <div className={`form-group col-xs-6${sixInvalidAndDirty ? ' has-error' : ''}`}>
-              <label className="control-label" htmlFor="six">รางวัลที่หนึ่ง</label>
+      <div className="result-editor">
+        <div className="title">
+          {`งวดวันที่ ${moment(currentPeriod.endedAt).format('DD MMM YYYY')}`}
+        </div>
+        <div className="body">
+          <div className="row center">
+            <div className={`input-group ${sixInvalidAndDirty ? ' has-error' : ''}`}>
+              <label htmlFor="six">รางวัลที่หนึ่ง</label>
               <input
                 id="six"
-                className="form-control"
                 min="0"
                 onChange={this.onInputChange('six', 6)}
                 onKeyPress={this.handleNumberValidation}
-                type="tel"
+                type="number"
                 value={this.state.six}
               />
-              {sixInvalidAndDirty && <label className="control-label" htmlFor="six">ต้องเป็นเลข 6 ตัว</label>}
+              {sixInvalidAndDirty && <label htmlFor="six">ต้องเป็นเลข 6 ตัว</label>}
             </div>
           </div>
-          <div className="row" style={constants.elementStyle.flexContainerColumnCenter}>
-            <div className={`form-group col-xs-6${twoInvalidAndDirty ? ' has-error' : ''}`}>
-              <label className="control-label" htmlFor="two">เลขท้ายสองตัว</label>
+          <div className="row center">
+            <div className={`input-group ${twoInvalidAndDirty ? ' has-error' : ''}`}>
+              <label htmlFor="two">เลขท้ายสองตัว</label>
               <input
                 id="two"
-                className="form-control"
                 onChange={this.onInputChange('two', 2)}
-                type="tel"
+                type="number"
                 value={this.state.two}
               />
-              {twoInvalidAndDirty && <label className="control-label" htmlFor="two">ต้องเป็นเลข 2 ตัว</label>}
+              {twoInvalidAndDirty && <label htmlFor="two">ต้องเป็นเลข 2 ตัว</label>}
             </div>
           </div>
-          <div className="row">
-            <div className={`form-group col-xs-6${firstThreeInvalidAndDirty ? ' has-error' : ''}`}>
-              <label className="control-label" htmlFor="firstThree">สามตัวล่าง #1</label>
+          <div className="row space-between">
+            <div className={`input-group ${firstThreeInvalidAndDirty ? ' has-error' : ''}`}>
+              <label htmlFor="firstThree">สามตัวล่าง #1</label>
               <input
                 id="firstThree"
-                className="form-control"
                 onChange={this.onInputChange('firstThree', 3)}
-                type="tel"
+                type="number"
                 value={this.state.firstThree}
               />
-              {firstThreeInvalidAndDirty && <label className="control-label" htmlFor="firstThree">ต้องเป็นเลข 3 ตัว</label>}
+              {firstThreeInvalidAndDirty && <label htmlFor="firstThree">ต้องเป็นเลข 3 ตัว</label>}
             </div>
-            <div className={`form-group col-xs-6${secondThreeInvalidAndDirty ? ' has-error' : ''}`}>
-              <label className="control-label" htmlFor="secondThree">สามตัวล่าง #2</label>
+            <div className={`input-group ${secondThreeInvalidAndDirty ? ' has-error' : ''}`}>
+              <label htmlFor="secondThree">สามตัวล่าง #2</label>
               <input
                 id="secondThree"
-                className="form-control"
                 onChange={this.onInputChange('secondThree', 3)}
-                type="tel"
+                type="number"
                 value={this.state.secondThree}
               />
-              {secondThreeInvalidAndDirty && <label className="control-label" htmlFor="secondThree">ต้องเป็นเลข 3 ตัว</label>}
+              {secondThreeInvalidAndDirty && <label htmlFor="secondThree">ต้องเป็นเลข 3 ตัว</label>}
             </div>
           </div>
-          <button className="btn btn-primary btn-block" onClick={this.handleSaveInput} disabled={!validInput}>save</button>
-        </form>
+        </div>
+        <div className="action">
+          <button className="save" onClick={this.handleSaveInput} disabled={!validInput}>save</button>
+        </div>
         <Snackbar active={hasAlert} text={alertText} onClose={() => this.setState({ hasAlert: false, alertText: '' })} />
       </div>
     );

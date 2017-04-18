@@ -1,0 +1,96 @@
+div.result-editor
+{
+    position: relative;
+
+    overflow: hidden;
+
+    width: 300px;
+    max-width: 300px;
+    height: 100%;
+
+    border: 1px solid #b8bfc3;
+    border-radius: 5px;
+    background-color: white;
+}
+
+div.result-editor > div.title
+{
+    font-weight: bold;
+
+    padding: 10px;
+
+    text-align: center;
+
+    border-bottom: 1px solid #b8bfc3;
+    background-color: white;
+}
+
+div.result-editor > div.body
+{
+    padding: 10px;
+}
+
+div.result-editor > div.body > div.row
+{
+    padding: 10px;
+}
+
+div.result-editor > div.body > div.row.center
+{
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+}
+
+div.result-editor > div.body > div.row.space-between
+{
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+}
+
+div.result-editor > div.body > div.row > div.input-group
+{
+    display: flex;
+    flex-direction: column;
+
+    width: 40%;
+}
+
+div.result-editor > div.body > div.row > div.input-group.has-error
+{
+    font-weight: bold;
+
+    color: red;
+}
+
+div.result-editor > div.body > div.row > div.input-group > input[type='number']
+{
+    width: 100%;
+    padding: 5px 5px 5px 10px;
+
+    letter-spacing: 3px;
+
+    border: 1px solid #d9d9d9;
+    border-top: 1.5px solid #c0c0c0;
+}
+
+div.result-editor > div.action
+{
+    border-top: 1px solid #b8bfc3;
+    background-color: #f6f7f9;
+}
+
+div.result-editor > div.action > button.save
+{
+    font-weight: bold;
+
+    width: 100%;
+    padding: 10px;
+
+    color: #286090;
+    border: none;
+    background-color: transparent;
+}
