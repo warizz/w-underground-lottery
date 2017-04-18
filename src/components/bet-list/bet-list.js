@@ -2,34 +2,7 @@ import React, { PropTypes } from 'react';
 import { discountPercent } from '../../config';
 import constants from '../../constants/index';
 import BetItem from './bet-item';
-
-const style = {
-  container: {
-    width: '300px',
-    maxWidth: '300px',
-  },
-  summary: {
-    container: {
-      backgroundColor: 'white',
-      border: '1px solid #b8bfc3',
-      borderRadius: '5px',
-      fontWeight: 'bold',
-      margin: '0 0 10px 0',
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'space-between',
-    },
-    item: {
-      base: {
-        padding: '10px',
-      },
-      date: {
-        borderBottom: '1px solid #b8bfc3',
-        textAlign: 'center',
-      },
-    },
-  },
-};
+import './bet-list.css';
 
 class BetList extends React.Component {
   static calculateTotal(betItem) {
@@ -54,12 +27,12 @@ class BetList extends React.Component {
       .map(BetList.calculateTotal)
       .reduce((a, b) => a + b) : null;
     return (
-      <div style={style.container}>
-        <div style={style.summary.container}>
-          <div style={{ ...style.summary.item.base, ...style.summary.item.date }}>
+      <div className="bet-list">
+        <div className="summary">
+          <div className="item date">
             {periodEndedAt}
           </div>
-          <div style={style.summary.item.base}>{`total: ${total || 0} ฿`}</div>
+          <div className="item">{`total: ${total || 0} ฿`}</div>
         </div>
         <div>
           {bets.length > 0 && (

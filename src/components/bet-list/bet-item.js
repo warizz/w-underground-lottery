@@ -1,68 +1,6 @@
 import React, { PropTypes } from 'react';
 import constants from '../../constants/index';
-
-const style = {
-  container: {
-    border: '1px solid #b8bfc3',
-    borderRadius: '5px',
-    overflow: 'hidden',
-    maxWidth: '300px',
-    width: '300px',
-    margin: '0 0 10px 0',
-  },
-  detail: {
-    container: {
-      backgroundColor: 'white',
-      padding: '10px',
-      display: 'flex',
-      flexDirection: 'column',
-    },
-    header: {
-      container: {
-        display: 'flex',
-        justifyContent: 'space-between',
-      },
-      reward: {
-        display: 'flex',
-        alignItems: 'center',
-        fontWeight: 'bold',
-      },
-    },
-    price: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-    },
-    reward: {
-      display: 'flex',
-      alignItems: 'center',
-      color: '#689F38',
-      fontWeight: 'bold',
-    },
-  },
-  action: {
-    container: {
-      backgroundColor: '#F6F7F9',
-      borderTop: '1px solid #b8bfc3',
-    },
-    button: {
-      base: {
-        backgroundColor: 'transparent',
-        border: 'none',
-        fontWeight: 'bold',
-        padding: '10px',
-        width: '50%',
-      },
-      edit: {
-        color: 'rgb(148, 146, 146)',
-        borderRight: '1px solid #b8bfc3',
-      },
-      delete: {
-        color: 'rgb(191, 58, 58)',
-      },
-    },
-  },
-};
+import './bet-item.css';
 
 class BetItem extends React.Component {
   handleEdit(bet) {
@@ -116,31 +54,31 @@ class BetItem extends React.Component {
         break;
     }
     return (
-      <div key={bet.id} style={style.container}>
-        <div style={style.detail.container}>
-          <div style={style.detail.header.container}>
-            <span><b>{bet.number}</b></span>
-            <span style={style.detail.header.reward}>reward</span>
+      <div className="bet-item" key={bet.id}>
+        <div className="body">
+          <div className="item">
+            <div><b>{bet.number}</b></div>
+            <div><b>reward</b></div>
           </div>
-          <div style={style.detail.price}>
+          <div className="item">
             {bet.price1 > 0 ? `${price1Label} ${bet.price1}` : null}
-            {bet.price1 > 0 && <span style={style.detail.reward}>{price1Reward}</span>}
+            {bet.price1 > 0 && <div className="reward">{price1Reward}</div>}
           </div>
-          <div style={style.detail.price}>
+          <div className="item">
             {bet.price2 > 0 ? `${price2Label} ${bet.price2}` : null}
-            {bet.price2 > 0 && <span style={style.detail.reward}>{price2Reward}</span>}
+            {bet.price2 > 0 && <div className="reward">{price2Reward}</div>}
           </div>
-          <div style={style.detail.price}>
+          <div className="item">
             {bet.price3 > 0 ? `${price3Label} ${bet.price3}` : null}
-            {bet.price3 > 0 && <span style={style.detail.reward}>{price3Reward}</span>}
+            {bet.price3 > 0 && <div className="reward">{price3Reward}</div>}
           </div>
         </div>
         {isEditable && (
-          <div style={style.action.container}>
-            <button style={{ ...style.action.button.base, ...style.action.button.edit }} onClick={this.handleEdit(bet)}>
+          <div className="action">
+            <button className="edit" onClick={this.handleEdit(bet)}>
               {'edit'}
             </button>
-            <button style={{ ...style.action.button.base, ...style.action.button.delete }} onClick={this.handleDelete(bet.id)}>
+            <button className="delete" onClick={this.handleDelete(bet.id)}>
               {'delete'}
             </button>
           </div>

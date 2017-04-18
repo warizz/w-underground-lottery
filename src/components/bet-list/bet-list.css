@@ -1,0 +1,33 @@
+div.bet-list
+{
+    width: 300px;
+    max-width: 300px;
+}
+
+div.bet-list > div.summary
+{
+    font-weight: bold;
+
+    display: flex;
+    flex-direction: column;
+
+    margin: 0 0 10px 0;
+
+    border: 1px solid #b8bfc3;
+    border-radius: 5px;
+    background-color: white;
+
+    justify-content: space-between;
+}
+
+div.bet-list > div.summary > div.item
+{
+    padding: 10px;
+}
+
+div.bet-list > div.summary > div.item.date
+{
+    text-align: center;
+
+    border-bottom: 1px solid #b8bfc3;
+}
