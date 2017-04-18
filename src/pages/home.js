@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import docCookies from 'doc-cookies';
 import BetList from '../components/bet-list/index';
-import BetInput from '../components/bet-input';
+import BetEditor from '../components/bet-editor';
 import ResultDisplay from '../components/result-display';
 import actions from '../actions/index';
 import constants from '../constants/index';
@@ -153,7 +153,7 @@ class Home extends React.Component {
             {
               currentPeriod.isOpen && (
                 <div className="visible-xs" style={{ marginBottom: '10px' }}>
-                  <BetInput
+                  <BetEditor
                     saveBetHandler={this.handleSaveBet}
                     editingBet={this.state.editingBet}
                     onClose={this.inputToggle}
@@ -172,7 +172,7 @@ class Home extends React.Component {
           </div>
           <div className="hidden-xs">
             {currentPeriod.isOpen && (
-              <BetInput
+              <BetEditor
                 saveBetHandler={this.handleSaveBet}
                 editingBet={this.state.editingBet}
               />

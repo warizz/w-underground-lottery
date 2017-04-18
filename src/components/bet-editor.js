@@ -76,7 +76,7 @@ const style = {
   },
 };
 
-class BetInput extends React.Component {
+class BetEditor extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -261,9 +261,9 @@ class BetInput extends React.Component {
   }
 }
 
-BetInput.propTypes = {
+BetEditor.propTypes = {
   editingBet: constants.customPropType.betShape,
   saveBetHandler: PropTypes.func.isRequired,
 };
 
-export default BetInput;
+export default BetEditor;
