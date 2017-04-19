@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import constants from '../../constants/index';
+import Card from '../card';
 import './bet-item.css';
 
 class BetItem extends React.Component {
@@ -54,35 +55,37 @@ class BetItem extends React.Component {
         break;
     }
     return (
-      <div className="bet-item" key={bet.id} tabIndex={0}>
-        <div className="body">
-          <div className="item">
-            <div><b>{bet.number}</b></div>
-            <div><b>reward</b></div>
+      <div className="bet-item">
+        <Card key={bet.id}>
+          <div className="body">
+            <div className="item">
+              <div><b>{bet.number}</b></div>
+              <div><b>reward</b></div>
+            </div>
+            <div className="item">
+              {bet.price1 > 0 ? `${price1Label} ${bet.price1}` : null}
+              {bet.price1 > 0 && <div className="reward">{price1Reward}</div>}
+            </div>
+            <div className="item">
+              {bet.price2 > 0 ? `${price2Label} ${bet.price2}` : null}
+              {bet.price2 > 0 && <div className="reward">{price2Reward}</div>}
+            </div>
+            <div className="item">
+              {bet.price3 > 0 ? `${price3Label} ${bet.price3}` : null}
+              {bet.price3 > 0 && <div className="reward">{price3Reward}</div>}
+            </div>
           </div>
-          <div className="item">
-            {bet.price1 > 0 ? `${price1Label} ${bet.price1}` : null}
-            {bet.price1 > 0 && <div className="reward">{price1Reward}</div>}
-          </div>
-          <div className="item">
-            {bet.price2 > 0 ? `${price2Label} ${bet.price2}` : null}
-            {bet.price2 > 0 && <div className="reward">{price2Reward}</div>}
-          </div>
-          <div className="item">
-            {bet.price3 > 0 ? `${price3Label} ${bet.price3}` : null}
-            {bet.price3 > 0 && <div className="reward">{price3Reward}</div>}
-          </div>
-        </div>
-        {isEditable && (
-          <div className="action">
-            <button className="edit" onClick={this.handleEdit(bet)}>
-              {'edit'}
-            </button>
-            <button className="delete" onClick={this.handleDelete(bet.id)}>
-              {'delete'}
-            </button>
-          </div>
-        )}
+          {isEditable && (
+            <div className="action">
+              <button className="border-right" onClick={this.handleEdit(bet)}>
+                {'edit'}
+              </button>
+              <button className="danger" onClick={this.handleDelete(bet.id)}>
+                {'delete'}
+              </button>
+            </div>
+          )}
+        </Card>
       </div>
     );
   }
