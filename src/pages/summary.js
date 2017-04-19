@@ -80,7 +80,11 @@ class SummaryPage extends React.Component {
     const result = currentPeriod.result;
     if (!bets || bets.length === 0) {
       return (
-        <div style={constants.elementStyle.placeholder}>{'no data'}</div>
+        <div className="summary-component">
+          <Card>
+            <div className="body center">{'no one bet yet'}</div>
+          </Card>
+        </div>
       );
     }
 
