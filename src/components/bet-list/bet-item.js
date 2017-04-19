@@ -54,7 +54,7 @@ class BetItem extends React.Component {
         break;
     }
     return (
-      <div className="bet-item" key={bet.id}>
+      <div className="bet-item" key={bet.id} tabIndex={0}>
         <div className="body">
           <div className="item">
             <div><b>{bet.number}</b></div>
