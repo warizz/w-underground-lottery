@@ -1,21 +1,7 @@
 import React, { PropTypes } from 'react';
+import service from '../services/index';
 import constants from '../constants/index';
 import Snackbar from '../components/snackbar';
-
-const validateNumber = value => /^[0-9]*$/.test(value);
-const getRandomNumber = (minLength, maxLength) => {
-  let number = '';
-  const possible = '0123456789';
-  const min = Math.ceil(minLength);
-  const max = Math.floor(maxLength);
-  const length = Math.floor(Math.random() * ((max - min) + 1)) + min;
-
-  for (let i = 0; i < length; i += 1) {
-    number += possible.charAt(Math.floor(Math.random() * possible.length));
-  }
-
-  return number;
-};
 
 const style = {
   container: {
@@ -106,7 +92,7 @@ class BetEditor extends React.Component {
     return (nextState !== this.state);
   }
   getRandomNumber() {
-    const number = getRandomNumber(1, 3);
+    const number = service.utitlity.getRandomNumber(1, 3);
     this.setState({ enablePrice3: number.length > 2 });
     this.setState({ number });
     document.getElementById('price1').focus();
@@ -132,12 +118,12 @@ class BetEditor extends React.Component {
   }
   handlePriceChange(key) {
     return (e) => {
-      if (validateNumber(e.target.value) === false) return;
+      if (service.utility.validateNumber(e.target.value) === false) return;
       this.setState({ [key]: e.target.value });
     };
   }
   handleNumberChange(e) {
-    if (validateNumber(e.target.value) === false) return;
+    if (service.utility.validateNumber(e.target.value) === false) return;
     this.setState({
       enablePrice3: e.target.value.length > 2,
       number: e.target.value.substring(0, 3),
