@@ -4,52 +4,6 @@ import constants from '../constants/index';
 import Snackbar from '../components/snackbar';
 import './bet-editor.css';
 
-const style = {
-  inputGroup: {
-    display: 'flex',
-    flexDirection: 'column',
-    margin: '0 0 10px 0',
-  },
-  input: {
-    border: '1px solid #d9d9d9',
-    borderTop: '1.5px solid #c0c0c0',
-    padding: '5px 5px 5px 10px',
-  },
-  button: {
-    random: {
-      background: '#e0e1e2 none',
-      color: 'rgba(0,0,0,.6)',
-      height: '32px',
-      border: 'none',
-      borderRadius: '3px',
-      padding: '5px 10px',
-      margin: '0 0 10px 10px',
-    },
-  },
-  action: {
-    container: {
-      backgroundColor: '#F6F7F9',
-      borderTop: '1px solid #b8bfc3',
-    },
-    button: {
-      base: {
-        backgroundColor: 'transparent',
-        border: 'none',
-        fontWeight: 'bold',
-        padding: '10px',
-        width: '50%',
-      },
-      cancel: {
-        color: 'rgb(148, 146, 146)',
-        borderRight: '1px solid #b8bfc3',
-      },
-      bet: {
-        color: '#286090',
-      },
-    },
-  },
-};
-
 class BetEditor extends React.Component {
   constructor(props) {
     super(props);
