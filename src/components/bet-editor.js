@@ -2,21 +2,9 @@ import React, { PropTypes } from 'react';
 import service from '../services/index';
 import constants from '../constants/index';
 import Snackbar from '../components/snackbar';
+import './bet-editor.css';
 
 const style = {
-  container: {
-    position: 'relative',
-    backgroundColor: 'white',
-    height: '100%',
-    width: '300px',
-    maxWidth: '300px',
-    border: '1px solid #b8bfc3',
-    borderRadius: '5px',
-    overflow: 'hidden',
-  },
-  body: {
-    padding: '10px',
-  },
   inputGroup: {
     display: 'flex',
     flexDirection: 'column',
@@ -184,63 +172,63 @@ class BetEditor extends React.Component {
     document.getElementById('number').focus();
   }
   render() {
-    const { alertText, hasAlert } = this.state;
+    // const { alertText, hasAlert } = this.state;
     return (
-      <div style={style.container} id="bet-editor" tabIndex={0}>
-        <Snackbar active={hasAlert} text={alertText} timer={2000} onClose={() => this.setState({ hasAlert: false, alertText: '' })} />
-        <div style={style.body}>
-          <div style={{ display: 'flex', alignItems: 'flex-end' }}>
-            <div style={style.inputGroup}>
+      <div className="bet-editor" id="bet-editor" tabIndex={0}>
+        {
+          // <Snackbar active={hasAlert} text={alertText} timer={2000} onClose={() => this.setState({ hasAlert: false, alertText: '' })} />
+        }
+        <div className="body">
+          <div className="row">
+            <div className="input-group">
               <label htmlFor="number">เลข</label>
               <input
                 autoFocus
                 id="number"
                 onChange={this.handleNumberChange}
-                style={{ ...style.input, width: '70px' }}
                 type="number"
                 value={this.state.number}
               />
             </div>
-            <button style={style.button.random} onClick={this.getRandomNumber}>random</button>
+            <div className="input-group">
+              <button className="random" onClick={this.getRandomNumber}>random</button>
+            </div>
           </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <div style={style.inputGroup}>
+          <div className="row">
+            <div className="input-group">
               {this.state.enablePrice3 === false && <label htmlFor="price1">บน</label>}
               {this.state.enablePrice3 && <label htmlFor="price1">เต็ง</label>}
               <input
                 id="price1"
                 onChange={this.handlePriceChange('price1')}
-                style={{ ...style.input, width: '85px' }}
                 type="number"
                 value={this.state.price1}
               />
             </div>
-            <div style={style.inputGroup}>
+            <div className="input-group">
               {this.state.enablePrice3 === false && <label htmlFor="price2">ล่าง</label>}
               {this.state.enablePrice3 && <label htmlFor="price1">โต๊ด</label>}
               <input
                 id="price2"
                 onChange={this.handlePriceChange('price2')}
-                style={{ ...style.input, width: '85px' }}
                 type="number"
                 value={this.state.price2}
               />
             </div>
-            <div style={{ ...style.inputGroup, visibility: this.state.enablePrice3 ? 'visible' : 'hidden' }}>
+            <div className={`input-group${this.state.enablePrice3 ? ' visible' : ' hidden'}`}>
               <label htmlFor="price3">ล่าง</label>
               <input
                 id="price3"
                 onChange={this.handlePriceChange('price3')}
-                style={{ ...style.input, width: '85px' }}
                 type="number"
                 value={this.state.price3 || ''}
               />
             </div>
           </div>
         </div>
-        <div style={style.action.container}>
-          <button style={{ ...style.action.button.base, ...style.action.button.cancel }} onClick={this.reset}>reset</button>
-          <button style={{ ...style.action.button.base, ...style.action.button.bet }} onClick={this.handleSaveBet}>save</button>
+        <div className="action">
+          <button className="reset" onClick={this.reset}>reset</button>
+          <button className="save" onClick={this.handleSaveBet}>save</button>
         </div>
       </div>
     );
