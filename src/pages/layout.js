@@ -34,10 +34,10 @@ class Layout extends React.Component {
     const childrenWithProps = React.cloneElement(this.props.children, childrensProps);
     return (
       <div>
-        <Snackbar active={!!alert} text={alert} onClose={() => setAlert('')} />
         <Overlay active={fetching} zIndex={4} text="..." />
         <ToolBar pageName={this.props.pageName} />
         <div style={styles.content}>
+          <Snackbar text={alert} onClose={() => setAlert('')} />
           {periods && childrenWithProps}
         </div>
       </div>

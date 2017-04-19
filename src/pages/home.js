@@ -57,6 +57,7 @@ class Home extends React.Component {
       .then((res) => {
         self.props.setCurrentPeriod(res);
         self.props.setFetching(false);
+        this.props.setAlert('deleted');
       })
       .catch(this.handleError);
     });
@@ -90,7 +91,7 @@ class Home extends React.Component {
           .then((res) => {
             this.props.setCurrentPeriod(res);
             this.props.setFetching(false);
-            this.setAlert('saved')();
+            this.props.setAlert('saved');
             this.setState({ editingBet: null });
           })
           .catch(this.handleError);
@@ -175,6 +176,7 @@ const mapStateToProps = state => (
 
 const mapDispatchToProps = dispatch => (
   {
+    setAlert: alert => dispatch(actions.layout.setAlert(alert)),
     setCurrentPeriod: currentPeriod => dispatch(actions.data.setCurrentPeriod(currentPeriod)),
     setFetching: fetching => dispatch(actions.data.setFetching(fetching)),
     setPageName: pageName => dispatch(actions.layout.setPageName(pageName)),
@@ -183,6 +185,7 @@ const mapDispatchToProps = dispatch => (
 
 Home.propTypes = {
   currentPeriod: constants.customPropType.periodShape,
+  setAlert: PropTypes.func.isRequired,
   setCurrentPeriod: PropTypes.func.isRequired,
   setFetching: PropTypes.func.isRequired,
   setPageName: PropTypes.func,

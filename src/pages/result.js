@@ -4,10 +4,7 @@ import moment from 'moment';
 import actions from '../actions/index';
 import constants from '../constants/index';
 import service from '../services/index';
-import Snackbar from '../components/snackbar';
 import './result.css';
-
-const validateNumber = value => /^[0-9]*$/.test(value);
 
 class ResultInputPage extends React.Component {
   constructor(props) {
@@ -17,11 +14,8 @@ class ResultInputPage extends React.Component {
       two: '',
       firstThree: '',
       secondThree: '',
-      active: false,
-      message: '',
     };
     this.handleSaveInput = this.handleSaveInput.bind(this);
-    this.setAlert = this.setAlert.bind(this);
   }
   componentDidMount() {
     this.props.setPageName('กรอกผลรางวัล');
@@ -39,20 +33,11 @@ class ResultInputPage extends React.Component {
   onInputChange(key, length) {
     return (e) => {
       this.setState({ [`${key}Dirty`]: true });
-      if (validateNumber(e.target.value) === false) {
+      if (service.utility.validateNumber(e.target.value) === false) {
         return;
       }
       if (e.target.value.length > length) return;
       this.setState({ [key]: e.target.value });
-    };
-  }
-  setAlert(alertText) {
-    return () => {
-      this.setState({
-        alertText,
-        fetching: false,
-        hasAlert: true,
-      });
     };
   }
   componentWillUnMount() {
@@ -78,15 +63,14 @@ class ResultInputPage extends React.Component {
           .data
           .getCurrentPeriod()
           .then((res) => {
-            self.props.setCurrentPeriod(res);
-            self.props.setFetching(false);
-            this.setAlert('saved')();
+            this.props.setCurrentPeriod(res);
+            this.props.setFetching(false);
+            this.props.setAlert('saved');
           })
           .catch(error => this.setAlert(`${error.response.status}: ${error.response.statusText}`));
       });
   }
   render() {
-    const { alertText, hasAlert } = this.state;
     const { currentPeriod } = this.props;
     if (!currentPeriod) {
       return (
@@ -161,7 +145,6 @@ class ResultInputPage extends React.Component {
         <div className="action">
           <button className="save" onClick={this.handleSaveInput} disabled={!validInput}>save</button>
         </div>
-        <Snackbar active={hasAlert} text={alertText} onClose={() => this.setState({ hasAlert: false, alertText: '' })} />
       </div>
     );
   }
@@ -171,6 +154,7 @@ const mapStateToProps = state => ({ currentPeriod: state.data.currentPeriod });
 
 const mapDispatchToProps = dispatch => (
   {
+    setAlert: alert => dispatch(actions.layout.setAlert(alert)),
     setCurrentPeriod: currentPeriod => dispatch(actions.data.setCurrentPeriod(currentPeriod)),
     setFetching: fetching => dispatch(actions.data.setFetching(fetching)),
     setPageName: pageName => dispatch(actions.layout.setPageName(pageName)),
@@ -179,6 +163,9 @@ const mapDispatchToProps = dispatch => (
 
 ResultInputPage.propTypes = {
   currentPeriod: constants.customPropType.periodShape,
+  setAlert: PropTypes.func.isRequired,
+  setCurrentPeriod: PropTypes.func.isRequired,
+  setFetching: PropTypes.func.isRequired,
   setPageName: PropTypes.func,
 };
 

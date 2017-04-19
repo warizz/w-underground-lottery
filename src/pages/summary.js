@@ -4,7 +4,6 @@ import moment from 'moment';
 import actions from '../actions/index';
 import constants from '../constants/index';
 import service from '../services/index';
-import Snackbar from '../components/snackbar';
 
 const style = {
   summary: {
@@ -129,15 +128,6 @@ class SummaryPage extends React.Component {
         .catch(this.handleError);
     };
   }
-  setAlert(alertText) {
-    return () => {
-      this.setState({
-        alertText,
-        fetching: false,
-        hasAlert: true,
-      });
-    };
-  }
   copyToClipboard() {
     const textarea = document.createElement('textarea');
     textarea.textContent = document.getElementById('for-clipboard').innerText;
@@ -146,17 +136,17 @@ class SummaryPage extends React.Component {
     textarea.select();
     document.execCommand('copy');
     document.body.removeChild(textarea);
-    this.setAlert('copied to clipboard')();
+    this.props.setAlert('copied to clipboard');
   }
   handleError(error) {
     const alertText = `${error.response.status}: ${error.response.statusText}`;
-    this.setAlert(alertText);
+    this.props.setAlert(alertText);
     this.props.setFetching(false);
   }
 
   render() {
     const { currentPeriod } = this.props;
-    const { alertText, hasAlert, summary } = this.state;
+    const { summary } = this.state;
     if (!summary) return null;
     const { bets } = summary;
     const result = currentPeriod.result;
@@ -258,7 +248,6 @@ class SummaryPage extends React.Component {
             })}
           </div>
         </div>
-        <Snackbar active={hasAlert} text={alertText} onClose={() => this.setState({ hasAlert: false, alertText: '' })} />
       </div>
     );
   }
@@ -268,6 +257,7 @@ const mapStateToProps = state => ({ currentPeriod: state.data.currentPeriod });
 
 const mapDispatchToProps = dispatch => (
   {
+    setAlert: alert => dispatch(actions.layout.setAlert(alert)),
     setFetching: fetching => dispatch(actions.data.setFetching(fetching)),
     setPageName: pageName => dispatch(actions.layout.setPageName(pageName)),
   }
@@ -275,6 +265,7 @@ const mapDispatchToProps = dispatch => (
 
 SummaryPage.propTypes = {
   currentPeriod: constants.customPropType.periodShape,
+  setAlert: PropTypes.func.isRequired,
   setFetching: PropTypes.func.isRequired,
 };
 

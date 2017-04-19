@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react';
 import service from '../services/index';
 import constants from '../constants/index';
-import Snackbar from '../components/snackbar';
 import './bet-editor.css';
 
 class BetEditor extends React.Component {

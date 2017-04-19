@@ -4,7 +4,6 @@ import moment from 'moment';
 import actions from '../actions/index';
 import constants from '../constants/index';
 import service from '../services/index';
-import Snackbar from '../components/snackbar';
 import './history.css';
 
 class HistoryPage extends React.Component {
@@ -28,7 +27,6 @@ class HistoryPage extends React.Component {
       .catch(this.handleError);
   }
   clone(currentPeriod, bets) {
-    const self = this;
     return (e) => {
       e.preventDefault();
       const newBets = bets
@@ -40,7 +38,7 @@ class HistoryPage extends React.Component {
         })
         .filter(a => a);
       if (newBets.length === 0) {
-        self.props.setAlert('nothing to clone');
+        this.props.setAlert('nothing to clone');
         return;
       }
       self.props.setFetching(true);
@@ -51,9 +49,9 @@ class HistoryPage extends React.Component {
             .data
             .getCurrentPeriod()
             .then((res) => {
-              self.props.setCurrentPeriod(res);
-              self.props.setFetching(false);
-              this.setState({ alertText: 'cloned', hasAlert: true });
+              this.props.setCurrentPeriod(res);
+              this.props.setFetching(false);
+              this.props.setAlert('cloned');
             })
             .catch(this.handleError);
         });
@@ -61,11 +59,10 @@ class HistoryPage extends React.Component {
   }
   handleError(error) {
     const alertText = `${error.response.status}: ${error.response.statusText}`;
-    this.setAlert(alertText);
+    this.props.setAlert(alertText);
     this.props.setFetching(false);
   }
   render() {
-    const { alertText, hasAlert } = this.state;
     const { currentPeriod } = this.props;
     if (!currentPeriod) return null;
     const history = this.state.history.filter((h) => {
@@ -74,7 +71,6 @@ class HistoryPage extends React.Component {
     });
     return (
       <div className="history">
-        <Snackbar active={hasAlert} text={alertText} timer={1000} onClose={() => this.setState({ hasAlert: false, alertText: '' })} />
         <div className="bet-list">
           {history.length === 0 && <div className="placeholder">{'you have no history here, make one!'}</div>}
           {history.length > 0 && history.map(h => (
@@ -121,6 +117,7 @@ const mapStateToProps = state => (
 
 const mapDispatchToProps = dispatch => (
   {
+    setAlert: alert => dispatch(actions.layout.setAlert(alert)),
     setCurrentPeriod: currentPeriod => dispatch(actions.data.setCurrentPeriod(currentPeriod)),
     setFetching: fetching => dispatch(actions.data.setFetching(fetching)),
     setPageName: pageName => dispatch(actions.layout.setPageName(pageName)),
@@ -129,6 +126,8 @@ const mapDispatchToProps = dispatch => (
 
 HistoryPage.propTypes = {
   currentPeriod: constants.customPropType.periodShape,
+  setAlert: PropTypes.func.isRequired,
+  setCurrentPeriod: PropTypes.func.isRequired,
   setFetching: PropTypes.func.isRequired,
   setPageName: PropTypes.func,
 };
