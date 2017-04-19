@@ -1,0 +1,13 @@
+div.bet-item div.item
+{
+    display: flex;
+
+    justify-content: space-between;
+}
+
+div.bet-item div.item > div.reward
+{
+    font-weight: bold;
+
+    color: #689f38;
+}

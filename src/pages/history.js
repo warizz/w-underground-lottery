@@ -4,20 +4,8 @@ import moment from 'moment';
 import actions from '../actions/index';
 import constants from '../constants/index';
 import service from '../services/index';
-import Snackbar from '../components/snackbar';
-
-const styles = {
-  base: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    marginTop: '1em',
-  },
-  cardContainer: {
-    height: '90vh',
-    overflow: 'auto',
-  },
-};
+import Card from '../components/card';
+import './history.css';
 
 class HistoryPage extends React.Component {
   constructor(props) {
@@ -40,7 +28,6 @@ class HistoryPage extends React.Component {
       .catch(this.handleError);
   }
   clone(currentPeriod, bets) {
-    const self = this;
     return (e) => {
       e.preventDefault();
       const newBets = bets
@@ -52,7 +39,7 @@ class HistoryPage extends React.Component {
         })
         .filter(a => a);
       if (newBets.length === 0) {
-        self.props.setAlert('nothing to clone');
+        this.props.setAlert('nothing to clone');
         return;
       }
       self.props.setFetching(true);
@@ -63,9 +50,9 @@ class HistoryPage extends React.Component {
             .data
             .getCurrentPeriod()
             .then((res) => {
-              self.props.setCurrentPeriod(res);
-              self.props.setFetching(false);
-              this.setState({ alertText: 'cloned', hasAlert: true });
+              this.props.setCurrentPeriod(res);
+              this.props.setFetching(false);
+              this.props.setAlert('cloned');
             })
             .catch(this.handleError);
         });
@@ -73,53 +60,49 @@ class HistoryPage extends React.Component {
   }
   handleError(error) {
     const alertText = `${error.response.status}: ${error.response.statusText}`;
-    this.setAlert(alertText);
+    this.props.setAlert(alertText);
     this.props.setFetching(false);
   }
   render() {
-    const { alertText, hasAlert } = this.state;
     const { currentPeriod } = this.props;
     if (!currentPeriod) return null;
     const history = this.state.history.filter((h) => {
       const { bets = [] } = h;
       return bets.length > 0;
     });
-
-    if (history.length === 0) {
-      return (
-        <div style={constants.elementStyle.placeholder}>{'no data'}</div>
-      );
-    }
-
     return (
-      <div style={styles.base}>
-        <Snackbar active={hasAlert} text={alertText} timer={1000} onClose={() => this.setState({ hasAlert: false, alertText: '' })} />
-        <div style={styles.cardContainer} className="col-sm-12 col-md-3">
-          {history.map(h => (
-            <div key={h.id} className="col-xs-12" style={constants.elementStyle.betCard}>
-              <div>{moment(h.endedAt).format('DD MMM YYYY')}</div>
-              <ul>
-                {h.bets
-                  .map((bet) => {
-                    const price1Label = bet.number.length > 2 ? ' เต็ง ' : ' บน ';
-                    const price2Label = bet.number.length > 2 ? ' โต๊ด ' : ' ล่าง ';
-                    const price3Label = ' ล่าง ';
-                    let historyItem = `${bet.number} =`;
-                    historyItem += bet.price1 ? `${price1Label}${bet.price1}` : '';
-                    historyItem += bet.price2 ? `${price2Label}${bet.price2}` : '';
-                    historyItem += bet.price3 ? `${price3Label}${bet.price3}` : '';
-                    return (
-                      <li key={`bet-it--${bet.id}`}>
-                        {historyItem}
-                      </li>
-                    );
-                  })
-                }
-              </ul>
-              {currentPeriod.isOpen && (
-                <button className="btn btn-primary btn-block" onClick={this.clone(currentPeriod, h.bets, service.data.insertBet)}>clone</button>
-              )}
-            </div>
+      <div className="history">
+        <div className="bet-list">
+          {history.length === 0 && <div className="placeholder">{'you have no history here, make one!'}</div>}
+          {history.length > 0 && history.map(h => (
+            <Card key={h.id}>
+              <div className="title">{moment(h.endedAt).format('DD MMM YYYY')}</div>
+              <div className="body">
+                <ul>
+                  {h.bets
+                    .map((bet) => {
+                      const price1Label = bet.number.length > 2 ? ' เต็ง ' : ' บน ';
+                      const price2Label = bet.number.length > 2 ? ' โต๊ด ' : ' ล่าง ';
+                      const price3Label = ' ล่าง ';
+                      let historyItem = `${bet.number} =`;
+                      historyItem += bet.price1 ? `${price1Label}${bet.price1}` : '';
+                      historyItem += bet.price2 ? `${price2Label}${bet.price2}` : '';
+                      historyItem += bet.price3 ? `${price3Label}${bet.price3}` : '';
+                      return (
+                        <li key={`bet-it--${bet.id}`}>
+                          {historyItem}
+                        </li>
+                      );
+                    })
+                  }
+                </ul>
+              </div>
+              <div className="action">
+                {currentPeriod.isOpen && (
+                  <button onClick={this.clone(currentPeriod, h.bets, service.data.insertBet)}>clone</button>
+                )}
+              </div>
+            </Card>
             ))}
         </div>
       </div>
@@ -135,6 +118,7 @@ const mapStateToProps = state => (
 
 const mapDispatchToProps = dispatch => (
   {
+    setAlert: alert => dispatch(actions.layout.setAlert(alert)),
     setCurrentPeriod: currentPeriod => dispatch(actions.data.setCurrentPeriod(currentPeriod)),
     setFetching: fetching => dispatch(actions.data.setFetching(fetching)),
     setPageName: pageName => dispatch(actions.layout.setPageName(pageName)),
@@ -143,6 +127,8 @@ const mapDispatchToProps = dispatch => (
 
 HistoryPage.propTypes = {
   currentPeriod: constants.customPropType.periodShape,
+  setAlert: PropTypes.func.isRequired,
+  setCurrentPeriod: PropTypes.func.isRequired,
   setFetching: PropTypes.func.isRequired,
   setPageName: PropTypes.func,
 };

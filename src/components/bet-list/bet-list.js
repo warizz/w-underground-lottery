@@ -2,88 +2,54 @@ import React, { PropTypes } from 'react';
 import { discountPercent } from '../../config';
 import constants from '../../constants/index';
 import BetItem from './bet-item';
-
-const styles = {
-  helpIcon: {
-    border: 'none',
-    backgroundColor: 'transparent',
-    marginLeft: '.5em',
-    color: '#757575',
-    display: 'flex',
-  },
-  listContainer: {
-    overflowX: 'auto',
-    paddingBottom: '50px',
-  },
-  placeholder: {
-    display: 'flex',
-    justifyContent: 'center',
-    marginTop: '30vh',
-  },
-  summary: {
-    fontWeight: 'bold',
-    margin: '20px 0',
-    display: 'flex',
-    alignItems: 'center',
-  },
-};
+import Card from '../card';
+import './bet-list.css';
 
 class BetList extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      placeholder: 'พรุ่งนี้รวย!!',
-    };
-    this.handleEdit = this.handleEdit.bind(this);
+  static calculateTotal(betItem) {
+    if (!betItem.number) return 0;
+    if (betItem.number.length > 1) {
+      return (Number(1) - Number(discountPercent)) * (Number(betItem.price1) + Number(betItem.price2) + Number(betItem.price3));
+    }
+    return Number(betItem.price1) + Number(betItem.price2) + Number(betItem.price3);
   }
   shouldComponentUpdate(nextProps) {
     return nextProps.bets !== this.props.bets;
   }
   handleEdit(betItem) {
-    return () => {
-      this.props.editHandler(betItem);
-    };
+    return () => this.props.editHandler(betItem);
   }
   handleDelete(betId) {
     return () => this.props.deleteHandler(betId);
   }
   render() {
-    const { bets = [], deleteHandler, editHandler, faqHandler } = this.props;
-    if (bets.length === 0) {
-      return (
-        <div style={styles.placeholder} className="col-xs-12 col-md-12 col-lg-12">{this.state.placeholder}</div>
-      );
-    }
+    const { bets = [], deleteHandler, editHandler, periodEndedAt, isEditable = false } = this.props;
     const total = bets.length > 0 ? bets
-      .map((betItem) => {
-        if (betItem.number.length > 1) {
-          return (Number(1) - Number(discountPercent)) * (Number(betItem.price1) + Number(betItem.price2) + Number(betItem.price3));
-        }
-        return Number(betItem.price1) + Number(betItem.price2) + Number(betItem.price3);
-      })
+      .map(BetList.calculateTotal)
       .reduce((a, b) => a + b) : null;
     return (
-      <div>
-        <div className="container-fluid">
-          <div style={styles.summary}>
-            {total && `Total: ${total} ฿`}
-            <button style={styles.helpIcon} onClick={this.props.faqHandler}>
-              <i className="material-icons" style={{ fontSize: '16px' }}>help</i>
-            </button>
-          </div>
-        </div>
-        <div className="container-fluid" style={styles.listContainer}>
-          <div className="row">
-            {bets.length > 0 && (
-                bets
-                  .sort((a, b) => {
-                    if (a.createdAt > b.createdAt) return -1;
-                    if (a.createdAt < b.createdAt) return 1;
-                    return 0;
-                  })
-                  .map(bet => <BetItem key={bet.id} bet={bet} deleteHandler={deleteHandler} editHandler={editHandler} faqHandler={faqHandler} />)
-              )}
-          </div>
+      <div className="bet-list">
+        <Card>
+          <div className="title">{periodEndedAt}</div>
+          <div className="body"><b>{`total: ${total || 0} ฿`}</b></div>
+        </Card>
+        <div className="list">
+          {bets.length > 0 && (
+              bets
+                .sort((a, b) => {
+                  if (a.createdAt > b.createdAt) return -1;
+                  if (a.createdAt < b.createdAt) return 1;
+                  return 0;
+                })
+                .map(bet => (
+                  <BetItem
+                    key={bet.id} bet={bet}
+                    deleteHandler={deleteHandler}
+                    editHandler={editHandler}
+                    isEditable={isEditable}
+                  />
+                ))
+            )}
         </div>
       </div>
     );
@@ -93,8 +59,9 @@ class BetList extends React.Component {
 BetList.propTypes = {
   deleteHandler: PropTypes.func.isRequired,
   editHandler: PropTypes.func.isRequired,
-  faqHandler: PropTypes.func,
   bets: PropTypes.arrayOf(constants.customPropType.betShape),
+  periodEndedAt: PropTypes.string.isRequired,
+  isEditable: PropTypes.bool,
 };
 
 export default BetList;

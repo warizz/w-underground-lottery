@@ -1,26 +1,7 @@
 import React, { PropTypes } from 'react';
 import constants from '../../constants/index';
-
-const styles = {
-  helpIcon: {
-    border: 'none',
-    backgroundColor: 'transparent',
-    marginLeft: '.5em',
-    color: '#757575',
-    display: 'flex',
-  },
-  priceItem: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  reward: {
-    display: 'flex',
-    alignItems: 'center',
-    color: '#689F38',
-    fontWeight: 'bold',
-  },
-};
+import Card from '../card';
+import './bet-item.css';
 
 class BetItem extends React.Component {
   handleEdit(bet) {
@@ -30,7 +11,7 @@ class BetItem extends React.Component {
     return () => this.props.deleteHandler(id);
   }
   render() {
-    const { bet, faqHandler } = this.props;
+    const { bet, isEditable } = this.props;
     const price1Label = bet.number.length > 2 ? 'เต็ง' : 'บน';
     const price2Label = bet.number.length > 2 ? 'โต๊ด' : 'ล่าง';
     const price3Label = 'ล่าง';
@@ -74,44 +55,37 @@ class BetItem extends React.Component {
         break;
     }
     return (
-      <div key={bet.id} className="col-xs-12 col-sm-3 col-md-3 col-lg-3" style={{ margin: '0 0 10px 0' }}>
-        <div style={{ ...constants.elementStyle.betCard, height: '170px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-          <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <span><b>{bet.number}</b></span>
-              <span style={{ display: 'flex', alignItems: 'center', fontWeight: 'bold' }}>
-                <button style={styles.helpIcon} onClick={faqHandler}>
-                  <i className="material-icons" style={{ fontSize: '16px' }}>help</i>
-                </button>
-                reward
-              </span>
+      <div className="bet-item">
+        <Card key={bet.id}>
+          <div className="body">
+            <div className="item">
+              <div><b>{bet.number}</b></div>
+              <div><b>reward</b></div>
             </div>
-            <div style={styles.priceItem}>
+            <div className="item">
               {bet.price1 > 0 ? `${price1Label} ${bet.price1}` : null}
-              {bet.price1 > 0 && <span style={styles.reward}>{price1Reward}</span>}
+              {bet.price1 > 0 && <div className="reward">{price1Reward}</div>}
             </div>
-            <div style={styles.priceItem}>
+            <div className="item">
               {bet.price2 > 0 ? `${price2Label} ${bet.price2}` : null}
-              {bet.price2 > 0 && <span style={styles.reward}>{price2Reward}</span>}
+              {bet.price2 > 0 && <div className="reward">{price2Reward}</div>}
             </div>
-            <div style={styles.priceItem}>
+            <div className="item">
               {bet.price3 > 0 ? `${price3Label} ${bet.price3}` : null}
-              {bet.price3 > 0 && <span style={styles.reward}>{price3Reward}</span>}
+              {bet.price3 > 0 && <div className="reward">{price3Reward}</div>}
             </div>
           </div>
-          <div className="row center-xs">
-            <div className="col-xs-12 col-sm-12 col-md-6 col-lg-6" style={{ marginTop: '.5em' }}>
-              <button className="btn btn-default btn-block" onClick={this.handleEdit(bet)}>
+          {isEditable && (
+            <div className="action">
+              <button className="border-right" onClick={this.handleEdit(bet)}>
                 {'edit'}
               </button>
-            </div>
-            <div className="col-xs-12 col-sm-12 col-md-6 col-lg-6" style={{ marginTop: '.5em' }}>
-              <button className="btn btn-danger btn-block" onClick={this.handleDelete(bet.id)}>
+              <button className="danger" onClick={this.handleDelete(bet.id)}>
                 {'delete'}
               </button>
             </div>
-          </div>
-        </div>
+          )}
+        </Card>
       </div>
     );
   }
@@ -121,7 +95,7 @@ BetItem.propTypes = {
   bet: constants.customPropType.betShape,
   editHandler: PropTypes.func.isRequired,
   deleteHandler: PropTypes.func.isRequired,
-  faqHandler: PropTypes.func.isRequired,
+  isEditable: PropTypes.bool,
 };
 
 export default BetItem;

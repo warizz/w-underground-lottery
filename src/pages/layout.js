@@ -1,22 +1,17 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { routerShape } from 'react-router';
 import ToolBar from '../components/tool-bar';
-import Drawer from '../components/drawer';
 import action from '../actions/index';
 import constants from '../constants/index';
 import Overlay from '../components/overlay';
 import Snackbar from '../components/snackbar';
 
 const styles = {
-  base: {
-    width: '100%',
-    height: '100%',
-  },
   content: {
-    height: '100%',
     marginTop: '50px',
-    overflowX: 'hidden',
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'column',
   },
 };
 
@@ -35,23 +30,14 @@ class Layout extends React.Component {
     const { alert, fetching, periods = [], setAlert, user } = this.props;
     if (!user) return null;
     // pass username to content page
-    const childrensProps = { username: user.name, isAdmin: user.is_admin, periods, themeColor: constants.color.primary };
+    const childrensProps = { user, isAdmin: user.is_admin, periods, themeColor: constants.color.primary };
     const childrenWithProps = React.cloneElement(this.props.children, childrensProps);
     return (
-      <div style={styles.base}>
-        <Snackbar active={!!alert} text={alert} onClose={() => setAlert('')} />
+      <div>
         <Overlay active={fetching} zIndex={4} text="..." />
-        <ToolBar onClickMenuButton={this.drawerToggle} pageName={this.props.pageName} themeColor={constants.color.primary} />
-        <Drawer
-          active={this.state.openDrawer}
-          isAdmin={user.is_admin}
-          router={this.props.router}
-          toggle={this.drawerToggle}
-          themeColor={constants.color.primary}
-          username={user.name}
-          userPic={user.picture}
-        />
+        <ToolBar pageName={this.props.pageName} />
         <div style={styles.content}>
+          <Snackbar text={alert} onClose={() => setAlert('')} />
           {periods && childrenWithProps}
         </div>
       </div>
@@ -81,7 +67,6 @@ Layout.propTypes = {
   fetching: PropTypes.bool.isRequired,
   pageName: PropTypes.string,
   periods: PropTypes.arrayOf(constants.customPropType.periodShape),
-  router: routerShape,
   setAlert: PropTypes.func.isRequired,
   user: PropTypes.shape({
     name: PropTypes.string.isRequired,

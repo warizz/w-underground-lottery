@@ -1,0 +1,29 @@
+div.dashboard
+{
+    width: 300px;
+    max-width: 300px;
+}
+
+div.dashboard div.body > div.row
+{
+    padding: 10px;
+}
+
+div.dashboard div.body > div.row > div.input-group
+{
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+}
+
+div.dashboard div.body > div.row > div.input-group > input
+{
+    width: 100%;
+    padding: 5px 5px 5px 10px;
+
+    letter-spacing: 3px;
+
+    border: 1px solid #d9d9d9;
+    border-top: 1.5px solid #c0c0c0;
+}

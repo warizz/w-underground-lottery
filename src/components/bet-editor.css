@@ -1,0 +1,51 @@
+div.bet-editor
+{
+    width: 300px;
+    max-width: 300px;
+}
+
+div.bet-editor div.row
+{
+    display: flex;
+
+    align-items: flex-end;
+}
+
+div.bet-editor div.row > div.input-group
+{
+    display: flex;
+    flex-direction: column;
+
+    margin: 0 10px 10px 0;
+
+    flex: 1;
+}
+
+div.bet-editor div.row > div.input-group.hidden
+{
+    visibility: hidden;
+}
+
+div.bet-editor div.row > div.input-group > input[type='number']
+{
+    font-size: 10px;
+
+    width: 100%;
+    padding: 5px;
+
+    border: 1px solid #d9d9d9;
+    border-top: 1.5px solid #c0c0c0;
+}
+
+div.bet-editor div.row > div.input-group > button.random
+{
+    font-weight: bold;
+
+    height: 32px;
+    padding: 5px 10px;
+
+    color: rgba(0,0,0,.6);
+    border: none;
+    border-radius: 5px;
+    background: #e0e1e2 none;
+}

@@ -1,22 +1,14 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import docCookies from 'doc-cookies';
 import BetList from '../components/bet-list/index';
-import BetInput from '../components/bet-input';
+import BetEditor from '../components/bet-editor';
 import ResultDisplay from '../components/result-display';
-import Fab from '../components/fab';
-import FaqDialog from '../components/faq-dialog';
 import actions from '../actions/index';
 import constants from '../constants/index';
 import service from '../services/index';
-import Snackbar from '../components/snackbar';
-
-const styles = {
-  base: {
-    overflowX: 'auto',
-    height: '100%',
-  },
-};
+import UserProfile from '../components/user-profile';
 
 class Home extends React.Component {
   constructor(props) {
@@ -31,14 +23,16 @@ class Home extends React.Component {
     this.handleDeleteBet = this.handleDeleteBet.bind(this);
     this.inputToggle = this.inputToggle.bind(this);
     this.setEditingBet = this.setEditingBet.bind(this);
-    this.switchFaqToggle = this.switchFaqToggle.bind(this);
+    this.logOut = this.logOut.bind(this);
   }
   componentDidMount() {
-    this.props.setPageName('Bet');
+    this.props.setPageName('Home');
   }
   setEditingBet(editingBet) {
     this.inputToggle();
     this.setState({ editingBet });
+    const editor = document.getElementById('bet-editor');
+    if (editor) editor.focus();
   }
   setAlert(alertText) {
     return () => {
@@ -48,9 +42,6 @@ class Home extends React.Component {
         hasAlert: true,
       });
     };
-  }
-  switchFaqToggle() {
-    this.setState({ faqOpen: !this.state.faqOpen });
   }
   inputToggle() {
     this.setState({ editingBet: null, inputOpen: !this.state.inputOpen });
@@ -66,6 +57,7 @@ class Home extends React.Component {
       .then((res) => {
         self.props.setCurrentPeriod(res);
         self.props.setFetching(false);
+        this.props.setAlert('deleted');
       })
       .catch(this.handleError);
     });
@@ -99,92 +91,77 @@ class Home extends React.Component {
           .then((res) => {
             this.props.setCurrentPeriod(res);
             this.props.setFetching(false);
-            this.setAlert('saved')();
+            this.props.setAlert('saved');
             this.setState({ editingBet: null });
           })
           .catch(this.handleError);
       });
   }
+  logOut() {
+    const cookieName = `fbat_${process.env.REACT_APP_FB_APP_ID}`;
+    const accessToken = docCookies.getItem(cookieName);
+    service
+      .data
+      .logOut(accessToken)
+      .then(() => this.props.router.push('/log-in'))
+      .catch(error => (
+        this.setState({
+          alertText: `${error.response.status}: ${error.response.statusText}`,
+          hasAlert: true,
+        })
+      ));
+  }
   render() {
-    const { alertText, hasAlert } = this.state;
-    const { currentPeriod, themeColor } = this.props;
-    if (!currentPeriod || (!currentPeriod.isOpen && !currentPeriod.result)) {
-      return (
-        <div style={constants.elementStyle.placeholder}>
-          {'ตลาดยังไม่เปิดจ้ะ'}
-        </div>
-      );
-    }
-    if (currentPeriod.result) {
-      const { bets, result } = currentPeriod;
-      const rewardCallback = (number, price, reward, rewardType) => `ถูก ${rewardType} [${number}] ${price} x ${reward} = ${price * reward} บาท`;
-      const userReward = bets
-        .map(service.calculation.checkReward(result, rewardCallback))
-        .filter(a => a); // remove null elements
-      return (
-        <div className="container-fluid" style={{ height: '90vh', overflowX: 'auto' }}>
-          {userReward.length === 0 && (
-            <div className="alert" style={{ textAlign: 'center' }}>
-              <h1>คุณไม่ถูกรางวัล คราวหน้าลองใหม่นะ :)</h1>
-            </div>
-          )}
-          {userReward.length > 0 && (
-            <div className="alert alert-success" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-              <h1 style={{ textAlign: 'center' }}>ดีจวยด้วย คุณถูกรางวัล!</h1>
-              <ul>
-                {userReward.map((resultItem, index) => <li key={index}>{resultItem}</li>)}
-              </ul>
-            </div>
-          )}
-          <ResultDisplay
-            {...result}
-            endedAt={moment(currentPeriod.endedAt).format('DD MMM YYYY')}
-          />
-        </div>
-      );
-    }
+    const { currentPeriod = {}, user } = this.props;
     return (
-      <div style={styles.base}>
-        <Snackbar active={hasAlert} text={alertText} timer={1000} onClose={() => this.setState({ hasAlert: false, alertText: '' })} />
-        <FaqDialog active={this.state.faqOpen} toggle={this.switchFaqToggle} />
-        <div className="visible-lg" style={{ height: '100%' }}>
-          <div className="col-lg-10" style={{ height: '100%', overflowX: 'auto' }}>
+      <div>
+        <div style={{ display: 'flex', alignItems: 'flex-start' }}>
+          <div className="visible-md visible-lg">
+            <UserProfile name={user.name} pictureUrl={user.picture} isAdmin={user.is_admin} logOutHandler={this.logOut} />
+          </div>
+          <div style={{ margin: '0 10px' }}>
+            <div className="visible-xs visible-sm" style={{ margin: '0 0 10px 0' }}>
+              <UserProfile name={user.name} pictureUrl={user.picture} isAdmin={user.is_admin} logOutHandler={this.logOut} />
+            </div>
+            {
+              currentPeriod.isOpen && (
+                <div className="visible-xs" style={{ marginBottom: '10px' }}>
+                  <BetEditor
+                    saveBetHandler={this.handleSaveBet}
+                    editingBet={this.state.editingBet}
+                    onClose={this.inputToggle}
+                  />
+                </div>
+              )
+            }
+            {
+              currentPeriod.result && (
+                <div style={{ margin: '0 0 10px 0' }}>
+                  <ResultDisplay
+                    {...currentPeriod.result}
+                    bets={currentPeriod.bets}
+                    endedAt={moment(currentPeriod.endedAt).format('DD MMM YYYY')}
+                  />
+                </div>
+              )
+            }
             <BetList
               bets={currentPeriod.bets}
               editHandler={this.setEditingBet}
               deleteHandler={this.handleDeleteBet}
               faqHandler={this.switchFaqToggle}
+              isEditable={currentPeriod.isOpen}
+              periodEndedAt={moment(currentPeriod.endedAt).format('DD MMM YYYY')}
             />
           </div>
-          <div className="col-lg-2" style={{ padding: 0, height: '100%' }}>
-            <BetInput
-              saveBetHandler={this.handleSaveBet}
-              editingBet={this.state.editingBet}
-              open
-              onClose={this.inputToggle}
-            />
+          <div className="hidden-xs">
+            {currentPeriod.isOpen && (
+              <BetEditor
+                saveBetHandler={this.handleSaveBet}
+                editingBet={this.state.editingBet}
+              />
+            )}
           </div>
-        </div>
-        <div className="hidden-lg" style={{ height: '100%' }}>
-          {!this.state.inputOpen && (
-            <BetList
-              bets={currentPeriod.bets}
-              editHandler={this.setEditingBet}
-              deleteHandler={this.handleDeleteBet}
-              faqHandler={this.switchFaqToggle}
-            />
-          )}
-          {this.state.inputOpen && (
-            <BetInput
-              saveBetHandler={this.handleSaveBet}
-              editingBet={this.state.editingBet}
-              onClose={this.inputToggle}
-              open={this.state.inputOpen}
-            />
-          )}
-          <Fab active={!this.state.inputOpen} onClick={this.inputToggle} themeColor={themeColor}>
-            <span style={{ fontSize: '30px' }}>+</span>
-          </Fab>
         </div>
       </div>
     );
@@ -199,6 +176,7 @@ const mapStateToProps = state => (
 
 const mapDispatchToProps = dispatch => (
   {
+    setAlert: alert => dispatch(actions.layout.setAlert(alert)),
     setCurrentPeriod: currentPeriod => dispatch(actions.data.setCurrentPeriod(currentPeriod)),
     setFetching: fetching => dispatch(actions.data.setFetching(fetching)),
     setPageName: pageName => dispatch(actions.layout.setPageName(pageName)),
@@ -207,10 +185,18 @@ const mapDispatchToProps = dispatch => (
 
 Home.propTypes = {
   currentPeriod: constants.customPropType.periodShape,
+  setAlert: PropTypes.func.isRequired,
   setCurrentPeriod: PropTypes.func.isRequired,
   setFetching: PropTypes.func.isRequired,
   setPageName: PropTypes.func,
-  themeColor: PropTypes.string.isRequired,
+  user: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    picture: PropTypes.string.isRequired,
+    is_admin: PropTypes.bool.isRequired,
+  }),
+  router: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

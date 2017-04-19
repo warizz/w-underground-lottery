@@ -46,7 +46,15 @@ function getCurrentPeriod() {
         baseURL,
         headers: { 'x-access-token': token },
       })
-      .then(res => resolve(res.data))
+      .then((res) => {
+        const period = res.data;
+        period.bets = period.bets.map((bet) => {
+          const updated = Object.assign({}, bet);
+          if (bet.createdAt) updated.createdAt = new Date(bet.createdAt);
+          return updated;
+        });
+        resolve(res.data);
+      })
       .catch((error) => {
         if (error.response.status === 401) {
           docCookies.removeItem(`fbat_${process.env.REACT_APP_FB_APP_ID}`);
@@ -188,7 +196,11 @@ function openPeriod(endedAt) {
 function updateBet(bet) {
   const token = docCookies.getItem(`fbat_${fbAppId}`);
   return new Promise((resolve, reject) => {
-    const data = bet;
+    const data = {
+      price1: bet.price1,
+      price2: bet.price2,
+      price3: bet.price3,
+    };
     axios
       .request({
         url: `/bet/${bet.id}`,

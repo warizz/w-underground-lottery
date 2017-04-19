@@ -1,0 +1,14 @@
+div.history > div.bet-list > div.placeholder
+{
+    overflow: hidden;
+
+    width: 300px;
+    max-width: 300px;
+    margin: 0 0 10px 0;
+    padding: 10px;
+
+    text-align: center;
+
+    border: 3px dotted #b8bfc3;
+    border-radius: 5px;
+}

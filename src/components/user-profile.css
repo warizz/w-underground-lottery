@@ -1,0 +1,23 @@
+div.user-profile
+{
+    width: 300px;
+    max-width: 300px;
+}
+
+div.user-profile div.body > img.picture
+{
+    width: 70px;
+    height: 70px;
+
+    border-radius: 100%;
+    background-color: white;
+
+    align-items: center;
+}
+
+div.user-profile div.body > div.name
+{
+    font-weight: bold;
+
+    margin: 10px 0 0 0;
+}
