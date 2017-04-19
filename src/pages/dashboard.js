@@ -6,6 +6,8 @@ import actions from '../actions/index';
 import constants from '../constants/index';
 import service from '../services/index';
 import Summary from './summary';
+import Card from '../components/card';
+import './dashboard.css';
 
 const style = {
   container: {
@@ -109,33 +111,29 @@ class DashboardPage extends React.Component {
   render() {
     const { currentPeriod } = this.props;
     return (
-      <div>
+      <div className="dashboard">
         {(!currentPeriod || !currentPeriod.isOpen) && (
-          <div style={style.container}>
-            <div style={style.body.container}>
-              <div style={style.body.input.group}>
-                <label htmlFor="txt-start-date">วันหวยออก</label>
-                <input type="date" id="txt-start-date" style={style.body.input.textBox} value={this.state.endDate} onChange={this.onEndDateChange()} />
+          <Card>
+            <div className="body">
+              <div className="row">
+                <div className="input-group">
+                  <label htmlFor="txt-start-date">วันหวยออก</label>
+                  <input type="date" id="txt-start-date" value={this.state.endDate} onChange={this.onEndDateChange()} />
+                </div>
               </div>
             </div>
-            <div style={style.action.container}>
-              <button style={{ ...style.action.button.base, ...style.action.button.open }} onClick={this.openPeriod}>
-                <span>เปิดแทง</span>
-              </button>
-              <Link to="/dashboard/result" style={{ ...style.action.button.base, ...style.action.button.result }}>
-                กรอกผลรางวัลงวดล่าสุด
-              </Link>
+            <div className="action column">
+              <button className="border-bottom primary" onClick={this.openPeriod}>{'เปิดแทง'}</button>
+              <Link to="/dashboard/result">{'กรอกผลรางวัลงวดล่าสุด'}</Link>
             </div>
-          </div>
+          </Card>
         )}
         {currentPeriod && currentPeriod.isOpen && (
-          <div style={style.container}>
-            <div style={style.action.container}>
-              <button style={{ ...style.action.button.base, ...style.action.button.close }} onClick={this.closePeriod}>
-                <span>ปิดรับแทง</span>
-              </button>
+          <Card>
+            <div className="action" style={{ border: 'none' }}>
+              <button className="danger" onClick={this.closePeriod}>{'ปิดรับแทง'}</button>
             </div>
-          </div>
+          </Card>
         )}
         <div style={{ margin: '10px 0 0 0' }}>
           <Summary />

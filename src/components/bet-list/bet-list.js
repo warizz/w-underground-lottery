@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import { discountPercent } from '../../config';
 import constants from '../../constants/index';
 import BetItem from './bet-item';
+import Card from '../card';
 import './bet-list.css';
 
 class BetList extends React.Component {
@@ -28,12 +29,10 @@ class BetList extends React.Component {
       .reduce((a, b) => a + b) : null;
     return (
       <div className="bet-list">
-        <div className="summary">
-          <div className="item date">
-            {periodEndedAt}
-          </div>
-          <div className="item">{`total: ${total || 0} ฿`}</div>
-        </div>
+        <Card>
+          <div className="title">{periodEndedAt}</div>
+          <div className="body"><b>{`total: ${total || 0} ฿`}</b></div>
+        </Card>
         <div className="list">
           {bets.length > 0 && (
               bets

@@ -4,6 +4,7 @@ import moment from 'moment';
 import actions from '../actions/index';
 import constants from '../constants/index';
 import service from '../services/index';
+import Card from '../components/card';
 import './result.css';
 
 class ResultInputPage extends React.Component {
@@ -89,62 +90,64 @@ class ResultInputPage extends React.Component {
     const validInput = sixValid && twoValid && firstThreeValid && secondThreeValid;
     return (
       <div className="result-editor">
-        <div className="title">
-          {`งวดวันที่ ${moment(currentPeriod.endedAt).format('DD MMM YYYY')}`}
-        </div>
-        <div className="body">
-          <div className="row center">
-            <div className={`input-group ${sixInvalidAndDirty ? ' has-error' : ''}`}>
-              <label htmlFor="six">รางวัลที่หนึ่ง</label>
-              <input
-                id="six"
-                min="0"
-                onChange={this.onInputChange('six', 6)}
-                onKeyPress={this.handleNumberValidation}
-                type="number"
-                value={this.state.six}
-              />
-              {sixInvalidAndDirty && <label htmlFor="six">ต้องเป็นเลข 6 ตัว</label>}
+        <Card>
+          <div className="title">
+            {`งวดวันที่ ${moment(currentPeriod.endedAt).format('DD MMM YYYY')}`}
+          </div>
+          <div className="body">
+            <div className="row center">
+              <div className={`input-group ${sixInvalidAndDirty ? ' has-error' : ''}`}>
+                <label htmlFor="six">รางวัลที่หนึ่ง</label>
+                <input
+                  id="six"
+                  min="0"
+                  onChange={this.onInputChange('six', 6)}
+                  onKeyPress={this.handleNumberValidation}
+                  type="number"
+                  value={this.state.six}
+                />
+                {sixInvalidAndDirty && <label htmlFor="six">ต้องเป็นเลข 6 ตัว</label>}
+              </div>
+            </div>
+            <div className="row center">
+              <div className={`input-group ${twoInvalidAndDirty ? ' has-error' : ''}`}>
+                <label htmlFor="two">เลขท้ายสองตัว</label>
+                <input
+                  id="two"
+                  onChange={this.onInputChange('two', 2)}
+                  type="number"
+                  value={this.state.two}
+                />
+                {twoInvalidAndDirty && <label htmlFor="two">ต้องเป็นเลข 2 ตัว</label>}
+              </div>
+            </div>
+            <div className="row space-between">
+              <div className={`input-group ${firstThreeInvalidAndDirty ? ' has-error' : ''}`}>
+                <label htmlFor="firstThree">สามตัวล่าง #1</label>
+                <input
+                  id="firstThree"
+                  onChange={this.onInputChange('firstThree', 3)}
+                  type="number"
+                  value={this.state.firstThree}
+                />
+                {firstThreeInvalidAndDirty && <label htmlFor="firstThree">ต้องเป็นเลข 3 ตัว</label>}
+              </div>
+              <div className={`input-group ${secondThreeInvalidAndDirty ? ' has-error' : ''}`}>
+                <label htmlFor="secondThree">สามตัวล่าง #2</label>
+                <input
+                  id="secondThree"
+                  onChange={this.onInputChange('secondThree', 3)}
+                  type="number"
+                  value={this.state.secondThree}
+                />
+                {secondThreeInvalidAndDirty && <label htmlFor="secondThree">ต้องเป็นเลข 3 ตัว</label>}
+              </div>
             </div>
           </div>
-          <div className="row center">
-            <div className={`input-group ${twoInvalidAndDirty ? ' has-error' : ''}`}>
-              <label htmlFor="two">เลขท้ายสองตัว</label>
-              <input
-                id="two"
-                onChange={this.onInputChange('two', 2)}
-                type="number"
-                value={this.state.two}
-              />
-              {twoInvalidAndDirty && <label htmlFor="two">ต้องเป็นเลข 2 ตัว</label>}
-            </div>
+          <div className="action">
+            <button className="primary" onClick={this.handleSaveInput} disabled={!validInput}>save</button>
           </div>
-          <div className="row space-between">
-            <div className={`input-group ${firstThreeInvalidAndDirty ? ' has-error' : ''}`}>
-              <label htmlFor="firstThree">สามตัวล่าง #1</label>
-              <input
-                id="firstThree"
-                onChange={this.onInputChange('firstThree', 3)}
-                type="number"
-                value={this.state.firstThree}
-              />
-              {firstThreeInvalidAndDirty && <label htmlFor="firstThree">ต้องเป็นเลข 3 ตัว</label>}
-            </div>
-            <div className={`input-group ${secondThreeInvalidAndDirty ? ' has-error' : ''}`}>
-              <label htmlFor="secondThree">สามตัวล่าง #2</label>
-              <input
-                id="secondThree"
-                onChange={this.onInputChange('secondThree', 3)}
-                type="number"
-                value={this.state.secondThree}
-              />
-              {secondThreeInvalidAndDirty && <label htmlFor="secondThree">ต้องเป็นเลข 3 ตัว</label>}
-            </div>
-          </div>
-        </div>
-        <div className="action">
-          <button className="save" onClick={this.handleSaveInput} disabled={!validInput}>save</button>
-        </div>
+        </Card>
       </div>
     );
   }

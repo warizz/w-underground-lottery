@@ -38,6 +38,11 @@ div.card-component > div.body
     background-color: white;
 }
 
+div.card-component > div.body.center
+{
+    align-items: center;
+}
+
 div.card-component > div.action
 {
     display: flex;
@@ -59,11 +64,14 @@ div.card-component > div.action.column
 }
 
 div.card-component > div.action > button,
-div.card-component > div.action > label
+div.card-component > div.action > label,
+div.card-component > div.action > a
 {
     font-weight: bold;
 
     padding: 10px;
+
+    text-align: center;
 
     color: rgb(148, 146, 146);
     border: none;
@@ -72,17 +80,22 @@ div.card-component > div.action > label
     flex: 1;
 }
 
-div.card-component > div.action > button.border-right
+div.card-component > div.action > .border-right
 {
     border-right: 1px solid #b8bfc3;
 }
 
-div.card-component > div.action > button.danger
+div.card-component > div.action > .border-bottom
+{
+    border-bottom: 1px solid #b8bfc3;
+}
+
+div.card-component > div.action > .danger
 {
     color: rgb(191, 58, 58);
 }
 
-div.card-component > div.action > button.primary
+div.card-component > div.action > .primary
 {
     color: #286090;
 }

@@ -4,6 +4,7 @@ import moment from 'moment';
 import actions from '../actions/index';
 import constants from '../constants/index';
 import service from '../services/index';
+import Card from '../components/card';
 import './history.css';
 
 class HistoryPage extends React.Component {
@@ -74,7 +75,7 @@ class HistoryPage extends React.Component {
         <div className="bet-list">
           {history.length === 0 && <div className="placeholder">{'you have no history here, make one!'}</div>}
           {history.length > 0 && history.map(h => (
-            <div key={h.id} className="bet-item">
+            <Card key={h.id}>
               <div className="title">{moment(h.endedAt).format('DD MMM YYYY')}</div>
               <div className="body">
                 <ul>
@@ -98,10 +99,10 @@ class HistoryPage extends React.Component {
               </div>
               <div className="action">
                 {currentPeriod.isOpen && (
-                  <button className="clone" onClick={this.clone(currentPeriod, h.bets, service.data.insertBet)}>clone</button>
+                  <button onClick={this.clone(currentPeriod, h.bets, service.data.insertBet)}>clone</button>
                 )}
               </div>
-            </div>
+            </Card>
             ))}
         </div>
       </div>

@@ -1,31 +1,17 @@
 div.bet-editor
 {
-    position: relative;
-
-    overflow: hidden;
-
     width: 300px;
     max-width: 300px;
-
-    border: 1px solid #b8bfc3;
-    border-radius: 5px;
 }
 
-div.bet-editor > div.body
-{
-    padding: 10px;
-
-    background-color: white;
-}
-
-div.bet-editor > div.body > div.row
+div.bet-editor div.row
 {
     display: flex;
 
     align-items: flex-end;
 }
 
-div.bet-editor > div.body > div.row > div.input-group
+div.bet-editor div.row > div.input-group
 {
     display: flex;
     flex-direction: column;
@@ -35,12 +21,12 @@ div.bet-editor > div.body > div.row > div.input-group
     flex: 1;
 }
 
-div.bet-editor > div.body > div.row > div.input-group.hidden
+div.bet-editor div.row > div.input-group.hidden
 {
     visibility: hidden;
 }
 
-div.bet-editor > div.body > div.row > div.input-group > input[type='number']
+div.bet-editor div.row > div.input-group > input[type='number']
 {
     font-size: 10px;
 
@@ -51,7 +37,7 @@ div.bet-editor > div.body > div.row > div.input-group > input[type='number']
     border-top: 1.5px solid #c0c0c0;
 }
 
-div.bet-editor > div.body > div.row > div.input-group > button.random
+div.bet-editor div.row > div.input-group > button.random
 {
     font-weight: bold;
 
@@ -62,32 +48,4 @@ div.bet-editor > div.body > div.row > div.input-group > button.random
     border: none;
     border-radius: 5px;
     background: #e0e1e2 none;
-}
-
-div.bet-editor > div.action
-{
-    border-top: 1px solid #b8bfc3;
-    background-color: #f6f7f9;
-}
-
-div.bet-editor > div.action > button
-{
-    font-weight: bold;
-
-    width: 50%;
-    padding: 10px;
-
-    border: none;
-    background-color: transparent;
-}
-
-div.bet-editor > div.action > button.reset
-{
-    color: rgb(148, 146, 146);
-    border-right: 1px solid #b8bfc3;
-}
-
-div.bet-editor > div.action > button.save
-{
-    color: #286090;
 }
