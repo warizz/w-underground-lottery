@@ -44,7 +44,7 @@ div.card-component > div.action
 
     width: 100%;
 
-    background-color: #f6f7f9;
+    border-top: 1px solid #b8bfc3;
     background-color: rgb(246, 247, 249);
 }
 
@@ -70,6 +70,11 @@ div.card-component > div.action > label
     background-color: transparent;
 
     flex: 1;
+}
+
+div.card-component > div.action > button.border-right
+{
+    border-right: 1px solid #b8bfc3;
 }
 
 div.card-component > div.action > button.danger

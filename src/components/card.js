@@ -4,7 +4,7 @@ import './card.css';
 const Card = (props) => {
   const { children } = props;
   return (
-    <div className="card-component">
+    <div className="card-component" tabIndex={0}>
       {children}
     </div>
   );
