@@ -2,7 +2,7 @@ div.bet-item
 {
     overflow: hidden;
 
-    width: 300px;
+    width: 100%;
     max-width: 300px;
     margin: 0 0 10px 0;
 

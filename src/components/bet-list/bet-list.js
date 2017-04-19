@@ -34,7 +34,7 @@ class BetList extends React.Component {
           </div>
           <div className="item">{`total: ${total || 0} ฿`}</div>
         </div>
-        <div>
+        <div className="list">
           {bets.length > 0 && (
               bets
                 .sort((a, b) => {

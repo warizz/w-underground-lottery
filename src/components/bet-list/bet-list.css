@@ -31,3 +31,8 @@ div.bet-list > div.summary > div.item.date
 
     border-bottom: 1px solid #b8bfc3;
 }
+
+div.bet-list > div.list
+{
+    width: 100%;
+}
