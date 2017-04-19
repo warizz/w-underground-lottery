@@ -58,7 +58,8 @@ div.card-component > div.action.column
     flex-direction: column;
 }
 
-div.card-component > div.action > button
+div.card-component > div.action > button,
+div.card-component > div.action > label
 {
     font-weight: bold;
 
@@ -69,4 +70,14 @@ div.card-component > div.action > button
     background-color: transparent;
 
     flex: 1;
+}
+
+div.card-component > div.action > button.danger
+{
+    color: rgb(191, 58, 58);
+}
+
+div.card-component > div.action > button.primary
+{
+    color: #286090;
 }
