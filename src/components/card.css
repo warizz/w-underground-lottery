@@ -1,0 +1,72 @@
+div.card-component
+{
+    overflow: hidden;
+
+    width: 100%;
+    max-width: 300px;
+    margin: 0 0 10px 0;
+
+    border: 1px solid #b8bfc3;
+    border-radius: 5px;
+}
+
+div.card-component > div.title
+{
+    font-weight: bold;
+
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+    padding: 10px;
+
+    border-bottom: 1px solid #b8bfc3;
+    background-color: white;
+
+    justify-content: center;
+    align-items: center;
+}
+
+div.card-component > div.body
+{
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+    padding: 10px;
+
+    background-color: white;
+}
+
+div.card-component > div.action
+{
+    display: flex;
+
+    width: 100%;
+
+    background-color: #f6f7f9;
+    background-color: rgb(246, 247, 249);
+}
+
+div.card-component > div.action.row
+{
+    flex-direction: row;
+}
+
+div.card-component > div.action.column
+{
+    flex-direction: column;
+}
+
+div.card-component > div.action > button
+{
+    font-weight: bold;
+
+    padding: 10px;
+
+    color: rgb(148, 146, 146);
+    border: none;
+    background-color: transparent;
+
+    flex: 1;
+}
