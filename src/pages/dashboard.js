@@ -9,64 +9,6 @@ import Summary from './summary';
 import Card from '../components/card';
 import './dashboard.css';
 
-const style = {
-  container: {
-    position: 'relative',
-    backgroundColor: 'white',
-    width: '300px',
-    maxWidth: '300px',
-    border: '1px solid #b8bfc3',
-    borderRadius: '5px',
-    overflow: 'hidden',
-  },
-  body: {
-    container: {
-      padding: '10px',
-    },
-    input: {
-      group: {
-        display: 'flex',
-        flexDirection: 'column',
-        margin: '0 0 10px 0',
-      },
-      label: {},
-      textBox: {
-        border: '1px solid #d9d9d9',
-        borderTop: '1.5px solid #c0c0c0',
-        padding: '5px 5px 5px 10px',
-        letterSpacing: '3px',
-      },
-    },
-  },
-  action: {
-    container: {
-      backgroundColor: '#F6F7F9',
-    },
-    button: {
-      base: {
-        backgroundColor: 'transparent',
-        border: 'none',
-        fontWeight: 'bold',
-        padding: '10px',
-        width: '100%',
-      },
-      result: {
-        color: 'rgb(148, 146, 146)',
-        display: 'block',
-        borderTop: '1px solid #b8bfc3',
-        textAlign: 'center',
-      },
-      open: {
-        color: '#286090',
-        borderTop: '1px solid #b8bfc3',
-      },
-      close: {
-        color: 'rgb(191, 58, 58)',
-      },
-    },
-  },
-};
-
 class DashboardPage extends React.Component {
   constructor(props) {
     super(props);
@@ -83,19 +25,17 @@ class DashboardPage extends React.Component {
     return e => this.setState({ endDate: e.target.value });
   }
   openPeriod() {
-    const self = this;
-    self.props.setFetching(true);
+    this.props.setFetching(true);
     const endedAt = new Date(this.state.endDate);
     service.data
       .openPeriod(endedAt)
       .then((currentPeriod) => {
-        self.props.setCurrentPeriod(currentPeriod);
-        self.props.setFetching(false);
+        this.props.setCurrentPeriod(currentPeriod);
+        this.props.setFetching(false);
       });
   }
   closePeriod() {
-    const self = this;
-    self.props.setFetching(true);
+    this.props.setFetching(true);
     const { id } = this.props.currentPeriod;
     service.data
       .closePeriod(id)
@@ -103,8 +43,8 @@ class DashboardPage extends React.Component {
         service.data
           .getCurrentPeriod()
           .then((res) => {
-            self.props.setCurrentPeriod(res);
-            self.props.setFetching(false);
+            this.props.setCurrentPeriod(res);
+            this.props.setFetching(false);
           });
       });
   }
