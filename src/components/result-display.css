@@ -4,6 +4,7 @@ div.result-display
 
     overflow: hidden;
 
+    box-sizing: border-box;
     width: 300px;
     max-width: 300px;
 
@@ -24,6 +25,32 @@ div.result-display > div.title
     background-color: white;
 }
 
+div.result-display > div.message
+{
+    font-weight: bold;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 10px;
+
+    border-bottom: 1px solid #b8bfc3;
+
+    align-items: center;
+}
+
+div.result-display > div.message.win
+{
+    color: green;
+    border: 3px solid green;
+}
+
+div.result-display > div.message.lose
+{
+    color: red;
+    border: 3px solid red;
+}
+
 div.result-display > div.body
 {
     font-size: 20px;
@@ -33,7 +60,6 @@ div.result-display > div.body
 
     text-align: center;
 
-    border-bottom: 1px solid #b8bfc3;
     background-color: white;
 }
 

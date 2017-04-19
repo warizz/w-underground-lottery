@@ -112,34 +112,6 @@ class Home extends React.Component {
   }
   render() {
     const { currentPeriod = {}, user } = this.props;
-    if (currentPeriod.result) {
-      const { bets, result } = currentPeriod;
-      const rewardCallback = (number, price, reward, rewardType) => `ถูก ${rewardType} [${number}] ${price} x ${reward} = ${price * reward} บาท`;
-      const userReward = bets
-        .map(service.calculation.checkReward(result, rewardCallback))
-        .filter(a => a); // remove null elements
-      return (
-        <div>
-          {userReward.length === 0 && (
-            <div className="alert" style={{ textAlign: 'center' }}>
-              <h1>คุณไม่ถูกรางวัล คราวหน้าลองใหม่นะ :)</h1>
-            </div>
-          )}
-          {userReward.length > 0 && (
-            <div className="alert alert-success" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-              <h1 style={{ textAlign: 'center' }}>ดีจวยด้วย คุณถูกรางวัล!</h1>
-              <ul>
-                {userReward.map((resultItem, index) => <li key={index}>{resultItem}</li>)}
-              </ul>
-            </div>
-          )}
-          <ResultDisplay
-            {...result}
-            endedAt={moment(currentPeriod.endedAt).format('DD MMM YYYY')}
-          />
-        </div>
-      );
-    }
     return (
       <div>
         <div style={{ display: 'flex', alignItems: 'flex-start' }}>
@@ -157,6 +129,17 @@ class Home extends React.Component {
                     saveBetHandler={this.handleSaveBet}
                     editingBet={this.state.editingBet}
                     onClose={this.inputToggle}
+                  />
+                </div>
+              )
+            }
+            {
+              currentPeriod.result && (
+                <div style={{ margin: '0 0 10px 0' }}>
+                  <ResultDisplay
+                    {...currentPeriod.result}
+                    bets={currentPeriod.bets}
+                    endedAt={moment(currentPeriod.endedAt).format('DD MMM YYYY')}
                   />
                 </div>
               )
