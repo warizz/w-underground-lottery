@@ -1,0 +1,17 @@
+div.summary-component
+{
+    width: 300px;
+    max-width: 300px;
+}
+
+div.summary-component li.bet.paid
+{
+    text-decoration: line-through;
+}
+
+div.summary-component li.bet.win
+{
+    font-weight: bold;
+
+    color: #b71c1c;
+}
