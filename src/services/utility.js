@@ -1,7 +1,3 @@
-function validateNumber(value) {
-  return /^[0-9]*$/.test(value);
-}
-
 function getRandomNumber(minLength, maxLength) {
   let number = '';
   const possible = '0123456789';
@@ -14,6 +10,10 @@ function getRandomNumber(minLength, maxLength) {
   }
 
   return number;
+}
+
+function validateNumber(value) {
+  return /^[0-9]*$/.test(value);
 }
 
 export default {
