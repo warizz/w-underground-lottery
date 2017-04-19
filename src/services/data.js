@@ -196,7 +196,11 @@ function openPeriod(endedAt) {
 function updateBet(bet) {
   const token = docCookies.getItem(`fbat_${fbAppId}`);
   return new Promise((resolve, reject) => {
-    const data = bet;
+    const data = {
+      price1: bet.price1,
+      price2: bet.price2,
+      price3: bet.price3,
+    };
     axios
       .request({
         url: `/bet/${bet.id}`,
