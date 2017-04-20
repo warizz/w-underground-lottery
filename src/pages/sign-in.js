@@ -56,24 +56,27 @@ class SignInPage extends React.Component {
             self.setState({ fetching: false });
             self.props.router.push('/');
           })
-          .catch(error => (
-            self.setState({
-              alertText: `${error.response.status}: ${error.response.statusText}`,
-              fetching: false,
-              hasAlert: true,
-            })
-          ));
+          .catch((error) => {
+            if (error.response) {
+              self.setState({
+                alertText: `${error.response.status}: ${error.response.statusText}`,
+                fetching: false,
+              });
+            } else {
+              console.error(error);
+              self.setState({ fetching: false });
+            }
+          });
       } else {
         self.setState({
           alertText: 'facebook authentication failed',
           fetching: false,
-          hasAlert: true,
         });
       }
     }, { scope: 'public_profile' });
   }
   render() {
-    const { alertText, fetching, hasAlert } = this.state;
+    const { alertText, fetching } = this.state;
     return (
       <div className="sign-in">
         <button className="sign-in" onClick={this.authenFacebook} disabled={fetching}>
@@ -84,7 +87,7 @@ class SignInPage extends React.Component {
           <li>{'don\'t reinvent the wheel: facebook already have great security by 1000 top class engineers keeping your password safe.'}</li>
           <li>{'this app need only your username and profile picture, it can do no harm.'}</li>
         </div>
-        <Snackbar active={hasAlert} text={alertText} timer={2000} onClose={() => this.setState({ hasAlert: false, alertText: '' })} />
+        <Snackbar text={alertText} timer={2000} onClose={() => this.setState({ alertText: '' })} />
       </div>
     );
   }

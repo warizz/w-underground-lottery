@@ -16,7 +16,7 @@ function initApplicationState(store) {
         store.dispatch(action.data.setFetching(false));
       })
       .catch((error) => {
-        store.dispatch(action.layout.setAlert(error.response.message));
+        console.error(error);
         store.dispatch(action.data.setFetching(false));
       });
   };
