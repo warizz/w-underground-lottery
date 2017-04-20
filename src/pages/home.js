@@ -9,6 +9,7 @@ import actions from '../actions/index';
 import constants from '../constants/index';
 import service from '../services/index';
 import UserProfile from '../components/user-profile';
+import './home.css';
 
 class Home extends React.Component {
   constructor(props) {
@@ -114,54 +115,61 @@ class Home extends React.Component {
   render() {
     const { currentPeriod = {}, user } = this.props;
     return (
-      <div>
-        <div style={{ display: 'flex', alignItems: 'flex-start' }}>
-          <div className="visible-md visible-lg">
+      <div className="home">
+        {
+          // left pane
+        }
+        <div className="pane visible-md visible-lg">
+          <UserProfile name={user.name} pictureUrl={user.picture} isAdmin={user.is_admin} logOutHandler={this.logOut} />
+        </div>
+        {
+          // center pane
+        }
+        <div className="pane center">
+          <div className="visible-xs visible-sm" style={{ display: 'flex' }}>
             <UserProfile name={user.name} pictureUrl={user.picture} isAdmin={user.is_admin} logOutHandler={this.logOut} />
           </div>
-          <div style={{ margin: '0 10px' }}>
-            <div className="visible-xs visible-sm" style={{ margin: '0 0 10px 0' }}>
-              <UserProfile name={user.name} pictureUrl={user.picture} isAdmin={user.is_admin} logOutHandler={this.logOut} />
-            </div>
-            {
-              currentPeriod.isOpen && (
-                <div className="visible-xs" style={{ marginBottom: '10px' }}>
-                  <BetEditor
-                    saveBetHandler={this.handleSaveBet}
-                    editingBet={this.state.editingBet}
-                    onClose={this.inputToggle}
-                  />
-                </div>
-              )
-            }
-            {
-              currentPeriod.result && (
-                <div style={{ margin: '0 0 10px 0' }}>
-                  <ResultDisplay
-                    {...currentPeriod.result}
-                    bets={currentPeriod.bets}
-                    endedAt={moment(currentPeriod.endedAt).format('DD MMM YYYY')}
-                  />
-                </div>
-              )
-            }
-            <BetList
-              bets={currentPeriod.bets}
-              editHandler={this.setEditingBet}
-              deleteHandler={this.handleDeleteBet}
-              faqHandler={this.switchFaqToggle}
-              isEditable={currentPeriod.isOpen}
-              periodEndedAt={moment(currentPeriod.endedAt).format('DD MMM YYYY')}
+          {
+            currentPeriod.isOpen && (
+              <div className="visible-xs" style={{ display: 'flex' }}>
+                <BetEditor
+                  saveBetHandler={this.handleSaveBet}
+                  editingBet={this.state.editingBet}
+                  onClose={this.inputToggle}
+                />
+              </div>
+            )
+          }
+          {
+            currentPeriod.result && (
+              <div style={{ margin: '0 0 10px 0' }}>
+                <ResultDisplay
+                  {...currentPeriod.result}
+                  bets={currentPeriod.bets}
+                  endedAt={moment(currentPeriod.endedAt).format('DD MMM YYYY')}
+                />
+              </div>
+            )
+          }
+          <BetList
+            bets={currentPeriod.bets}
+            editHandler={this.setEditingBet}
+            deleteHandler={this.handleDeleteBet}
+            faqHandler={this.switchFaqToggle}
+            isEditable={currentPeriod.isOpen}
+            periodEndedAt={moment(currentPeriod.endedAt).format('DD MMM YYYY')}
+          />
+        </div>
+        {
+          // right pane
+        }
+        <div className="hidden-xs">
+          {currentPeriod.isOpen && (
+            <BetEditor
+              saveBetHandler={this.handleSaveBet}
+              editingBet={this.state.editingBet}
             />
-          </div>
-          <div className="hidden-xs">
-            {currentPeriod.isOpen && (
-              <BetEditor
-                saveBetHandler={this.handleSaveBet}
-                editingBet={this.state.editingBet}
-              />
-            )}
-          </div>
+          )}
         </div>
       </div>
     );

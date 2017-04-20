@@ -1,9 +1,3 @@
-div.user-profile
-{
-    width: 300px;
-    max-width: 300px;
-}
-
 div.user-profile div.body > img.picture
 {
     width: 70px;
