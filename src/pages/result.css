@@ -1,7 +1,11 @@
 div.result-editor
 {
-    width: 300px;
-    max-width: 300px;
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+
+    align-items: center;
 }
 
 div.result-editor div.body > div.row

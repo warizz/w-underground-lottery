@@ -1,7 +1,11 @@
 div.dashboard
 {
-    width: 300px;
-    max-width: 300px;
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+
+    align-items: center;
 }
 
 div.dashboard div.body > div.row

@@ -75,9 +75,7 @@ class DashboardPage extends React.Component {
             </div>
           </Card>
         )}
-        <div style={{ margin: '10px 0 0 0' }}>
-          <Summary />
-        </div>
+        <Summary />
       </div>
     );
   }

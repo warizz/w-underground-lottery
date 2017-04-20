@@ -1,7 +1,21 @@
 div.summary-component
 {
-    width: 300px;
-    max-width: 300px;
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+
+    align-items: center;
+}
+
+div.summary-component #for-clipboard
+{
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+
+    align-items: center;
 }
 
 div.summary-component li.bet.paid

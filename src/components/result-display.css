@@ -1,37 +1,12 @@
-div.result-display
-{
-    position: relative;
-
-    overflow: hidden;
-
-    box-sizing: border-box;
-    width: 300px;
-    max-width: 300px;
-
-    border: 1px solid #b8bfc3;
-    border-radius: 5px;
-}
-
-div.result-display > div.title
-{
-    font-size: 20px;
-    font-weight: bold;
-
-    padding: 10px;
-
-    text-align: center;
-
-    border-bottom: 1px solid #b8bfc3;
-    background-color: white;
-}
-
-div.result-display > div.message
+div.result-display div.message
 {
     font-weight: bold;
 
     display: flex;
     flex-direction: column;
 
+    width: 100%;
+    margin: 0 0 10px 0;
     padding: 10px;
 
     border-bottom: 1px solid #b8bfc3;
@@ -39,43 +14,35 @@ div.result-display > div.message
     align-items: center;
 }
 
-div.result-display > div.message.win
+div.result-display div.message.win
 {
     color: green;
     border: 3px solid green;
 }
 
-div.result-display > div.message.lose
+div.result-display div.message.lose
 {
     color: red;
     border: 3px solid red;
 }
 
-div.result-display > div.body
-{
-    font-size: 20px;
-    font-weight: bold;
-
-    padding: 10px;
-
-    text-align: center;
-
-    background-color: white;
-}
-
-div.result-display > div.body > div.row
+div.result-display div.body > div.row
 {
     display: flex;
+
+    width: 100%;
 
     justify-content: space-around;
 }
 
-div.result-display > div.body > div.row > div.result-group
+div.result-display div.body > div.row > div.result-group
 {
     width: 100%;
+
+    text-align: center;
 }
 
-div.result-display > div.body > div.row > div.result-group > div.three
+div.result-display div.body > div.row > div.result-group > div.three
 {
     display: flex;
 
