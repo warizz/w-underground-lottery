@@ -1,39 +1,36 @@
 import React from 'react';
-import { Router, Route, browserHistory, IndexRoute } from 'react-router';
+import Router from 'react-router/lib/Router';
+import Route from 'react-router/lib/Route';
+import browserHistory from 'react-router/lib/browserHistory';
+import IndexRoute from 'react-router/lib/IndexRoute';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-import reducer from './reducers/index';
+
 import Layout from './pages/layout';
+import HomePage from './pages/home';
 import SignInPage from './pages/sign-in';
 import HistoryPage from './pages/history';
 import DashboardPage from './pages/dashboard';
-import SummaryPage from './pages/summary';
 import ResultPage from './pages/result';
-import FaqPage from './pages/faq';
+
+import reducer from './reducers/index';
 import lib from './constants/lib';
-import Page from './pages/index';
 
 const store = createStore(reducer);
 
-class App extends React.Component {
-  render() {
-    return (
-      <Provider store={store}>
-        <Router history={browserHistory}>
-          <Route path="/log-in" component={SignInPage} />
-          <Route component={Layout} onEnter={lib.initApplicationState(store)}>
-            <IndexRoute component={Page.Home} />
-            <Route path="/" component={Page.Home} />
-            <Route path="/history" component={HistoryPage} />
-            <Route path="/dashboard" component={DashboardPage} />
-            <Route path="/dashboard/summary" component={SummaryPage} />
-            <Route path="/dashboard/result" component={ResultPage} />
-            <Route path="/faq" component={FaqPage} />
-          </Route>
-        </Router>
-      </Provider>
-    );
-  }
-}
+const App = () => (
+  <Provider store={store}>
+    <Router history={browserHistory}>
+      <Route path="/log-in" component={SignInPage} />
+      <Route component={Layout} onEnter={lib.initApplicationState(store)}>
+        <IndexRoute component={HomePage} />
+        <Route path="/" component={HomePage} />
+        <Route path="/history" component={HistoryPage} />
+        <Route path="/dashboard" component={DashboardPage} />
+        <Route path="/dashboard/result" component={ResultPage} />
+      </Route>
+    </Router>
+  </Provider>
+);
 
 export default App;

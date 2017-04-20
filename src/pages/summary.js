@@ -191,7 +191,6 @@ const mapDispatchToProps = dispatch => (
   {
     setAlert: alert => dispatch(actions.layout.setAlert(alert)),
     setFetching: fetching => dispatch(actions.data.setFetching(fetching)),
-    setPageName: pageName => dispatch(actions.layout.setPageName(pageName)),
   }
 );
 

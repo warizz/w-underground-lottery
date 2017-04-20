@@ -110,11 +110,7 @@ class HistoryPage extends React.Component {
   }
 }
 
-const mapStateToProps = state => (
-  {
-    currentPeriod: state.data.currentPeriod,
-  }
-);
+const mapStateToProps = state => ({ currentPeriod: state.data.currentPeriod });
 
 const mapDispatchToProps = dispatch => (
   {

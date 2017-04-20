@@ -1,10 +1,12 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+
 import ToolBar from '../components/tool-bar';
-import action from '../actions/index';
-import constants from '../constants/index';
 import Overlay from '../components/overlay';
 import Snackbar from '../components/snackbar';
+
+import action from '../actions/index';
+import constants from '../constants/index';
 
 const styles = {
   content: {

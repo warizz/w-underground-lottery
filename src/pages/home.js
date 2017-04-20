@@ -2,13 +2,16 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import docCookies from 'doc-cookies';
-import BetList from '../components/bet-list/index';
+
+import BetList from '../components/bet-list/bet-list';
 import BetEditor from '../components/bet-editor';
 import ResultDisplay from '../components/result-display';
+import UserProfile from '../components/user-profile';
+
 import actions from '../actions/index';
 import constants from '../constants/index';
 import service from '../services/index';
-import UserProfile from '../components/user-profile';
+
 import './home.css';
 
 class Home extends React.Component {
@@ -35,15 +38,6 @@ class Home extends React.Component {
     const editor = document.getElementById('bet-editor');
     if (editor) editor.focus();
   }
-  setAlert(alertText) {
-    return () => {
-      this.setState({
-        alertText,
-        fetching: false,
-        hasAlert: true,
-      });
-    };
-  }
   inputToggle() {
     this.setState({ editingBet: null, inputOpen: !this.state.inputOpen });
   }
@@ -64,8 +58,10 @@ class Home extends React.Component {
     });
   }
   handleError(error) {
-    const alertText = `${error.response.status}: ${error.response.statusText}`;
-    this.setAlert(alertText);
+    if (error.response) {
+      const alertText = `${error.response.status}: ${error.response.statusText}`;
+      this.props.setAlert(alertText);
+    }
     this.props.setFetching(false);
   }
   handleSaveBet(bet) {

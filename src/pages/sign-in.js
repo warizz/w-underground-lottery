@@ -63,7 +63,7 @@ class SignInPage extends React.Component {
                 fetching: false,
               });
             } else {
-              console.error(error);
+              console.error(error); // eslint-disable-line no-console
               self.setState({ fetching: false });
             }
           });
