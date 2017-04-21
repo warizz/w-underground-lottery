@@ -1,0 +1,68 @@
+body,
+html,
+#root
+{
+    font-family: sans-serif;
+    /* Grey 300 */
+
+    overflow: auto;
+
+    height: 100%;
+    margin: 0;
+    padding: 0;
+
+    letter-spacing: 1px;
+
+    background-color: #e9ebee;
+}
+#root > div.loading
+{
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+    height: 100vh;
+    margin: 50px 0 0 0;
+
+    align-items: center;
+}
+#root > div.loading > div.text
+{
+    margin: 0 0 20px 0;
+}
+#root > div.loading > div.spinner
+{
+    display: flex;
+
+    width: 100px;
+    height: 100px;
+
+    transform: rotate(360deg);
+    animation: roll 3s infinite;
+
+    border: 3px solid black;
+    background-color: white;
+
+    justify-content: space-around;
+    align-items: center;
+}
+#root > div.loading > div.spinner > div.dot
+{
+    width: 20px;
+    height: 20px;
+
+    border-radius: 100%;
+    background-color: black;
+}
+
+@keyframes roll
+{
+    0%
+    {
+        transform: rotate(0);
+    }
+    100%
+    {
+        transform: rotate(360deg);
+    }
+}
