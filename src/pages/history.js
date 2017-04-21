@@ -19,6 +19,11 @@ class HistoryPage extends React.Component {
   }
   componentDidMount() {
     this.props.setPageName('History');
+    service
+      .data
+      .getHistory()
+      .then(res => this.setState({ history: res }))
+      .catch(this.handleError);
   }
   componentWillReceiveProps() {
     service
@@ -64,8 +69,7 @@ class HistoryPage extends React.Component {
     this.props.setFetching(false);
   }
   render() {
-    const { currentPeriod } = this.props;
-    if (!currentPeriod) return null;
+    const { currentPeriod = {} } = this.props;
     const history = this.state.history.filter((h) => {
       const { bets = [] } = h;
       return bets.length > 0;
@@ -73,7 +77,11 @@ class HistoryPage extends React.Component {
     return (
       <div className="history">
         <div className="bet-list">
-          {history.length === 0 && <div className="placeholder">{'you have no history here, make one!'}</div>}
+          {history.length === 0 && (
+            <Card>
+              <div className="placeholder">{'you have no history here, make one!'}</div>
+            </Card>
+          )}
           {history.length > 0 && history.map(h => (
             <Card key={h.id}>
               <div className="title">{moment(h.endedAt).format('DD MMM YYYY')}</div>
