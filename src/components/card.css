@@ -28,6 +28,13 @@ div.card-component
     }
 }
 
+div.card-component > div.placeholder
+{
+    padding: 10px;
+
+    text-align: center;
+}
+
 div.card-component > div.title
 {
     font-weight: bold;
