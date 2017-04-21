@@ -42,16 +42,15 @@ class Home extends React.Component {
     this.setState({ editingBet: null, inputOpen: !this.state.inputOpen });
   }
   handleDeleteBet(id) {
-    const self = this;
-    self.props.setFetching(true);
+    this.props.setFetching(true);
     service.data
     .deleteBet(id)
     .then(() => {
       service.data
       .getCurrentPeriod()
       .then((res) => {
-        self.props.setCurrentPeriod(res);
-        self.props.setFetching(false);
+        this.props.setCurrentPeriod(res);
+        this.props.setFetching(false);
         this.props.setAlert('deleted');
       })
       .catch(this.handleError);
@@ -65,9 +64,8 @@ class Home extends React.Component {
     this.props.setFetching(false);
   }
   handleSaveBet(bet) {
-    const self = this;
     const { currentPeriod } = this.props;
-    self.props.setFetching(true);
+    this.props.setFetching(true);
     if (!currentPeriod.isOpen) return;
     let inputBet = currentPeriod.bets.find(item => item.number === bet.number);
     let actor;
@@ -116,14 +114,14 @@ class Home extends React.Component {
           // left pane
         }
         <div className="pane visible-md visible-lg">
-          <UserProfile name={user.name} pictureUrl={user.picture} isAdmin={user.is_admin} logOutHandler={this.logOut} />
+          <UserProfile user={user} logOutHandler={this.logOut} />
         </div>
         {
           // center pane
         }
         <div className="pane center">
           <div className="visible-xs visible-sm" style={{ display: 'flex' }}>
-            <UserProfile name={user.name} pictureUrl={user.picture} isAdmin={user.is_admin} logOutHandler={this.logOut} />
+            <UserProfile user={user} logOutHandler={this.logOut} />
           </div>
           {
             currentPeriod.isOpen && (
@@ -175,6 +173,7 @@ class Home extends React.Component {
 const mapStateToProps = state => (
   {
     currentPeriod: state.data.currentPeriod,
+    user: state.user.user,
   }
 );
 
@@ -194,9 +193,9 @@ Home.propTypes = {
   setFetching: PropTypes.func.isRequired,
   setPageName: PropTypes.func,
   user: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    picture: PropTypes.string.isRequired,
-    is_admin: PropTypes.bool.isRequired,
+    name: PropTypes.string,
+    picture: PropTypes.string,
+    is_admin: PropTypes.bool,
   }),
   router: PropTypes.shape({
     push: PropTypes.func.isRequired,
