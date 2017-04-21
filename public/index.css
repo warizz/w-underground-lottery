@@ -3,15 +3,12 @@ html,
 #root
 {
     font-family: sans-serif;
-    /* Grey 300 */
 
     overflow: auto;
 
     height: 100%;
     margin: 0;
     padding: 0;
-
-    letter-spacing: 1px;
 
     background-color: #e9ebee;
 }
