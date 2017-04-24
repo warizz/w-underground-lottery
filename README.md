@@ -1,4 +1,6 @@
-[demo](https://w-underground-lottery.herokuapp.com)
+[client demo](https://w-underground-lottery.herokuapp.com)
+
+[server api](https://github.com/warizz/w-underground-lottery-api)
 
 ## technology stack
 ```
