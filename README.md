@@ -1,5 +1,19 @@
 [demo](https://w-underground-lottery.herokuapp.com)
 
+## technology stack
+```
+client
+  react/
+    react-redux
+    react-router@3
+
+server
+  node/
+    express
+    mongoDB
+    mocha
+```
+
 ## required
 
 ```.env``` at project's ```root/```
