@@ -2,6 +2,8 @@
 
 [server api](https://github.com/warizz/w-underground-lottery-api)
 
+logo design by [Ka](hnudka@gmail.com)
+
 ## technology stack
 ```
 client
