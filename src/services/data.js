@@ -156,10 +156,7 @@ function insertBets(periodId, bets) {
 function logIn(accessToken) {
   const data = { access_token: accessToken };
   return new Promise((resolve, reject) => {
-    axios
-      .post(`${baseURL}/log_in`, data)
-      .then(res => resolve(res.data))
-      .catch(error => reject(error));
+    axios.post(`${baseURL}/log_in`, data).then(res => resolve(res.data)).catch(error => reject(error));
   });
 }
 
