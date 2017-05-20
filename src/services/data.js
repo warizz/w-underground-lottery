@@ -47,6 +47,7 @@ function getCurrentPeriod() {
         headers: { 'x-access-token': token },
       })
       .then((res) => {
+        if (!res.data) resolve();
         const period = res.data;
         period.bets = period.bets.map((bet) => {
           const updated = Object.assign({}, bet);
