@@ -50,6 +50,10 @@ const ResultDisplay = (props) => {
                 <span style={{ fontSize: '30px' }}>{props.firstThree}</span>
                 <span style={{ fontSize: '30px' }}>{props.secondThree}</span>
               </div>
+              <div className="three">
+                <span style={{ fontSize: '30px' }}>{props.thirdThree}</span>
+                <span style={{ fontSize: '30px' }}>{props.fourthThree}</span>
+              </div>
             </div>
           </div>
         </div>
