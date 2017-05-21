@@ -15,6 +15,8 @@ class ResultInputPage extends React.Component {
       two: '',
       firstThree: '',
       secondThree: '',
+      thirdThree: '',
+      fourthThree: '',
     };
     this.handleSaveInput = this.handleSaveInput.bind(this);
   }
@@ -28,6 +30,8 @@ class ResultInputPage extends React.Component {
         two: nextProps.currentPeriod.result.two,
         firstThree: nextProps.currentPeriod.result.firstThree,
         secondThree: nextProps.currentPeriod.result.secondThree,
+        thirdThree: nextProps.currentPeriod.result.thirdThree,
+        fourthThree: nextProps.currentPeriod.result.fourthThree,
       });
     }
   }
@@ -53,30 +57,26 @@ class ResultInputPage extends React.Component {
         two: this.state.two,
         firstThree: this.state.firstThree,
         secondThree: this.state.secondThree,
+        thirdThree: this.state.thirdThree,
+        fourthThree: this.state.fourthThree,
       },
     };
     self.props.setFetching(true);
-    service
-      .data
-      .updatePeriod(self.props.currentPeriod.id, update)
-      .then(() => {
-        service
-          .data
-          .getCurrentPeriod()
-          .then((res) => {
-            this.props.setCurrentPeriod(res);
-            this.props.setFetching(false);
-            this.props.setAlert('saved');
-          })
-          .catch(error => this.setAlert(`${error.response.status}: ${error.response.statusText}`));
-      });
+    service.data.updatePeriod(self.props.currentPeriod.id, update).then(() => {
+      service.data
+        .getCurrentPeriod()
+        .then((res) => {
+          this.props.setCurrentPeriod(res);
+          this.props.setFetching(false);
+          this.props.setAlert('saved');
+        })
+        .catch(error => this.setAlert(`${error.response.status}: ${error.response.statusText}`));
+    });
   }
   render() {
     const { currentPeriod } = this.props;
     if (!currentPeriod) {
-      return (
-        <div />
-      );
+      return <div />;
     }
     // TODO: refactor this validations
     const sixValid = this.state.six && this.state.six.toString().length === 6;
@@ -87,6 +87,10 @@ class ResultInputPage extends React.Component {
     const firstThreeInvalidAndDirty = !firstThreeValid && this.state.firstThreeDirty;
     const secondThreeValid = this.state.secondThree && this.state.secondThree.toString().length === 3;
     const secondThreeInvalidAndDirty = !secondThreeValid && this.state.secondThreeDirty;
+    const thirdThreeValid = this.state.thirdThree && this.state.thirdThree.toString().length === 3;
+    const thirdThreeInvalidAndDirty = !thirdThreeValid && this.state.thirdThreeDirty;
+    const fourthThreeValid = this.state.fourthThree && this.state.fourthThree.toString().length === 3;
+    const fourthThreeInvalidAndDirty = !fourthThreeValid && this.state.fourthThreeDirty;
     const validInput = sixValid && twoValid && firstThreeValid && secondThreeValid;
     return (
       <div className="result-editor">
@@ -98,49 +102,39 @@ class ResultInputPage extends React.Component {
             <div className="row center">
               <div className={`input-group ${sixInvalidAndDirty ? ' has-error' : ''}`}>
                 <label htmlFor="six">รางวัลที่หนึ่ง</label>
-                <input
-                  id="six"
-                  min="0"
-                  onChange={this.onInputChange('six', 6)}
-                  onKeyPress={this.handleNumberValidation}
-                  type="number"
-                  value={this.state.six}
-                />
+                <input id="six" min="0" onChange={this.onInputChange('six', 6)} onKeyPress={this.handleNumberValidation} type="number" value={this.state.six} />
                 {sixInvalidAndDirty && <label htmlFor="six">ต้องเป็นเลข 6 ตัว</label>}
               </div>
             </div>
             <div className="row center">
               <div className={`input-group ${twoInvalidAndDirty ? ' has-error' : ''}`}>
                 <label htmlFor="two">เลขท้ายสองตัว</label>
-                <input
-                  id="two"
-                  onChange={this.onInputChange('two', 2)}
-                  type="number"
-                  value={this.state.two}
-                />
+                <input id="two" onChange={this.onInputChange('two', 2)} type="number" value={this.state.two} />
                 {twoInvalidAndDirty && <label htmlFor="two">ต้องเป็นเลข 2 ตัว</label>}
               </div>
             </div>
             <div className="row space-between">
               <div className={`input-group ${firstThreeInvalidAndDirty ? ' has-error' : ''}`}>
                 <label htmlFor="firstThree">สามตัวล่าง #1</label>
-                <input
-                  id="firstThree"
-                  onChange={this.onInputChange('firstThree', 3)}
-                  type="number"
-                  value={this.state.firstThree}
-                />
+                <input id="firstThree" onChange={this.onInputChange('firstThree', 3)} type="number" value={this.state.firstThree} />
                 {firstThreeInvalidAndDirty && <label htmlFor="firstThree">ต้องเป็นเลข 3 ตัว</label>}
               </div>
               <div className={`input-group ${secondThreeInvalidAndDirty ? ' has-error' : ''}`}>
                 <label htmlFor="secondThree">สามตัวล่าง #2</label>
-                <input
-                  id="secondThree"
-                  onChange={this.onInputChange('secondThree', 3)}
-                  type="number"
-                  value={this.state.secondThree}
-                />
+                <input id="secondThree" onChange={this.onInputChange('secondThree', 3)} type="number" value={this.state.secondThree} />
                 {secondThreeInvalidAndDirty && <label htmlFor="secondThree">ต้องเป็นเลข 3 ตัว</label>}
+              </div>
+            </div>
+            <div className="row space-between">
+              <div className={`input-group ${firstThreeInvalidAndDirty ? ' has-error' : ''}`}>
+                <label htmlFor="thirdThree">สามตัวล่าง #3</label>
+                <input id="thirdThree" onChange={this.onInputChange('thirdThree', 3)} type="number" value={this.state.thirdThree} />
+                {thirdThreeInvalidAndDirty && <label htmlFor="thirdThree">ต้องเป็นเลข 3 ตัว</label>}
+              </div>
+              <div className={`input-group ${secondThreeInvalidAndDirty ? ' has-error' : ''}`}>
+                <label htmlFor="fourthThree">สามตัวล่าง #4</label>
+                <input id="fourthThree" onChange={this.onInputChange('fourthThree', 3)} type="number" value={this.state.fourthThree} />
+                {fourthThreeInvalidAndDirty && <label htmlFor="fourthThree">ต้องเป็นเลข 3 ตัว</label>}
               </div>
             </div>
           </div>
@@ -155,14 +149,12 @@ class ResultInputPage extends React.Component {
 
 const mapStateToProps = state => ({ currentPeriod: state.data.currentPeriod });
 
-const mapDispatchToProps = dispatch => (
-  {
-    setAlert: alert => dispatch(actions.layout.setAlert(alert)),
-    setCurrentPeriod: currentPeriod => dispatch(actions.data.setCurrentPeriod(currentPeriod)),
-    setFetching: fetching => dispatch(actions.data.setFetching(fetching)),
-    setPageName: pageName => dispatch(actions.layout.setPageName(pageName)),
-  }
-);
+const mapDispatchToProps = dispatch => ({
+  setAlert: alert => dispatch(actions.layout.setAlert(alert)),
+  setCurrentPeriod: currentPeriod => dispatch(actions.data.setCurrentPeriod(currentPeriod)),
+  setFetching: fetching => dispatch(actions.data.setFetching(fetching)),
+  setPageName: pageName => dispatch(actions.layout.setPageName(pageName)),
+});
 
 ResultInputPage.propTypes = {
   currentPeriod: constants.customPropType.periodShape,

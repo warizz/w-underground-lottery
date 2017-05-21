@@ -38,11 +38,17 @@ const checkReward = (result, callback) => (bet) => {
     }
     // ล่าง x 500
     if (bet.price3) {
-      const reward = 500;
+      const reward = 100;
       if (bet.number === result.firstThree) {
         return callback(bet.number, bet.price3, reward, rewardType.BELOW);
       }
       if (bet.number === result.secondThree) {
+        return callback(bet.number, bet.price3, reward, rewardType.BELOW);
+      }
+      if (bet.number === result.thirdThree) {
+        return callback(bet.number, bet.price3, reward, rewardType.BELOW);
+      }
+      if (bet.number === result.fourthThree) {
         return callback(bet.number, bet.price3, reward, rewardType.BELOW);
       }
     }
@@ -89,7 +95,6 @@ const calculateTotal = result => (bet) => {
   const rewardCallback = (number, price, reward) => price * reward;
   return money - checkReward(result, rewardCallback)(bet);
 };
-
 
 export default {
   calculateTotal,
