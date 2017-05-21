@@ -19,18 +19,10 @@ class HistoryPage extends React.Component {
   }
   componentDidMount() {
     this.props.setPageName('History');
-    service
-      .data
-      .getHistory()
-      .then(res => this.setState({ history: res }))
-      .catch(this.handleError);
+    service.data.getHistory().then(res => this.setState({ history: res })).catch(this.handleError);
   }
   componentWillReceiveProps() {
-    service
-      .data
-      .getHistory()
-      .then(res => this.setState({ history: res }))
-      .catch(this.handleError);
+    service.data.getHistory().then(res => this.setState({ history: res })).catch(this.handleError);
   }
   clone(currentPeriod, bets) {
     return (e) => {
@@ -48,19 +40,16 @@ class HistoryPage extends React.Component {
         return;
       }
       self.props.setFetching(true);
-      service.data
-        .insertBets(currentPeriod.id, newBets)
-        .then(() => {
-          service
-            .data
-            .getCurrentPeriod()
-            .then((res) => {
-              this.props.setCurrentPeriod(res);
-              this.props.setFetching(false);
-              this.props.setAlert('cloned');
-            })
-            .catch(this.handleError);
-        });
+      service.data.insertBets(currentPeriod.id, newBets).then(() => {
+        service.data
+          .getCurrentPeriod()
+          .then((res) => {
+            this.props.setCurrentPeriod(res);
+            this.props.setFetching(false);
+            this.props.setAlert('cloned');
+          })
+          .catch(this.handleError);
+      });
     };
   }
   handleError(error) {
@@ -77,18 +66,17 @@ class HistoryPage extends React.Component {
     return (
       <div className="history">
         <div className="bet-list">
-          {history.length === 0 && (
+          {history.length === 0 &&
             <Card>
               <div className="placeholder">{'you have no history here, make one!'}</div>
-            </Card>
-          )}
-          {history.length > 0 && history.map(h => (
-            <Card key={h.id}>
-              <div className="title">{moment(h.endedAt).format('DD MMM YYYY')}</div>
-              <div className="body">
-                <ul>
-                  {h.bets
-                    .map((bet) => {
+            </Card>}
+          {history.length > 0 &&
+            history.map(h => (
+              <Card key={h.id}>
+                <div className="title">{moment(h.endedAt).format('DD MMM YYYY')}</div>
+                <div className="body">
+                  <ul>
+                    {h.bets.map((bet) => {
                       const price1Label = bet.number.length > 2 ? ' เต็ง ' : ' บน ';
                       const price2Label = bet.number.length > 2 ? ' โต๊ด ' : ' ล่าง ';
                       const price3Label = ' ล่าง ';
@@ -101,16 +89,13 @@ class HistoryPage extends React.Component {
                           {historyItem}
                         </li>
                       );
-                    })
-                  }
-                </ul>
-              </div>
-              <div className="action">
-                {currentPeriod.isOpen && (
-                  <button onClick={this.clone(currentPeriod, h.bets, service.data.insertBet)}>clone</button>
-                )}
-              </div>
-            </Card>
+                    })}
+                  </ul>
+                </div>
+                <div className="action">
+                  {currentPeriod.isOpen && <button onClick={this.clone(currentPeriod, h.bets, service.data.insertBet)}>clone</button>}
+                </div>
+              </Card>
             ))}
         </div>
       </div>
@@ -120,14 +105,12 @@ class HistoryPage extends React.Component {
 
 const mapStateToProps = state => ({ currentPeriod: state.data.currentPeriod });
 
-const mapDispatchToProps = dispatch => (
-  {
-    setAlert: alert => dispatch(actions.layout.setAlert(alert)),
-    setCurrentPeriod: currentPeriod => dispatch(actions.data.setCurrentPeriod(currentPeriod)),
-    setFetching: fetching => dispatch(actions.data.setFetching(fetching)),
-    setPageName: pageName => dispatch(actions.layout.setPageName(pageName)),
-  }
-);
+const mapDispatchToProps = dispatch => ({
+  setAlert: alert => dispatch(actions.layout.setAlert(alert)),
+  setCurrentPeriod: currentPeriod => dispatch(actions.data.setCurrentPeriod(currentPeriod)),
+  setFetching: fetching => dispatch(actions.data.setFetching(fetching)),
+  setPageName: pageName => dispatch(actions.layout.setPageName(pageName)),
+});
 
 HistoryPage.propTypes = {
   currentPeriod: constants.customPropType.periodShape,
