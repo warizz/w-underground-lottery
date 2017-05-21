@@ -20,20 +20,14 @@ class ResultInputPage extends React.Component {
     };
     this.handleSaveInput = this.handleSaveInput.bind(this);
   }
+  componentWillMount() {
+    this.setResult(this.props.currentPeriod)();
+  }
   componentDidMount() {
     this.props.setPageName('กรอกผลรางวัล');
   }
   componentWillReceiveProps(nextProps) {
-    if (nextProps.currentPeriod && nextProps.currentPeriod.result) {
-      this.setState({
-        six: nextProps.currentPeriod.result.six,
-        two: nextProps.currentPeriod.result.two,
-        firstThree: nextProps.currentPeriod.result.firstThree,
-        secondThree: nextProps.currentPeriod.result.secondThree,
-        thirdThree: nextProps.currentPeriod.result.thirdThree,
-        fourthThree: nextProps.currentPeriod.result.fourthThree,
-      });
-    }
+    this.setResult(nextProps.currentPeriod)();
   }
   onInputChange(key, length) {
     return (e) => {
@@ -43,6 +37,20 @@ class ResultInputPage extends React.Component {
       }
       if (e.target.value.length > length) return;
       this.setState({ [key]: e.target.value });
+    };
+  }
+  setResult(currentPeriod) {
+    return () => {
+      if (!currentPeriod) return;
+      if (!currentPeriod.result) return;
+      this.setState({
+        six: currentPeriod.result.six,
+        two: currentPeriod.result.two,
+        firstThree: currentPeriod.result.firstThree,
+        secondThree: currentPeriod.result.secondThree,
+        thirdThree: currentPeriod.result.thirdThree,
+        fourthThree: currentPeriod.result.fourthThree,
+      });
     };
   }
   componentWillUnMount() {
