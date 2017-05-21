@@ -1,7 +1,8 @@
-[client demo](https://w-underground-lottery.herokuapp.com)
+# Underground lottery
+Lottery system simulator
 
-[server api](https://github.com/warizz/w-underground-lottery-api)
-
+[client demo](https://w-underground-lottery.herokuapp.com)  
+[server api](https://github.com/warizz/w-underground-lottery-api)  
 logo design by [Ka](hnudka@gmail.com)
 
 ## technology stack
