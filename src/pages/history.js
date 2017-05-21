@@ -39,7 +39,7 @@ class HistoryPage extends React.Component {
         this.props.setAlert('nothing to clone');
         return;
       }
-      self.props.setFetching(true);
+      this.props.setFetching(true);
       service.data.insertBets(currentPeriod.id, newBets).then(() => {
         service.data
           .getCurrentPeriod()
