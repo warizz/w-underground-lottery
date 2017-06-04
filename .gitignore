@@ -5,3 +5,4 @@ coverage
 .env
 .vs
 npm-debug.log
+yarn.lock
