@@ -1,6 +1,8 @@
 node_modules
 build
+coverage
 
 .env
 .vs
 npm-debug.log
+yarn.lock
