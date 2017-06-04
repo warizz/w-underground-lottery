@@ -235,13 +235,18 @@ function updatePeriod(id, update) {
     const data = update;
     axios
       .request({
-        url: `/period/${id}`,
+        url: '/periods/latest',
         method: 'patch',
         baseURL,
         headers: { 'x-access-token': token },
         data,
       })
-      .then(res => resolve(res.data))
+      .then((res) => {
+        if (res.status === 200) {
+          return resolve();
+        }
+        return resolve(res.data);
+      })
       .catch(error => reject(error));
   });
 }
