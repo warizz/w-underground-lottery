@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import { PropTypes } from 'prop-types';
 import './tool-bar.css';
 
 class ToolBar extends React.Component {
@@ -9,14 +10,11 @@ class ToolBar extends React.Component {
     const { pageName } = this.props;
     return (
       <div className="tool-bar">
-        {pageName === 'Home' && (
-          <i className="material-icons">home</i>
-        )}
-        {pageName !== 'Home' && (
-          <button className="icon-button" onClick={() => history.back()}>
+        {pageName === 'Home' && <i className="material-icons">home</i>}
+        {pageName !== 'Home' &&
+          <button className="icon-button" onClick={() => window.history.back()}>
             <i className="material-icons">keyboard_backspace</i>
-          </button>
-        )}
+          </button>}
         <span className="page-name">{pageName}</span>
       </div>
     );
