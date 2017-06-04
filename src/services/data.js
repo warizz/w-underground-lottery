@@ -52,14 +52,23 @@ function getCurrentPeriod() {
         headers: { 'x-access-token': token },
       })
       .then((res) => {
-        if (!res.data) resolve();
+        if (!res.data) {
+          return resolve();
+        }
+
         const period = res.data;
-        period.bets = period.bets.map((bet) => {
-          const updated = Object.assign({}, bet);
-          if (bet.createdAt) updated.createdAt = new Date(bet.createdAt);
-          return updated;
-        });
-        resolve(res.data);
+
+        if (period.bets) {
+          period.bets = period.bets.map((bet) => {
+            const updated = Object.assign({}, bet);
+            if (bet.createdAt) {
+              updated.createdAt = new Date(bet.createdAt);
+            }
+            return updated;
+          });
+        }
+
+        return resolve(period);
       })
       .catch((error) => {
         if (error.response.status === 401) {
