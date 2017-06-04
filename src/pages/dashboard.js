@@ -59,15 +59,14 @@ class DashboardPage extends React.Component {
               <button className="border-bottom primary" onClick={this.openPeriod}>{'เปิดแทง'}</button>
               <Link to="/dashboard/result">{'กรอกผลรางวัลงวดล่าสุด'}</Link>
             </div>
-          </Card>
-        )}
-        {currentPeriod && currentPeriod.isOpen && (
+          </Card>}
+        {currentPeriod &&
+          currentPeriod.isOpen &&
           <Card>
             <div className="action" style={{ border: 'none' }}>
               <button className="danger" onClick={this.closePeriod}>{'ปิดรับแทง'}</button>
             </div>
-          </Card>
-        )}
+          </Card>}
         <Summary />
       </div>
     );
@@ -76,13 +75,11 @@ class DashboardPage extends React.Component {
 
 const mapStateToProps = state => ({ currentPeriod: state.data.currentPeriod });
 
-const mapDispatchToProps = dispatch => (
-  {
-    setCurrentPeriod: currentPeriod => dispatch(actions.data.setCurrentPeriod(currentPeriod)),
-    setFetching: fetching => dispatch(actions.data.setFetching(fetching)),
-    setPageName: pageName => dispatch(actions.layout.setPageName(pageName)),
-  }
-);
+const mapDispatchToProps = dispatch => ({
+  setCurrentPeriod: currentPeriod => dispatch(actions.data.setCurrentPeriod(currentPeriod)),
+  setFetching: fetching => dispatch(actions.data.setFetching(fetching)),
+  setPageName: pageName => dispatch(actions.layout.setPageName(pageName)),
+});
 
 DashboardPage.propTypes = {
   currentPeriod: constants.customPropType.periodShape,
