@@ -39,7 +39,7 @@ class DashboardPage extends React.Component {
   closePeriod() {
     this.props.setFetching(true);
     const { id } = this.props.currentPeriod;
-    service.data.closePeriod(id).then(this.setPeriod);
+    service.data.updatePeriod(id, { isOpen: false }).then(this.setPeriod);
   }
   render() {
     const { currentPeriod } = this.props;

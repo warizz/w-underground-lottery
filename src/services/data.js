@@ -4,28 +4,6 @@ import docCookies from 'doc-cookies';
 const baseURL = process.env.REACT_APP_API_URL;
 const fbAppId = process.env.REACT_APP_FB_APP_ID;
 
-function closePeriod() {
-  const token = docCookies.getItem(`fbat_${fbAppId}`);
-  return new Promise((resolve, reject) => {
-    const data = { isOpen: false };
-    axios
-      .request({
-        url: '/periods/latest',
-        method: 'patch',
-        baseURL,
-        headers: { 'x-access-token': token },
-        data,
-      })
-      .then((res) => {
-        if (res.status === 200) {
-          return resolve();
-        }
-        return reject(res);
-      })
-      .catch(error => reject(error));
-  });
-}
-
 function deleteBet(id) {
   const token = docCookies.getItem(`fbat_${fbAppId}`);
   return new Promise((resolve, reject) => {
@@ -269,7 +247,6 @@ function updatePeriod(id, update) {
 }
 
 export default {
-  closePeriod,
   deleteBet,
   getCurrentPeriod,
   getHistory,
