@@ -4,19 +4,24 @@ import docCookies from 'doc-cookies';
 const baseURL = process.env.REACT_APP_API_URL;
 const fbAppId = process.env.REACT_APP_FB_APP_ID;
 
-function closePeriod(id) {
+function closePeriod() {
   const token = docCookies.getItem(`fbat_${fbAppId}`);
   return new Promise((resolve, reject) => {
     const data = { isOpen: false };
     axios
       .request({
-        url: `/period/${id}`,
+        url: '/periods/latest',
         method: 'patch',
         baseURL,
         headers: { 'x-access-token': token },
         data,
       })
-      .then(res => resolve(res.data))
+      .then((res) => {
+        if (res.status === 200) {
+          return resolve();
+        }
+        return reject(res);
+      })
       .catch(error => reject(error));
   });
 }
