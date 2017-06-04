@@ -180,14 +180,19 @@ function openPeriod(endedAt) {
     const data = { endedAt };
     axios
       .request({
-        url: '/period',
+        url: '/periods/latest',
         method: 'post',
         baseURL,
         headers: { 'x-access-token': token },
         data,
       })
-      .then(res => resolve(res.data))
-      .catch(error => reject(error));
+      .then((res) => {
+        if (res.status === 201) {
+          return resolve();
+        }
+        return reject(res);
+      })
+      .catch(reject);
   });
 }
 

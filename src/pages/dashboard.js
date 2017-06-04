@@ -17,6 +17,7 @@ class DashboardPage extends React.Component {
     };
     this.openPeriod = this.openPeriod.bind(this);
     this.closePeriod = this.closePeriod.bind(this);
+    this.setPeriod = this.setPeriod.bind(this);
   }
   componentWillMount() {
     this.props.setPageName('Admin dashboard');
@@ -24,35 +25,27 @@ class DashboardPage extends React.Component {
   onEndDateChange() {
     return e => this.setState({ endDate: e.target.value });
   }
+  setPeriod() {
+    service.data.getCurrentPeriod().then((res) => {
+      this.props.setCurrentPeriod(res);
+      this.props.setFetching(false);
+    });
+  }
   openPeriod() {
     this.props.setFetching(true);
     const endedAt = new Date(this.state.endDate);
-    service.data
-      .openPeriod(endedAt)
-      .then((currentPeriod) => {
-        this.props.setCurrentPeriod(currentPeriod);
-        this.props.setFetching(false);
-      });
+    service.data.openPeriod(endedAt).then(this.setPeriod);
   }
   closePeriod() {
     this.props.setFetching(true);
     const { id } = this.props.currentPeriod;
-    service.data
-      .closePeriod(id)
-      .then(() => {
-        service.data
-          .getCurrentPeriod()
-          .then((res) => {
-            this.props.setCurrentPeriod(res);
-            this.props.setFetching(false);
-          });
-      });
+    service.data.closePeriod(id).then(this.setPeriod);
   }
   render() {
     const { currentPeriod } = this.props;
     return (
       <div className="dashboard">
-        {(!currentPeriod || !currentPeriod.isOpen) && (
+        {(!currentPeriod || !currentPeriod.isOpen) &&
           <Card>
             <div className="body">
               <div className="row">
