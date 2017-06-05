@@ -1,4 +1,7 @@
 # Underground lottery
+[![Build Status](https://travis-ci.org/warizz/w-underground-lottery.svg?branch=master)](https://travis-ci.org/warizz/w-underground-lottery)
+[![codecov](https://codecov.io/gh/warizz/w-underground-lottery/branch/master/graph/badge.svg)](https://codecov.io/gh/warizz/w-underground-lottery)
+
 Lottery system simulator
 
 [client demo](https://w-underground-lottery.herokuapp.com)  
