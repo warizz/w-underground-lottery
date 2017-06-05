@@ -4,6 +4,8 @@ import httpAdapter from 'axios/lib/adapters/http';
 import service from '../../../services/index';
 
 describe('service.data.bet', () => {
+  process.env.REACT_APP_FB_APP_ID = 'http://mock.com';
+
   // workaround for nock and axios problem, see https://github.com/node-nock/nock/issues/699
   const host = process.env.REACT_APP_FB_APP_ID;
   axios.defaults.host = host;
