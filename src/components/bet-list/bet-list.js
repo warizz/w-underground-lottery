@@ -24,10 +24,8 @@ class BetList extends React.Component {
     return () => this.props.deleteHandler(betId);
   }
   render() {
-    const { bets = [], deleteHandler, editHandler, periodEndedAt, isEditable = false } = this.props;
-    const total = bets.length > 0 ? bets
-      .map(BetList.calculateTotal)
-      .reduce((a, b) => a + b) : null;
+    const { bets, deleteHandler, editHandler, periodEndedAt, isEditable = false } = this.props;
+    const total = bets.length > 0 ? bets.map(BetList.calculateTotal).reduce((a, b) => a + b) : null;
     return (
       <div className="bet-list">
         <Card>
@@ -35,22 +33,14 @@ class BetList extends React.Component {
           <div className="body"><b>{`total: ${total || 0} ฿`}</b></div>
         </Card>
         <div className="list">
-          {bets.length > 0 && (
-              bets
-                .sort((a, b) => {
-                  if (a.createdAt > b.createdAt) return -1;
-                  if (a.createdAt < b.createdAt) return 1;
-                  return 0;
-                })
-                .map(bet => (
-                  <BetItem
-                    key={bet.id} bet={bet}
-                    deleteHandler={deleteHandler}
-                    editHandler={editHandler}
-                    isEditable={isEditable}
-                  />
-                ))
-            )}
+          {bets.length > 0 &&
+            bets
+              .sort((a, b) => {
+                if (a.createdAt > b.createdAt) return -1;
+                if (a.createdAt < b.createdAt) return 1;
+                return 0;
+              })
+              .map(bet => <BetItem key={bet.id} bet={bet} deleteHandler={deleteHandler} editHandler={editHandler} isEditable={isEditable} />)}
         </div>
       </div>
     );
@@ -63,6 +53,13 @@ BetList.propTypes = {
   bets: PropTypes.arrayOf(constants.customPropType.betShape),
   periodEndedAt: PropTypes.string.isRequired,
   isEditable: PropTypes.bool,
+};
+
+BetList.defaultProps = {
+  deleteHandler() {},
+  editHandler() {},
+  bets: [],
+  isEditable: false,
 };
 
 export default BetList;
