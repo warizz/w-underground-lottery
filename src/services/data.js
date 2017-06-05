@@ -15,7 +15,7 @@ function deleteBet(id) {
         headers: { 'x-access-token': token },
       })
       .then(() => resolve())
-      .catch(error => reject(error));
+      .catch(reject);
   });
 }
 
@@ -48,14 +48,7 @@ function getCurrentPeriod() {
 
         return resolve(period);
       })
-      .catch((error) => {
-        if (error.response.status === 401) {
-          docCookies.removeItem(`fbat_${process.env.REACT_APP_FB_APP_ID}`);
-          window.location.href = '/log-in';
-          return;
-        }
-        reject(error);
-      });
+      .catch(reject);
   });
 }
 
@@ -70,7 +63,7 @@ function getHistory() {
         headers: { 'x-access-token': token },
       })
       .then(res => resolve(res.data))
-      .catch(error => reject(error));
+      .catch(reject);
   });
 }
 
@@ -85,7 +78,7 @@ function getSummary(periodId) {
         headers: { 'x-access-token': token },
       })
       .then(res => resolve(res.data))
-      .catch(error => reject(error));
+      .catch(reject);
   });
 }
 
@@ -100,14 +93,7 @@ function getUser() {
         headers: { 'x-access-token': token },
       })
       .then(res => resolve(res.data))
-      .catch((error) => {
-        if (error.response.status === 401) {
-          docCookies.removeItem(`fbat_${process.env.REACT_APP_FB_APP_ID}`);
-          window.location.href = '/log-in';
-          return;
-        }
-        reject(error);
-      });
+      .catch(reject);
   });
 }
 
@@ -124,7 +110,7 @@ function insertBet(bet) {
         data,
       })
       .then(res => resolve(res.data))
-      .catch(error => reject(error));
+      .catch(reject);
   });
 }
 
@@ -141,14 +127,14 @@ function insertBets(periodId, bets) {
         data,
       })
       .then(res => resolve(res.data))
-      .catch(error => reject(error));
+      .catch(reject);
   });
 }
 
 function logIn(accessToken) {
   const data = { access_token: accessToken };
   return new Promise((resolve, reject) => {
-    axios.post(`${baseURL}/log_in`, data).then(res => resolve(res.data)).catch(error => reject(error));
+    axios.post(`${baseURL}/log_in`, data).then(res => resolve(res.data)).catch(reject);
   });
 }
 
@@ -162,7 +148,7 @@ function logOut(accessToken) {
         headers: { 'x-access-token': accessToken },
       })
       .then(res => resolve(res.data))
-      .catch(error => reject(error));
+      .catch(reject);
   });
 }
 
@@ -178,12 +164,7 @@ function openPeriod(endedAt) {
         headers: { 'x-access-token': token },
         data,
       })
-      .then((res) => {
-        if (res.status === 201) {
-          return resolve();
-        }
-        return reject(res);
-      })
+      .then(resolve)
       .catch(reject);
   });
 }
@@ -205,7 +186,7 @@ function updateBet(bet) {
         data,
       })
       .then(res => resolve(res.data))
-      .catch(error => reject(error));
+      .catch(reject);
   });
 }
 
@@ -225,7 +206,7 @@ function updateBets(periodId, userId, update) {
         data,
       })
       .then(res => resolve(res.data))
-      .catch(error => reject(error));
+      .catch(reject);
   });
 }
 
@@ -241,13 +222,8 @@ function updatePeriod(id, update) {
         headers: { 'x-access-token': token },
         data,
       })
-      .then((res) => {
-        if (res.status === 200) {
-          return resolve();
-        }
-        return resolve(res.data);
-      })
-      .catch(error => reject(error));
+      .then(res => resolve(res.data))
+      .catch(reject);
   });
 }
 
