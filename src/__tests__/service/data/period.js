@@ -5,13 +5,13 @@ import service from '../../../services/index';
 
 describe('service.data.period', () => {
   // workaround for nock and axios problem, see https://github.com/node-nock/nock/issues/699
-  const host = process.env.REACT_APP_FB_APP_ID;
+  const host = process.env.REACT_APP_API_URL;
   axios.defaults.host = host;
   axios.defaults.adapter = httpAdapter;
 
   describe('getCurrentPeriod', () => {
     it('should success with data', (done) => {
-      nock(process.env.REACT_APP_API_URL).get('/period').reply(200, {
+      nock(host).get('/period').reply(200, {
         bets: [
           {
             createdAt: new Date(2017, 1, 1).getTime(),
@@ -26,7 +26,7 @@ describe('service.data.period', () => {
     });
 
     it('should success without data', (done) => {
-      nock(process.env.REACT_APP_API_URL).get('/period').reply(200);
+      nock(host).get('/period').reply(200);
 
       service.data.getCurrentPeriod().then((res) => {
         expect(res).toBeUndefined();
@@ -37,7 +37,7 @@ describe('service.data.period', () => {
 
   describe('getHistory', () => {
     it('should success', (done) => {
-      nock(process.env.REACT_APP_API_URL).get('/history').reply(200);
+      nock(host).get('/history').reply(200);
 
       service.data.getHistory().then(done);
     });
@@ -45,7 +45,7 @@ describe('service.data.period', () => {
 
   describe('getSummary', () => {
     it('should success', (done) => {
-      nock(process.env.REACT_APP_API_URL).get('/summary/1234').reply(200);
+      nock(host).get('/summary/1234').reply(200);
 
       service.data.getSummary('1234').then(done);
     });
@@ -53,7 +53,7 @@ describe('service.data.period', () => {
 
   describe('openPeriod', () => {
     it('should success', (done) => {
-      nock(process.env.REACT_APP_API_URL).post('/periods/latest').reply(200);
+      nock(host).post('/periods/latest').reply(200);
 
       service.data.openPeriod(new Date(2017, 1, 1)).then(done);
     });
@@ -61,7 +61,7 @@ describe('service.data.period', () => {
 
   describe('updatePeriod', () => {
     it('should success', (done) => {
-      nock(process.env.REACT_APP_API_URL).patch('/periods/latest').reply(200);
+      nock(host).patch('/periods/latest').reply(200);
 
       service.data.updatePeriod({}).then(done);
     });
