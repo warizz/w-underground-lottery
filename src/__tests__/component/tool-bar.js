@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import ToolBar from '../components/tool-bar';
+import ToolBar from '../../components/tool-bar';
 
 describe('ToolBar', () => {
   it('renders without crashing', () => {
