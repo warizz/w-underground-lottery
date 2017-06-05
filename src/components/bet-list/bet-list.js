@@ -8,29 +8,25 @@ import './bet-list.css';
 
 class BetList extends React.Component {
   static calculateTotal(betItem) {
-    if (!betItem.number) return 0;
-    if (betItem.number.length > 1) {
-      return (Number(1) - Number(discountPercent)) * (Number(betItem.price1) + Number(betItem.price2) + Number(betItem.price3));
+    let total;
+    if (betItem.number.length === 1) {
+      total = Number(betItem.price1 || 0) + Number(betItem.price2 || 0);
     }
-    return Number(betItem.price1) + Number(betItem.price2) + Number(betItem.price3);
-  }
-  shouldComponentUpdate(nextProps) {
-    return nextProps.bets !== this.props.bets;
-  }
-  handleEdit(betItem) {
-    return () => this.props.editHandler(betItem);
-  }
-  handleDelete(betId) {
-    return () => this.props.deleteHandler(betId);
+    if (betItem.number.length > 1) {
+      total = (Number(1) - Number(discountPercent || 0)) * (Number(betItem.price1 || 0) + Number(betItem.price2 || 0) + Number(betItem.price3 || 0));
+    }
+
+    return total || 0;
   }
   render() {
     const { bets, deleteHandler, editHandler, periodEndedAt, isEditable = false } = this.props;
-    const total = bets.length > 0 ? bets.map(BetList.calculateTotal).reduce((a, b) => a + b) : null;
+
+    const total = bets.length > 0 ? bets.map(BetList.calculateTotal).reduce((a, b) => a + b, 0) : 0;
     return (
       <div className="bet-list">
         <Card>
           <div className="title">{periodEndedAt}</div>
-          <div className="body"><b>{`total: ${total || 0} ฿`}</b></div>
+          <div className="body"><b>{`total: ${total} ฿`}</b></div>
         </Card>
         <div className="list">
           {bets.length > 0 &&
