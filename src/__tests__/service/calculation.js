@@ -1,7 +1,7 @@
 import service from '../../services/index';
 
 describe('service.calculation', () => {
-  const _result = {
+  const result = {
     six: '053630',
     two: '61',
     firstThree: '121',
@@ -11,8 +11,8 @@ describe('service.calculation', () => {
   };
 
   describe('checkReward', () => {
-    const _checkReward = service.calculation.checkReward;
-    const _rewardType = {
+    const checkReward = service.calculation.checkReward;
+    const rewardType = {
       TENG: 'เต็ง',
       TODE: 'โต๊ด',
       UPPER: 'บน',
@@ -29,9 +29,9 @@ describe('service.calculation', () => {
           expect(number).toBe(bet.number);
           expect(price).toBe('10');
           expect(reward).toBe(500);
-          expect(type).toBe(_rewardType.TENG);
+          expect(type).toBe(rewardType.TENG);
         };
-        _checkReward(_result, assertFunc)(bet);
+        checkReward(result, assertFunc)(bet);
       });
 
       it('should match 3 numbers TODE when call checkReward()', () => {
@@ -43,9 +43,9 @@ describe('service.calculation', () => {
           expect(number).toBe(bet.number);
           expect(price).toBe('20');
           expect(reward).toBe(100);
-          expect(type).toBe(_rewardType.TODE);
+          expect(type).toBe(rewardType.TODE);
         };
-        _checkReward(_result, assertFunc)(bet);
+        checkReward(result, assertFunc)(bet);
       });
 
       it('should match 3 numbers firstThree when call checkReward()', () => {
@@ -57,9 +57,9 @@ describe('service.calculation', () => {
           expect(number).toBe(bet.number);
           expect(price).toBe('30');
           expect(reward).toBe(100);
-          expect(type).toBe(_rewardType.BELOW);
+          expect(type).toBe(rewardType.BELOW);
         };
-        _checkReward(_result, assertFunc)(bet);
+        checkReward(result, assertFunc)(bet);
       });
 
       it('should match 3 numbers firstThree when call checkReward()', () => {
@@ -71,9 +71,9 @@ describe('service.calculation', () => {
           expect(number).toBe(bet.number);
           expect(price).toBe('30');
           expect(reward).toBe(100);
-          expect(type).toBe(_rewardType.BELOW);
+          expect(type).toBe(rewardType.BELOW);
         };
-        _checkReward(_result, assertFunc)(bet);
+        checkReward(result, assertFunc)(bet);
       });
 
       it('should match 3 numbers firstThree when call checkReward()', () => {
@@ -85,9 +85,9 @@ describe('service.calculation', () => {
           expect(number).toBe(bet.number);
           expect(price).toBe('30');
           expect(reward).toBe(100);
-          expect(type).toBe(_rewardType.BELOW);
+          expect(type).toBe(rewardType.BELOW);
         };
-        _checkReward(_result, assertFunc)(bet);
+        checkReward(result, assertFunc)(bet);
       });
 
       it('should match 3 numbers firstThree when call checkReward()', () => {
@@ -99,9 +99,9 @@ describe('service.calculation', () => {
           expect(number).toBe(bet.number);
           expect(price).toBe('30');
           expect(reward).toBe(100);
-          expect(type).toBe(_rewardType.BELOW);
+          expect(type).toBe(rewardType.BELOW);
         };
-        _checkReward(_result, assertFunc)(bet);
+        checkReward(result, assertFunc)(bet);
       });
     });
 
@@ -115,9 +115,9 @@ describe('service.calculation', () => {
           expect(number).toBe(bet.number);
           expect(price).toBe('10');
           expect(reward).toBe(70);
-          expect(type).toBe(_rewardType.UPPER);
+          expect(type).toBe(rewardType.UPPER);
         };
-        _checkReward(_result, assertFunc)(bet);
+        checkReward(result, assertFunc)(bet);
       });
 
       it('should match 2 numbers BELOW when call checkReward()', () => {
@@ -129,9 +129,9 @@ describe('service.calculation', () => {
           expect(number).toBe(bet.number);
           expect(price).toBe('20');
           expect(reward).toBe(70);
-          expect(type).toBe(_rewardType.BELOW);
+          expect(type).toBe(rewardType.BELOW);
         };
-        _checkReward(_result, assertFunc)(bet);
+        checkReward(result, assertFunc)(bet);
       });
     });
 
@@ -145,9 +145,9 @@ describe('service.calculation', () => {
           expect(number).toBe(bet.number);
           expect(price).toBe(bet.price1);
           expect(reward).toBe(2);
-          expect(type).toBe(_rewardType.UPPER);
+          expect(type).toBe(rewardType.UPPER);
         };
-        _checkReward(_result, assertFunc)(bet);
+        checkReward(result, assertFunc)(bet);
       });
 
       it('should match 1 number BELOW when call checkReward()', () => {
@@ -159,9 +159,9 @@ describe('service.calculation', () => {
           expect(number).toBe(bet.number);
           expect(price).toBe(bet.price2);
           expect(reward).toBe(3);
-          expect(type).toBe(_rewardType.BELOW);
+          expect(type).toBe(rewardType.BELOW);
         };
-        _checkReward(_result, assertFunc)(bet);
+        checkReward(result, assertFunc)(bet);
       });
     });
 
@@ -171,7 +171,7 @@ describe('service.calculation', () => {
           number: '654',
           price1: '100',
         };
-        const value = _checkReward(null, null)(bet);
+        const value = checkReward(null, null)(bet);
         expect(value).toBe(null);
       });
 
@@ -180,14 +180,14 @@ describe('service.calculation', () => {
           number: '654',
           price1: '100',
         };
-        const value = _checkReward(_result, null)(bet);
+        const value = checkReward(result, null)(bet);
         expect(value).toBe(null);
       });
     });
   });
 
   describe('calculateTotal', () => {
-    const _calculateTotal = service.calculation.calculateTotal;
+    const calculateTotal = service.calculation.calculateTotal;
 
     it('should return result of 3 numbers when call calculateTotal()', () => {
       const bet = {
@@ -197,8 +197,10 @@ describe('service.calculation', () => {
         price3: '30',
       };
 
-      const value = _calculateTotal(_result)(bet);
-      expect(value).toBe((10 + 20 + 30) * 0.9 - 10 * 500);
+      const value = calculateTotal(result)(bet);
+      const ticketPrice = (10 + 20 + 30) * 0.9;
+      const rewardType = 10 * 500;
+      expect(value).toBe(ticketPrice - rewardType);
     });
 
     it('should return result of 1 number when call calculateTotal()', () => {
@@ -208,7 +210,7 @@ describe('service.calculation', () => {
         price2: '200',
       };
 
-      const value = _calculateTotal(_result)(bet);
+      const value = calculateTotal(result)(bet);
       const ticketPrice = 100 + 200;
       const rewardPrice = 100 * 2;
       const expected = ticketPrice - rewardPrice;
