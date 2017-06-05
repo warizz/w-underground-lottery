@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import docCookies from 'doc-cookies';
@@ -43,17 +44,15 @@ class Home extends React.Component {
   }
   handleDeleteBet(id) {
     this.props.setFetching(true);
-    service.data
-    .deleteBet(id)
-    .then(() => {
+    service.data.deleteBet(id).then(() => {
       service.data
-      .getCurrentPeriod()
-      .then((res) => {
-        this.props.setCurrentPeriod(res);
-        this.props.setFetching(false);
-        this.props.setAlert('deleted');
-      })
-      .catch(this.handleError);
+        .getCurrentPeriod()
+        .then((res) => {
+          this.props.setCurrentPeriod(res);
+          this.props.setFetching(false);
+          this.props.setAlert('deleted');
+        })
+        .catch(this.handleError);
     });
   }
   handleError(error) {
@@ -79,32 +78,27 @@ class Home extends React.Component {
       inputBet.period = currentPeriod.id;
       actor = service.data.insertBet;
     }
-    actor(inputBet)
-      .then(() => {
-        service.data
-          .getCurrentPeriod()
-          .then((res) => {
-            this.props.setCurrentPeriod(res);
-            this.props.setFetching(false);
-            this.props.setAlert('saved');
-            this.setState({ editingBet: null });
-          })
-          .catch(this.handleError);
-      });
+    actor(inputBet).then(() => {
+      service.data
+        .getCurrentPeriod()
+        .then((res) => {
+          this.props.setCurrentPeriod(res);
+          this.props.setFetching(false);
+          this.props.setAlert('saved');
+          this.setState({ editingBet: null });
+        })
+        .catch(this.handleError);
+    });
   }
   logOut() {
     const cookieName = `fbat_${process.env.REACT_APP_FB_APP_ID}`;
     const accessToken = docCookies.getItem(cookieName);
-    service
-      .data
-      .logOut(accessToken)
-      .then(() => this.props.router.push('/log-in'))
-      .catch(error => (
-        this.setState({
-          alertText: `${error.response.status}: ${error.response.statusText}`,
-          hasAlert: true,
-        })
-      ));
+    service.data.logOut(accessToken).then(() => this.props.router.push('/log-in')).catch(error =>
+      this.setState({
+        alertText: `${error.response.status}: ${error.response.statusText}`,
+        hasAlert: true,
+      }),
+    );
   }
   render() {
     const { currentPeriod = {}, user } = this.props;
@@ -123,28 +117,14 @@ class Home extends React.Component {
           <div className="visible-xs visible-sm" style={{ display: 'flex' }}>
             <UserProfile user={user} logOutHandler={this.logOut} />
           </div>
-          {
-            currentPeriod.isOpen && (
-              <div className="visible-xs" style={{ display: 'flex' }}>
-                <BetEditor
-                  saveBetHandler={this.handleSaveBet}
-                  editingBet={this.state.editingBet}
-                  onClose={this.inputToggle}
-                />
-              </div>
-            )
-          }
-          {
-            currentPeriod.result && (
-              <div style={{ margin: '0 0 10px 0' }}>
-                <ResultDisplay
-                  {...currentPeriod.result}
-                  bets={currentPeriod.bets}
-                  endedAt={moment(currentPeriod.endedAt).format('DD MMM YYYY')}
-                />
-              </div>
-            )
-          }
+          {currentPeriod.isOpen &&
+            <div className="visible-xs" style={{ display: 'flex' }}>
+              <BetEditor saveBetHandler={this.handleSaveBet} editingBet={this.state.editingBet} onClose={this.inputToggle} />
+            </div>}
+          {currentPeriod.result &&
+            <div style={{ margin: '0 0 10px 0' }}>
+              <ResultDisplay {...currentPeriod.result} bets={currentPeriod.bets} endedAt={moment(currentPeriod.endedAt).format('DD MMM YYYY')} />
+            </div>}
           <BetList
             bets={currentPeriod.bets}
             editHandler={this.setEditingBet}
@@ -158,33 +138,24 @@ class Home extends React.Component {
           // right pane
         }
         <div className="hidden-xs">
-          {currentPeriod.isOpen && (
-            <BetEditor
-              saveBetHandler={this.handleSaveBet}
-              editingBet={this.state.editingBet}
-            />
-          )}
+          {currentPeriod.isOpen && <BetEditor saveBetHandler={this.handleSaveBet} editingBet={this.state.editingBet} />}
         </div>
       </div>
     );
   }
 }
 
-const mapStateToProps = state => (
-  {
-    currentPeriod: state.data.currentPeriod,
-    user: state.user.user,
-  }
-);
+const mapStateToProps = state => ({
+  currentPeriod: state.data.currentPeriod,
+  user: state.user.user,
+});
 
-const mapDispatchToProps = dispatch => (
-  {
-    setAlert: alert => dispatch(actions.layout.setAlert(alert)),
-    setCurrentPeriod: currentPeriod => dispatch(actions.data.setCurrentPeriod(currentPeriod)),
-    setFetching: fetching => dispatch(actions.data.setFetching(fetching)),
-    setPageName: pageName => dispatch(actions.layout.setPageName(pageName)),
-  }
-);
+const mapDispatchToProps = dispatch => ({
+  setAlert: alert => dispatch(actions.layout.setAlert(alert)),
+  setCurrentPeriod: currentPeriod => dispatch(actions.data.setCurrentPeriod(currentPeriod)),
+  setFetching: fetching => dispatch(actions.data.setFetching(fetching)),
+  setPageName: pageName => dispatch(actions.layout.setPageName(pageName)),
+});
 
 Home.propTypes = {
   currentPeriod: constants.customPropType.periodShape,

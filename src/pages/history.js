@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import actions from '../actions/index';
@@ -71,8 +72,8 @@ class HistoryPage extends React.Component {
               <div className="placeholder">{'you have no history here, make one!'}</div>
             </Card>}
           {history.length > 0 &&
-            history.map(h => (
-              <Card key={h.id}>
+            history.map(h =>
+              (<Card key={h.id}>
                 <div className="title">{moment(h.endedAt).format('DD MMM YYYY')}</div>
                 <div className="body">
                   <ul>
@@ -95,8 +96,8 @@ class HistoryPage extends React.Component {
                 <div className="action">
                   {currentPeriod.isOpen && <button onClick={this.clone(currentPeriod, h.bets, service.data.insertBet)}>clone</button>}
                 </div>
-              </Card>
-            ))}
+              </Card>),
+            )}
         </div>
       </div>
     );

@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import { PropTypes } from 'prop-types';
 import constants from '../../constants/index';
 import Card from '../card';
 import './bet-item.css';
