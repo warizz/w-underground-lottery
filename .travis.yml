@@ -10,4 +10,5 @@ script:
 before_install:
   - pip install --user codecov
 after_success:
+  - npm test -- --coverage
   - codecov
