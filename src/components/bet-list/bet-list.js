@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import { PropTypes } from 'prop-types';
 import { discountPercent } from '../../config';
 import constants from '../../constants/index';
 import BetItem from './bet-item';

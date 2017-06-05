@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import { PropTypes } from 'prop-types';
 import docCookies from 'doc-cookies';
 import service from '../services/index';
 import Snackbar from '../components/snackbar';
@@ -45,35 +46,37 @@ class SignInPage extends React.Component {
     e.preventDefault();
     const self = this;
     self.setState({ fetching: true });
-    window.FB.login((res) => {
-      if (res.authResponse) {
-        const accessToken = res.authResponse.accessToken;
-        service
-          .data
-          .logIn(accessToken)
-          .then(({ access_token }) => {
-            docCookies.setItem(`fbat_${process.env.REACT_APP_FB_APP_ID}`, access_token, 60 * 60 * 24 * 30);
-            self.setState({ fetching: false });
-            self.props.router.push('/');
-          })
-          .catch((error) => {
-            if (error.response) {
-              self.setState({
-                alertText: `${error.response.status}: ${error.response.statusText}`,
-                fetching: false,
-              });
-            } else {
-              console.error(error); // eslint-disable-line no-console
+    window.FB.login(
+      (res) => {
+        if (res.authResponse) {
+          const accessToken = res.authResponse.accessToken;
+          service.data
+            .logIn(accessToken)
+            .then(({ access_token }) => {
+              docCookies.setItem(`fbat_${process.env.REACT_APP_FB_APP_ID}`, access_token, 60 * 60 * 24 * 30);
               self.setState({ fetching: false });
-            }
+              self.props.router.push('/');
+            })
+            .catch((error) => {
+              if (error.response) {
+                self.setState({
+                  alertText: `${error.response.status}: ${error.response.statusText}`,
+                  fetching: false,
+                });
+              } else {
+                console.error(error); // eslint-disable-line no-console
+                self.setState({ fetching: false });
+              }
+            });
+        } else {
+          self.setState({
+            alertText: 'facebook authentication failed',
+            fetching: false,
           });
-      } else {
-        self.setState({
-          alertText: 'facebook authentication failed',
-          fetching: false,
-        });
-      }
-    }, { scope: 'public_profile' });
+        }
+      },
+      { scope: 'public_profile' },
+    );
   }
   render() {
     const { alertText, fetching } = this.state;
@@ -84,7 +87,7 @@ class SignInPage extends React.Component {
         </button>
         <div className="message">
           <b>{'why log in with facebook?'}</b>
-          <li>{'don\'t reinvent the wheel: facebook already have great security by 1000 top class engineers keeping your password safe.'}</li>
+          <li>{"don't reinvent the wheel: facebook already have great security by 1000 top class engineers keeping your password safe."}</li>
           <li>{'this app need only your username and profile picture, it can do no harm.'}</li>
         </div>
         <Snackbar text={alertText} timer={2000} onClose={() => this.setState({ alertText: '' })} />

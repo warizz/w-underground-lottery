@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 
 import ToolBar from '../components/tool-bar';
@@ -42,20 +43,16 @@ class Layout extends React.Component {
   }
 }
 
-const mapStateToProps = state => (
-  {
-    alert: state.layout.alert,
-    fetching: state.data.fetching,
-    pageName: state.layout.pageName,
-    user: state.user.user,
-  }
-);
+const mapStateToProps = state => ({
+  alert: state.layout.alert,
+  fetching: state.data.fetching,
+  pageName: state.layout.pageName,
+  user: state.user.user,
+});
 
-const mapDispatchToProps = dispatch => (
-  {
-    setAlert: alert => dispatch(action.layout.setAlert(alert)),
-  }
-);
+const mapDispatchToProps = dispatch => ({
+  setAlert: alert => dispatch(action.layout.setAlert(alert)),
+});
 
 Layout.propTypes = {
   alert: PropTypes.string,
