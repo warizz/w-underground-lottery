@@ -13,11 +13,21 @@ class BetItem extends React.Component {
   }
   render() {
     const { bet, isEditable } = this.props;
+
+    if (!bet) {
+      return null;
+    }
+
+    if (bet.number.length > 3) {
+      return null;
+    }
+
     const price1Label = bet.number.length > 2 ? 'เต็ง' : 'บน';
     const price2Label = bet.number.length > 2 ? 'โต๊ด' : 'ล่าง';
     const price3Label = 'ล่าง';
+
     let price1Reward;
-    switch (bet.number.length) {
+    switch (bet.number.length) { // eslint-disable-line default-case
       case 1:
         price1Reward = bet.price1 * 2;
         break;
@@ -27,11 +37,10 @@ class BetItem extends React.Component {
       case 3:
         price1Reward = bet.price1 * 500;
         break;
-      default:
-        break;
     }
+
     let price2Reward;
-    switch (bet.number.length) {
+    switch (bet.number.length) { // eslint-disable-line default-case
       case 1:
         price2Reward = bet.price2 * 3;
         break;
@@ -41,51 +50,53 @@ class BetItem extends React.Component {
       case 3:
         price2Reward = bet.price2 * 100;
         break;
-      default:
-        break;
     }
+
     let price3Reward;
     switch (bet.number.length) {
       case 2:
         price3Reward = bet.price3 * 70;
         break;
       case 3:
-        price3Reward = bet.price3 * 500;
+        price3Reward = bet.price3 * 100;
         break;
       default:
         break;
     }
+
     return (
       <div className="bet-item">
-        <Card key={bet.id}>
+        <Card>
           <div className="body">
             <div className="item">
-              <div><b>{bet.number}</b></div>
+              <div className="bet-number"><b>{bet.number}</b></div>
               <div><b>reward</b></div>
             </div>
-            <div className="item">
-              {bet.price1 > 0 ? `${price1Label} ${bet.price1}` : null}
-              {bet.price1 > 0 && <div className="reward">{price1Reward}</div>}
-            </div>
-            <div className="item">
-              {bet.price2 > 0 ? `${price2Label} ${bet.price2}` : null}
-              {bet.price2 > 0 && <div className="reward">{price2Reward}</div>}
-            </div>
-            <div className="item">
-              {bet.price3 > 0 ? `${price3Label} ${bet.price3}` : null}
-              {bet.price3 > 0 && <div className="reward">{price3Reward}</div>}
-            </div>
+            {bet.price1 &&
+              <div className="item">
+                <div className="price-1">{`${price1Label} ${bet.price1}`}</div>
+                <div className="reward">{price1Reward}</div>
+              </div>}
+            {bet.price2 &&
+              <div className="item">
+                <div className="price-2">{`${price2Label} ${bet.price2}`}</div>
+                <div className="reward">{price2Reward}</div>
+              </div>}
+            {bet.price3 &&
+              <div className="item">
+                <div className="price-3">{`${price3Label} ${bet.price3}`}</div>
+                <div className="reward">{price3Reward}</div>
+              </div>}
           </div>
-          {isEditable && (
+          {isEditable &&
             <div className="action">
-              <button className="border-right" onClick={this.handleEdit(bet)}>
+              <button className="edit border-right" onClick={this.handleEdit(bet)}>
                 {'edit'}
               </button>
-              <button className="danger" onClick={this.handleDelete(bet.id)}>
+              <button className="delete danger" onClick={this.handleDelete(bet.id)}>
                 {'delete'}
               </button>
-            </div>
-          )}
+            </div>}
         </Card>
       </div>
     );
@@ -94,9 +105,16 @@ class BetItem extends React.Component {
 
 BetItem.propTypes = {
   bet: constants.customPropType.betShape,
-  editHandler: PropTypes.func.isRequired,
-  deleteHandler: PropTypes.func.isRequired,
+  editHandler: PropTypes.func,
+  deleteHandler: PropTypes.func,
   isEditable: PropTypes.bool,
+};
+
+BetItem.defaultProps = {
+  bet: null,
+  editHandler() {},
+  deleteHandler() {},
+  isEditable: false,
 };
 
 export default BetItem;
