@@ -45,3 +45,11 @@ it('should render input changes correctly', () => {
   expect(wrapper.find('#price2').node.value).toBe(editingBet.price2);
   expect(wrapper.find('#price3').node.value).toBe(editingBet.price3);
 });
+
+it('should get random number when click random button', () => {
+  const wrapper = mount(<BetEditor />);
+
+  expect(wrapper.find('#number').node.value).toBe('');
+  wrapper.find('button.random').simulate('click');
+  expect(wrapper.find('#number').node.value).toMatch(/^\d{1,3}$/);
+});
