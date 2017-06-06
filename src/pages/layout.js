@@ -29,10 +29,10 @@ const LayoutPage = (props) => {
 LayoutPage.propTypes = {
   alert: PropTypes.string,
   children: PropTypes.node,
-  fetching: PropTypes.bool.isRequired,
+  fetching: PropTypes.bool,
   goBack: PropTypes.func,
   pageName: PropTypes.string,
-  setAlert: PropTypes.func.isRequired,
+  setAlert: PropTypes.func,
 };
 
 LayoutPage.defaultProps = {
