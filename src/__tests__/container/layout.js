@@ -8,7 +8,7 @@ import reducer from '../../reducers/index';
 
 const store = createStore(reducer);
 
-it('should render', () => {
+it('should render layout component', () => {
   const wrapper = mount(
     <Provider store={store}>
       <LayoutContainer />

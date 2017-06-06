@@ -4,12 +4,7 @@ import { browserHistory } from 'react-router';
 import action from '../actions/index';
 import LayoutPage from '../pages/layout';
 
-class LayoutContainer extends React.Component {
-  render() {
-    const { props } = this;
-    return <LayoutPage {...props} goBack={browserHistory.goBack} />;
-  }
-}
+const LayoutContainer = props => <LayoutPage {...props} goBack={browserHistory.goBack} />;
 
 const mapStateToProps = state => ({
   alert: state.layout.alert,
