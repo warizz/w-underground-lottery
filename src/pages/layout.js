@@ -4,7 +4,7 @@ import ToolBar from '../components/tool-bar';
 import Snackbar from '../components/snackbar';
 
 const LayoutPage = (props) => {
-  const { alert, children, fetching, goBack, pageName, setAlert } = props;
+  const { alert, children, goBack, pageName, setAlert } = props;
   let childrenElement = null;
 
   if (children) {
@@ -27,7 +27,6 @@ const LayoutPage = (props) => {
 LayoutPage.propTypes = {
   alert: PropTypes.string,
   children: PropTypes.node,
-  fetching: PropTypes.bool,
   goBack: PropTypes.func,
   pageName: PropTypes.string,
   setAlert: PropTypes.func,
@@ -36,7 +35,6 @@ LayoutPage.propTypes = {
 LayoutPage.defaultProps = {
   alert: null,
   children: null,
-  fetching: false,
   goBack() {},
   pageName: null,
   setAlert() {},
