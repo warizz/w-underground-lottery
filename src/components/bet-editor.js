@@ -12,9 +12,9 @@ class BetEditor extends React.Component {
       enablePrice3: props.editingBet ? props.editingBet.number.toString().length > 2 : false,
       id: props.editingBet ? props.editingBet.id : '',
       number: props.editingBet ? props.editingBet.number : '',
-      price1: props.editingBet ? (props.editingBet.price1 || '') : '',
-      price2: props.editingBet ? (props.editingBet.price2 || '') : '',
-      price3: props.editingBet ? (props.editingBet.price3 || '') : '',
+      price1: props.editingBet ? props.editingBet.price1 || '' : '',
+      price2: props.editingBet ? props.editingBet.price2 || '' : '',
+      price3: props.editingBet ? props.editingBet.price3 || '' : '',
     };
     this.handleNumberChange = this.handleNumberChange.bind(this);
     this.handleSaveBet = this.handleSaveBet.bind(this);
@@ -26,13 +26,13 @@ class BetEditor extends React.Component {
       enablePrice3: nextProps.editingBet ? nextProps.editingBet.number.toString().length > 2 : false,
       id: nextProps.editingBet ? nextProps.editingBet.id : '',
       number: nextProps.editingBet ? nextProps.editingBet.number : '',
-      price1: nextProps.editingBet ? (nextProps.editingBet.price1 || '') : '',
-      price2: nextProps.editingBet ? (nextProps.editingBet.price2 || '') : '',
-      price3: nextProps.editingBet ? (nextProps.editingBet.price3 || '') : '',
+      price1: nextProps.editingBet ? nextProps.editingBet.price1 || '' : '',
+      price2: nextProps.editingBet ? nextProps.editingBet.price2 || '' : '',
+      price3: nextProps.editingBet ? nextProps.editingBet.price3 || '' : '',
     });
   }
   shouldComponentUpdate(nextProps, nextState) {
-    return (nextState !== this.state);
+    return nextState !== this.state;
   }
   getRandomNumber() {
     const number = service.utility.getRandomNumber(1, 3);
@@ -85,17 +85,14 @@ class BetEditor extends React.Component {
     }
 
     if (this.state.number.length === 1) {
-      if ((this.state.price1 && Number(this.state.price1) < 100)
-        || (this.state.price2 && Number(this.state.price2) < 100)) {
+      if ((this.state.price1 && Number(this.state.price1) < 100) || (this.state.price2 && Number(this.state.price2) < 100)) {
         this.setAlert('เลขวิ่ง ขั้นต่ำ 100')();
         return;
       }
     }
 
     if (this.state.number.length > 1) {
-      if ((this.state.price1 && Number(this.state.price1) < 10)
-        || (this.state.price2 && Number(this.state.price2) < 10)
-        || (this.state.price3 && Number(this.state.price3) < 10)) {
+      if ((this.state.price1 && Number(this.state.price1) < 10) || (this.state.price2 && Number(this.state.price2) < 10) || (this.state.price3 && Number(this.state.price3) < 10)) {
         this.setAlert('ขั้นต่ำ 10')();
         return;
       }
@@ -128,19 +125,13 @@ class BetEditor extends React.Component {
   }
   render() {
     return (
-      <div className="bet-editor" id="bet-editor" tabIndex={0}>
+      <div className="bet-editor" id="bet-editor">
         <Card>
           <div className="body">
             <div className="row">
               <div className="input-group">
                 <label htmlFor="number">เลข</label>
-                <input
-                  autoFocus
-                  id="number"
-                  onChange={this.handleNumberChange}
-                  type="number"
-                  value={this.state.number}
-                />
+                <input id="number" onChange={this.handleNumberChange} type="number" value={this.state.number} />
               </div>
               <div className="input-group">
                 <button className="random" onClick={this.getRandomNumber}>random</button>
@@ -150,31 +141,16 @@ class BetEditor extends React.Component {
               <div className="input-group">
                 {this.state.enablePrice3 === false && <label htmlFor="price1">บน</label>}
                 {this.state.enablePrice3 && <label htmlFor="price1">เต็ง</label>}
-                <input
-                  id="price1"
-                  onChange={this.handlePriceChange('price1')}
-                  type="number"
-                  value={this.state.price1}
-                />
+                <input id="price1" onChange={this.handlePriceChange('price1')} type="number" value={this.state.price1} />
               </div>
               <div className="input-group">
                 {this.state.enablePrice3 === false && <label htmlFor="price2">ล่าง</label>}
                 {this.state.enablePrice3 && <label htmlFor="price1">โต๊ด</label>}
-                <input
-                  id="price2"
-                  onChange={this.handlePriceChange('price2')}
-                  type="number"
-                  value={this.state.price2}
-                />
+                <input id="price2" onChange={this.handlePriceChange('price2')} type="number" value={this.state.price2} />
               </div>
               <div className={`input-group${this.state.enablePrice3 ? ' visible' : ' hidden'}`}>
                 <label htmlFor="price3">ล่าง</label>
-                <input
-                  id="price3"
-                  onChange={this.handlePriceChange('price3')}
-                  type="number"
-                  value={this.state.price3 || ''}
-                />
+                <input id="price3" onChange={this.handlePriceChange('price3')} type="number" value={this.state.price3 || ''} />
               </div>
             </div>
           </div>
