@@ -1,11 +1,10 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
 import ToolBar from '../components/tool-bar';
-import Overlay from '../components/overlay';
 import Snackbar from '../components/snackbar';
 
 const LayoutPage = (props) => {
-  const { alert, children, fetching, goBack, pageName, setAlert } = props;
+  const { alert, children, goBack, pageName, setAlert } = props;
   let childrenElement = null;
 
   if (children) {
@@ -19,7 +18,6 @@ const LayoutPage = (props) => {
 
   return (
     <div className="layout-component">
-      <Overlay active={fetching} zIndex={4} text="..." />
       <ToolBar pageName={pageName} backButtonClickedCallback={goBack} />
       {childrenElement}
     </div>
@@ -29,7 +27,6 @@ const LayoutPage = (props) => {
 LayoutPage.propTypes = {
   alert: PropTypes.string,
   children: PropTypes.node,
-  fetching: PropTypes.bool,
   goBack: PropTypes.func,
   pageName: PropTypes.string,
   setAlert: PropTypes.func,
@@ -38,7 +35,6 @@ LayoutPage.propTypes = {
 LayoutPage.defaultProps = {
   alert: null,
   children: null,
-  fetching: false,
   goBack() {},
   pageName: null,
   setAlert() {},
