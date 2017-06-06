@@ -38,7 +38,7 @@ class BetEditor extends React.Component {
     const number = service.utility.getRandomNumber(1, 3);
     this.setState({ enablePrice3: number.length > 2 });
     this.setState({ number });
-    document.getElementById('price1').focus();
+    this.price1Input.focus();
   }
   setAlert(alertText) {
     return () => {
@@ -141,7 +141,15 @@ class BetEditor extends React.Component {
               <div className="input-group">
                 {this.state.enablePrice3 === false && <label htmlFor="price1">บน</label>}
                 {this.state.enablePrice3 && <label htmlFor="price1">เต็ง</label>}
-                <input id="price1" onChange={this.handlePriceChange('price1')} type="number" value={this.state.price1} />
+                <input
+                  id="price1"
+                  onChange={this.handlePriceChange('price1')}
+                  type="number"
+                  value={this.state.price1}
+                  ref={(input) => {
+                    this.price1Input = input;
+                  }}
+                />
               </div>
               <div className="input-group">
                 {this.state.enablePrice3 === false && <label htmlFor="price2">ล่าง</label>}
