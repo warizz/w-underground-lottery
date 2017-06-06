@@ -33,7 +33,7 @@ class Layout extends React.Component {
     return (
       <div>
         <Overlay active={fetching} zIndex={4} text="..." />
-        <ToolBar pageName={this.props.pageName} />
+        <ToolBar pageName={this.props.pageName} backButtonClickedCallback={() => window.history.back()} />
         <div style={styles.content}>
           <Snackbar text={alert} onClose={() => setAlert('')} />
           {this.props.children}
