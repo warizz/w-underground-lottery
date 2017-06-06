@@ -11,7 +11,7 @@ class Snackbar extends React.Component {
   }
   componentDidMount() {
     const { text } = this.state;
-    const { timer = 1000 } = this.props;
+    const { timer } = this.props;
     if (text) this.setTimer(timer);
   }
   componentWillReceiveProps(nextProps) {
@@ -42,7 +42,13 @@ class Snackbar extends React.Component {
 Snackbar.propTypes = {
   text: PropTypes.string,
   timer: PropTypes.number,
-  onClose: PropTypes.func.isRequired,
+  onClose: PropTypes.func,
+};
+
+Snackbar.defaultProps = {
+  text: null,
+  timer: 1000,
+  onClose() {},
 };
 
 export default Snackbar;
