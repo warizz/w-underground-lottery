@@ -6,7 +6,8 @@ import IndexRoute from 'react-router/lib/IndexRoute';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 
-import Layout from './pages/layout';
+import LayoutContainer from './container/layout';
+
 import HomePage from './pages/home';
 import SignInPage from './pages/sign-in';
 import HistoryPage from './pages/history';
@@ -18,11 +19,11 @@ import lib from './constants/lib';
 
 const store = createStore(reducer);
 
-const App = () => (
-  <Provider store={store}>
+const App = () =>
+  (<Provider store={store}>
     <Router history={browserHistory}>
       <Route path="/log-in" component={SignInPage} />
-      <Route component={Layout} onEnter={lib.initApplicationState(store)}>
+      <Route component={LayoutContainer} onEnter={lib.initApplicationState(store)}>
         <IndexRoute component={HomePage} />
         <Route path="/" component={HomePage} />
         <Route path="/history" component={HistoryPage} />
@@ -30,7 +31,6 @@ const App = () => (
         <Route path="/dashboard/result" component={ResultPage} />
       </Route>
     </Router>
-  </Provider>
-);
+  </Provider>);
 
 export default App;

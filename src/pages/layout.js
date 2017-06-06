@@ -1,65 +1,47 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
-import { connect } from 'react-redux';
-
 import ToolBar from '../components/tool-bar';
 import Overlay from '../components/overlay';
 import Snackbar from '../components/snackbar';
 
-import action from '../actions/index';
+const LayoutPage = (props) => {
+  const { alert, children, fetching, goBack, pageName, setAlert } = props;
+  let childrenElement = null;
 
-const styles = {
-  content: {
-    marginTop: '50px',
-    display: 'flex',
-    alignItems: 'center',
-    flexDirection: 'column',
-  },
-};
-
-class Layout extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      openDrawer: false,
-    };
-    this.drawerToggle = this.drawerToggle.bind(this);
-  }
-  drawerToggle() {
-    this.setState({ openDrawer: !this.state.openDrawer });
-  }
-  render() {
-    const { alert, fetching, setAlert } = this.props;
-    return (
-      <div>
-        <Overlay active={fetching} zIndex={4} text="..." />
-        <ToolBar pageName={this.props.pageName} backButtonClickedCallback={() => window.history.back()} />
-        <div style={styles.content}>
-          <Snackbar text={alert} onClose={() => setAlert('')} />
-          {this.props.children}
-        </div>
+  if (children) {
+    childrenElement = (
+      <div className="content" style={{ marginTop: '50px' }}>
+        <Snackbar text={alert} onClose={() => setAlert('')} />
+        {children}
       </div>
     );
   }
-}
 
-const mapStateToProps = state => ({
-  alert: state.layout.alert,
-  fetching: state.data.fetching,
-  pageName: state.layout.pageName,
-  user: state.user.user,
-});
-
-const mapDispatchToProps = dispatch => ({
-  setAlert: alert => dispatch(action.layout.setAlert(alert)),
-});
-
-Layout.propTypes = {
-  alert: PropTypes.string,
-  children: PropTypes.node,
-  fetching: PropTypes.bool.isRequired,
-  pageName: PropTypes.string,
-  setAlert: PropTypes.func.isRequired,
+  return (
+    <div className="layout-component">
+      <Overlay active={fetching} zIndex={4} text="..." />
+      <ToolBar pageName={pageName} backButtonClickedCallback={goBack} />
+      {childrenElement}
+    </div>
+  );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Layout);
+LayoutPage.propTypes = {
+  alert: PropTypes.string,
+  children: PropTypes.node,
+  fetching: PropTypes.bool,
+  goBack: PropTypes.func,
+  pageName: PropTypes.string,
+  setAlert: PropTypes.func,
+};
+
+LayoutPage.defaultProps = {
+  alert: null,
+  children: null,
+  fetching: false,
+  goBack() {},
+  pageName: null,
+  setAlert() {},
+};
+
+export default LayoutPage;
