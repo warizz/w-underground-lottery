@@ -8,7 +8,7 @@ it('should render contained component', () => {
   expect(wrapper.find('div.dashboard').exists()).toBe(true);
 });
 
-it('should udpate state.endDate when call onEndDateChange()', () => {
+it('should update state.endDate when call onEndDateChange()', () => {
   const wrapper = mount(<DashboardContainer />);
   const endDate = new Date();
 
