@@ -61,12 +61,18 @@ class BetEditor extends React.Component {
   }
   handlePriceChange(key) {
     return (e) => {
-      if (service.utility.validateNumber(e.target.value) === false) return;
+      if (service.utility.validateNumber(e.target.value) === false) {
+        return;
+      }
+
       this.setState({ [key]: e.target.value });
     };
   }
   handleNumberChange(e) {
-    if (service.utility.validateNumber(e.target.value) === false) return;
+    if (service.utility.validateNumber(e.target.value) === false) {
+      return;
+    }
+
     this.setState({
       enablePrice3: e.target.value.length > 2,
       number: e.target.value.substring(0, 3),
@@ -104,7 +110,7 @@ class BetEditor extends React.Component {
         return;
       }
     }
-    // const betItem = new Bet(this.state.id, null, this.state.number, this.state.price1, this.state.price2, this.state.price3, new Date());
+
     const bet = {
       id: this.state.id,
       number: this.state.number,
@@ -112,16 +118,12 @@ class BetEditor extends React.Component {
       price2: this.state.price2,
       price3: this.state.price3,
     };
+
     this.props.saveBetHandler(bet);
-    this.setState({
-      enablePrice3: false,
-      id: '',
-      number: '',
-      price1: '',
-      price2: '',
-      price3: '',
-    });
-    document.getElementById('number').focus();
+
+    this.reset();
+
+    this.numberInput.focus();
   }
   render() {
     return (
@@ -131,7 +133,15 @@ class BetEditor extends React.Component {
             <div className="row">
               <div className="input-group">
                 <label htmlFor="number">เลข</label>
-                <input id="number" onChange={this.handleNumberChange} type="number" value={this.state.number} />
+                <input
+                  id="number"
+                  onChange={this.handleNumberChange}
+                  type="number"
+                  value={this.state.number}
+                  ref={(input) => {
+                    this.numberInput = input;
+                  }}
+                />
               </div>
               <div className="input-group">
                 <button className="random" onClick={this.getRandomNumber}>random</button>
@@ -175,6 +185,11 @@ class BetEditor extends React.Component {
 BetEditor.propTypes = {
   editingBet: constants.customPropType.betShape,
   saveBetHandler: PropTypes.func.isRequired,
+};
+
+BetEditor.defaultProps = {
+  editingBet: null,
+  saveBetHandler() {},
 };
 
 export default BetEditor;
