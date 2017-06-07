@@ -61,7 +61,7 @@ DashboardContainer.propTypes = {
     data: {
       getCurrentPeriod: PropTypes.func,
       openPeriod: PropTypes.func,
-      closePeriod: PropTypes.func,
+      updatePeriod: PropTypes.func,
     },
   }).isRequired,
 };
