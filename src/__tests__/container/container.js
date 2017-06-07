@@ -5,9 +5,8 @@ import { Provider } from 'react-redux';
 import Container from '../../container/dashboard';
 import reducer from '../../reducers/index';
 
-const store = createStore(reducer);
-
 it('should render contained component', () => {
+  const store = createStore(reducer);
   const wrapper = mount(
     <Provider store={store}>
       <Container />
