@@ -3,10 +3,9 @@ import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import actions from '../actions/index';
-import service from '../services/index';
 import DashboardPage from '../pages/dashboard';
 
-class DashboardContainer extends React.Component {
+export class DashboardContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -24,48 +23,57 @@ class DashboardContainer extends React.Component {
     this.setState({ endDate: e.target.value });
   }
   setPeriod() {
-    service.data.getCurrentPeriod().then((res) => {
+    this.props.service.data.getCurrentPeriod().then((res) => {
       this.props.setCurrentPeriod(res);
       this.props.setFetching(false);
     });
   }
-  openPeriod() {
+  openPeriod(endDate) {
+    const endedAt = new Date(endDate);
+
     this.props.setFetching(true);
-    const endedAt = new Date(this.state.endDate);
-    service.data.openPeriod(endedAt).then(this.setPeriod);
+    this.props.service.data.openPeriod(endedAt).then(this.setPeriod);
   }
-  closePeriod() {
+  closePeriod(id) {
     this.props.setFetching(true);
-    const { id } = this.props.currentPeriod;
-    service.data.updatePeriod(id, { isOpen: false }).then(this.setPeriod);
+    this.props.service.data.updatePeriod(id, { isOpen: false }).then(this.setPeriod);
   }
   render() {
-    return <DashboardPage {...this.props} closeButtonClickedCallback={this.closePeriod} endDateChangedCallback={this.onEndDateChange} />;
+    return (
+      <DashboardPage
+        {...this.props}
+        closeButtonClickedCallback={this.closePeriod}
+        endDate={this.state.endDate}
+        endDateChangedCallback={this.onEndDateChange}
+        openPeriodClickedCallback={this.openPeriod}
+      />
+    );
   }
 }
 
 const mapStateToProps = state => ({ currentPeriod: state.data.currentPeriod });
 
-const mapDispatchToProps = dispatch => ({
-  setCurrentPeriod: currentPeriod => dispatch(actions.data.setCurrentPeriod(currentPeriod)),
-  setFetching: fetching => dispatch(actions.data.setFetching(fetching)),
-  setPageName: pageName => dispatch(actions.layout.setPageName(pageName)),
-});
-
 DashboardContainer.propTypes = {
-  currentPeriod: PropTypes.shape({
-    id: PropTypes.string,
-  }),
   setCurrentPeriod: PropTypes.func,
   setFetching: PropTypes.func,
   setPageName: PropTypes.func,
+  service: PropTypes.shape({
+    data: {
+      getCurrentPeriod: PropTypes.func,
+      openPeriod: PropTypes.func,
+      closePeriod: PropTypes.func,
+    },
+  }).isRequired,
 };
 
 DashboardContainer.defaultProps = {
-  currentPeriod: {},
   setCurrentPeriod() {},
   setFetching() {},
   setPageName() {},
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DashboardContainer);
+export default connect(mapStateToProps, {
+  setCurrentPeriod: actions.data.setCurrentPeriod,
+  setFetching: actions.data.setFetching,
+  setPageName: actions.layout.setPageName,
+})(DashboardContainer);

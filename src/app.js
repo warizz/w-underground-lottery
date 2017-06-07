@@ -5,15 +5,13 @@ import browserHistory from 'react-router/lib/browserHistory';
 import IndexRoute from 'react-router/lib/IndexRoute';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-
+import service from './services/index';
 import LayoutContainer from './container/layout';
-
+import ConnectedDashboardContainer from './container/dashboard';
 import HomePage from './pages/home';
 import SignInPage from './pages/sign-in';
 import HistoryPage from './pages/history';
-import DashboardPage from './pages/dashboard';
 import ResultPage from './pages/result';
-
 import reducer from './reducers/index';
 import lib from './constants/lib';
 
@@ -27,7 +25,7 @@ const App = () =>
         <IndexRoute component={HomePage} />
         <Route path="/" component={HomePage} />
         <Route path="/history" component={HistoryPage} />
-        <Route path="/dashboard" component={DashboardPage} />
+        <Route path="/dashboard" component={props => <ConnectedDashboardContainer {...props} service={service} />} />
         <Route path="/dashboard/result" component={ResultPage} />
       </Route>
     </Router>
