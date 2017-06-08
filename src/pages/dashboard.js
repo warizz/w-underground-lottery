@@ -53,7 +53,7 @@ DashboardPage.propTypes = {
     id: PropTypes.string,
     isOpen: PropTypes.bool,
   }),
-  endDate: PropTypes.instanceOf(Date),
+  endDate: PropTypes.string.isRequired,
   endDateChangedCallback: PropTypes.func,
   closeButtonClickedCallback: PropTypes.func,
   openPeriodClickedCallback: PropTypes.func,
@@ -61,7 +61,6 @@ DashboardPage.propTypes = {
 
 DashboardPage.defaultProps = {
   currentPeriod: {},
-  endDate: new Date(),
   endDateChangedCallback() {},
   closeButtonClickedCallback() {},
   openPeriodClickedCallback() {},

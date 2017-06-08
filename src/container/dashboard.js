@@ -32,16 +32,20 @@ export class DashboardContainer extends React.Component {
     const endedAt = new Date(endDate);
 
     this.props.setFetching(true);
-    this.props.service.data.openPeriod(endedAt).then(this.setPeriod);
+    this.props.service.data.openPeriod(endedAt).then(() => {
+      this.setPeriod();
+    });
   }
   closePeriod(id) {
     this.props.setFetching(true);
-    this.props.service.data.updatePeriod(id, { isOpen: false }).then(this.setPeriod);
+    this.props.service.data.updatePeriod(id, { isOpen: false }).then(() => {
+      this.setPeriod();
+    });
   }
   render() {
     return (
       <DashboardPage
-        {...this.props}
+        currentPeriod={this.props.currentPeriod}
         closeButtonClickedCallback={this.closePeriod}
         endDate={this.state.endDate}
         endDateChangedCallback={this.onEndDateChange}
@@ -54,19 +58,21 @@ export class DashboardContainer extends React.Component {
 const mapStateToProps = state => ({ currentPeriod: state.data.currentPeriod });
 
 DashboardContainer.propTypes = {
+  currentPeriod: PropTypes.shape({}),
   setCurrentPeriod: PropTypes.func,
   setFetching: PropTypes.func,
   setPageName: PropTypes.func,
   service: PropTypes.shape({
-    data: {
+    data: PropTypes.shape({
       getCurrentPeriod: PropTypes.func,
       openPeriod: PropTypes.func,
       updatePeriod: PropTypes.func,
-    },
+    }),
   }).isRequired,
 };
 
 DashboardContainer.defaultProps = {
+  currentPeriod: {},
   setCurrentPeriod() {},
   setFetching() {},
   setPageName() {},
