@@ -10,7 +10,7 @@ const DashboardPage = (props) => {
   let openPeriodButtonElement = null;
   let closePeriodButtonElement = null;
 
-  if (currentPeriod.isOpen === false) {
+  if (!currentPeriod.isOpen) {
     endDateSeletorElement = (
       <div className="body">
         <div className="row">
@@ -23,8 +23,8 @@ const DashboardPage = (props) => {
     );
     openPeriodButtonElement = (
       <div className="action column">
-        <button className="border-bottom primary" onClick={() => openPeriodClickedCallback(endDate)}>{'เปิดแทง'}</button>
-        <Link to="/dashboard/result">{'กรอกผลรางวัลงวดล่าสุด'}</Link>
+        <button id="open-period" className="border-bottom primary" onClick={() => openPeriodClickedCallback(endDate)}>{'เปิดแทง'}</button>
+        <Link id="to-result" to="/dashboard/result">{'กรอกผลรางวัลงวดล่าสุด'}</Link>
       </div>
     );
   }
@@ -32,7 +32,7 @@ const DashboardPage = (props) => {
   if (currentPeriod.isOpen) {
     closePeriodButtonElement = (
       <div className="action" style={{ border: 'none' }}>
-        <button className="danger" onClick={() => closeButtonClickedCallback(currentPeriod.id)}>{'ปิดรับแทง'}</button>
+        <button id="close-period" className="danger" onClick={() => closeButtonClickedCallback(currentPeriod.id)}>{'ปิดรับแทง'}</button>
       </div>
     );
   }
@@ -60,7 +60,9 @@ DashboardPage.propTypes = {
 };
 
 DashboardPage.defaultProps = {
-  currentPeriod: {},
+  currentPeriod: {
+    isOpen: false,
+  },
   endDateChangedCallback() {},
   closeButtonClickedCallback() {},
   openPeriodClickedCallback() {},
