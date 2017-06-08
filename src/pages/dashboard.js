@@ -2,6 +2,7 @@ import React from 'react';
 import { PropTypes } from 'prop-types';
 import Link from 'react-router/lib/Link';
 import Card from '../components/card';
+import Summary from '../pages/summary';
 import './dashboard.css';
 
 const DashboardPage = (props) => {
@@ -44,6 +45,7 @@ const DashboardPage = (props) => {
         {openPeriodButtonElement}
         {closePeriodButtonElement}
       </Card>
+      <Summary bets={props.summary.bets} currentPeriod={props.currentPeriod} service={props.service} setPaid={props.setPaid} copyToClipboard={props.copyToClipboard} />
     </div>
   );
 };
@@ -57,6 +59,18 @@ DashboardPage.propTypes = {
   endDateChangedCallback: PropTypes.func,
   closeButtonClickedCallback: PropTypes.func,
   openPeriodClickedCallback: PropTypes.func,
+  summary: PropTypes.shape({
+    bets: PropTypes.arrayOf(PropTypes.shape({})),
+  }),
+  setPaid: PropTypes.func,
+  service: PropTypes.shape({
+    data: PropTypes.shape({
+      getCurrentPeriod: PropTypes.func,
+      openPeriod: PropTypes.func,
+      updatePeriod: PropTypes.func,
+    }),
+  }),
+  copyToClipboard: PropTypes.func,
 };
 
 DashboardPage.defaultProps = {
@@ -66,6 +80,16 @@ DashboardPage.defaultProps = {
   endDateChangedCallback() {},
   closeButtonClickedCallback() {},
   openPeriodClickedCallback() {},
+  summary: {},
+  setPaid() {},
+  service: {
+    data: {
+      getCurrentPeriod() {},
+      openPeriod() {},
+      updatePeriod() {},
+    },
+  },
+  copyToClipboard() {},
 };
 
 export default DashboardPage;
