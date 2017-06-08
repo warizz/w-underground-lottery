@@ -73,7 +73,6 @@ const SummaryPage = (props) => {
                   {buyer.bets.map((betItem) => {
                     const rewardCallback = (number, price, reward, rewardType) => `ถูก ${rewardType} [${number}] ${price} x ${reward} = ${price * reward} บาท`;
                     const reward = service.calculation.checkReward(result, rewardCallback)(betItem);
-                    console.log('reward', reward);
                     if (reward) {
                       return (
                         <li id={`bet-item-${betItem.id}-reward`} key={`bet-it--${betItem.id}`} className={`bet win${paid ? ' paid' : ''}`}>
@@ -144,6 +143,7 @@ SummaryPage.propTypes = {
   setPaid: PropTypes.func,
   service: PropTypes.shape({
     calculation: PropTypes.shape({
+      calculateTotal: PropTypes.func,
       checkReward: PropTypes.func,
     }),
   }),
@@ -155,6 +155,12 @@ SummaryPage.defaultProps = {
   copyToClipboard() {},
   paying: false,
   setPaid() {},
+  service: {
+    calculation: {
+      calculateTotal: () => () => {},
+      checkReward: () => () => {},
+    },
+  },
 };
 
 export default SummaryPage;
