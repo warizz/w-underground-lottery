@@ -11,12 +11,6 @@ it('should render with no currentPeriod', () => {
 it('should render with no bets', () => {
   const props = {
     currentPeriod: {},
-    service: {
-      calculation: {
-        checkReward() {},
-        calculateTotal: () => () => [],
-      },
-    },
   };
   const wrapper = shallow(<Page {...props} />);
 
@@ -41,12 +35,6 @@ it('should render correctly with bets', () => {
     ],
     currentPeriod: {
       endedAt: new Date(2017, 1, 1),
-    },
-    service: {
-      calculation: {
-        checkReward: () => () => {},
-        calculateTotal: () => () => [],
-      },
     },
   };
   const wrapper = shallow(<Page {...props} />);
@@ -75,8 +63,8 @@ it('should render correctly when win a reward', () => {
     },
     service: {
       calculation: {
-        checkReward: () => () => {},
-        calculateTotal: () => () => [],
+        checkReward: () => () => 'you win',
+        calculateTotal: () => () => {},
       },
     },
   };
@@ -105,12 +93,6 @@ it('should call copyToClipboard when click button#copy-to-clipboard', () => {
       endedAt: new Date(2017, 1, 1),
     },
     copyToClipboard: copyToClipboardMock,
-    service: {
-      calculation: {
-        checkReward: () => () => {},
-        calculateTotal: () => () => [],
-      },
-    },
   };
   const wrapper = shallow(<Page {...props} />);
 
