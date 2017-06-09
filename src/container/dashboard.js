@@ -59,10 +59,7 @@ export class DashboardContainer extends React.Component {
     };
   }
   setPeriod() {
-    this.props.service.data.getCurrentPeriod().then((res) => {
-      this.props.setCurrentPeriod(res);
-      this.props.setFetching(false);
-    });
+    return this.props.service.data.getCurrentPeriod().then(res => this.props.setCurrentPeriod(res)).then(() => this.props.setFetching(false));
   }
   openPeriod(endDate) {
     const endedAt = new Date(endDate);
@@ -74,9 +71,7 @@ export class DashboardContainer extends React.Component {
   }
   closePeriod(id) {
     this.props.setFetching(true);
-    this.props.service.data.updatePeriod(id, { isOpen: false }).then(() => {
-      this.setPeriod();
-    });
+    return this.props.service.data.updatePeriod(id, { isOpen: false }).then(this.setPeriod);
   }
   copyToClipboard() {
     const textarea = document.createElement('textarea');
@@ -109,20 +104,12 @@ export class DashboardContainer extends React.Component {
 const mapStateToProps = state => ({ currentPeriod: state.data.currentPeriod });
 
 DashboardContainer.propTypes = {
-  currentPeriod: PropTypes.shape({
-    id: PropTypes.string,
-  }),
+  currentPeriod: PropTypes.shape({ id: PropTypes.string }),
   setCurrentPeriod: PropTypes.func,
   setFetching: PropTypes.func,
   setPageName: PropTypes.func,
   service: PropTypes.shape({
-    data: PropTypes.shape({
-      getCurrentPeriod: PropTypes.func,
-      openPeriod: PropTypes.func,
-      updatePeriod: PropTypes.func,
-      updateBets: PropTypes.func,
-      getSummary: PropTypes.func,
-    }),
+    data: PropTypes.shape({ getCurrentPeriod: PropTypes.func, openPeriod: PropTypes.func, updatePeriod: PropTypes.func, updateBets: PropTypes.func, getSummary: PropTypes.func }),
   }).isRequired,
   setAlert: PropTypes.func,
 };
