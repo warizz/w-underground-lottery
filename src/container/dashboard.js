@@ -16,19 +16,17 @@ export class DashboardContainer extends React.Component {
     this.setPeriod = this.setPeriod.bind(this);
     this.onEndDateChange = this.onEndDateChange.bind(this);
     this.setPaid = this.setPaid.bind(this);
-    this.copyToClipboard = this.copyToClipboard.bind(this);
   }
   componentWillMount() {
     this.props.setPageName('Admin dashboard');
   }
   componentDidMount() {
     if (this.props.currentPeriod.id) {
-      this.props.service.data.getSummary(this.props.currentPeriod.id).then((res) => {
+      return this.props.service.data.getSummary(this.props.currentPeriod.id).then((res) => {
         this.setState({ summary: res });
       });
-    } else {
-      this.setPeriod();
     }
+    return this.setPeriod();
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.currentPeriod.id) {
@@ -44,7 +42,7 @@ export class DashboardContainer extends React.Component {
     const self = this;
     return () => {
       self.props.setFetching(true);
-      this.props.service.data
+      return this.props.service.data
         .updateBets(periodId, userId, { isPaid })
         .then(() => {
           this.props.service.data
@@ -65,23 +63,11 @@ export class DashboardContainer extends React.Component {
     const endedAt = new Date(endDate);
 
     this.props.setFetching(true);
-    this.props.service.data.openPeriod(endedAt).then(() => {
-      this.setPeriod();
-    });
+    return this.props.service.data.openPeriod(endedAt).then(this.setPeriod);
   }
   closePeriod(id) {
     this.props.setFetching(true);
     return this.props.service.data.updatePeriod(id, { isOpen: false }).then(this.setPeriod);
-  }
-  copyToClipboard() {
-    const textarea = document.createElement('textarea');
-    textarea.textContent = document.getElementById('for-clipboard').innerText;
-    textarea.style.position = 'fixed';
-    document.body.appendChild(textarea);
-    textarea.select();
-    document.execCommand('copy');
-    document.body.removeChild(textarea);
-    this.props.setAlert('copied to clipboard');
   }
   render() {
     return (
@@ -95,7 +81,6 @@ export class DashboardContainer extends React.Component {
         setAlert={this.props.setAlert}
         summary={this.state.summary}
         setPaid={this.setPaid}
-        copyToClipboard={this.copyToClipboard}
       />
     );
   }

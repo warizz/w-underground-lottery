@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { shallow, mount, render } from 'enzyme';
 import Page from '../../pages/summary';
 
 it('should render with no currentPeriod', () => {
@@ -74,7 +74,7 @@ it('should render correctly when win a reward', () => {
 });
 
 it('should call copyToClipboard when click button#copy-to-clipboard', () => {
-  const copyToClipboardMock = jest.fn();
+  const setAlertMock = jest.fn();
   const props = {
     bets: [
       {
@@ -92,10 +92,12 @@ it('should call copyToClipboard when click button#copy-to-clipboard', () => {
     currentPeriod: {
       endedAt: new Date(2017, 1, 1),
     },
-    copyToClipboard: copyToClipboardMock,
+    setAlert: setAlertMock,
   };
-  const wrapper = shallow(<Page {...props} />);
+  document.execCommand = jest.fn();
+  const wrapper = mount(<Page {...props} />, { attachTo: document.body });
 
+  expect(wrapper.find('#for-clipboard').exists()).toBe(true);
   wrapper.find('button#copy-to-clipboard').simulate('click');
-  expect(copyToClipboardMock).toHaveBeenCalled();
+  expect(setAlertMock).toHaveBeenCalledWith('copied to clipboard');
 });

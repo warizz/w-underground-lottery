@@ -6,7 +6,7 @@ import Summary from '../pages/summary';
 import './dashboard.css';
 
 const DashboardPage = (props) => {
-  const { currentPeriod, endDate, endDateChangedCallback, closeButtonClickedCallback, openPeriodClickedCallback } = props;
+  const { currentPeriod, endDate, endDateChangedCallback, closeButtonClickedCallback, openPeriodClickedCallback, setAlert } = props;
   let endDateSeletorElement = null;
   let openPeriodButtonElement = null;
   let closePeriodButtonElement = null;
@@ -45,7 +45,7 @@ const DashboardPage = (props) => {
         {openPeriodButtonElement}
         {closePeriodButtonElement}
       </Card>
-      <Summary bets={props.summary.bets} currentPeriod={props.currentPeriod} service={props.service} setPaid={props.setPaid} copyToClipboard={props.copyToClipboard} />
+      <Summary bets={props.summary.bets} currentPeriod={props.currentPeriod} service={props.service} setPaid={props.setPaid} setAlert={setAlert} />
     </div>
   );
 };
@@ -62,6 +62,7 @@ DashboardPage.propTypes = {
   summary: PropTypes.shape({
     bets: PropTypes.arrayOf(PropTypes.shape({})),
   }),
+  setAlert: PropTypes.func,
   setPaid: PropTypes.func,
   service: PropTypes.shape({
     data: PropTypes.shape({
@@ -70,7 +71,6 @@ DashboardPage.propTypes = {
       updatePeriod: PropTypes.func,
     }),
   }),
-  copyToClipboard: PropTypes.func,
 };
 
 DashboardPage.defaultProps = {
@@ -81,6 +81,7 @@ DashboardPage.defaultProps = {
   closeButtonClickedCallback() {},
   openPeriodClickedCallback() {},
   summary: {},
+  setAlert() {},
   setPaid() {},
   service: {
     data: {

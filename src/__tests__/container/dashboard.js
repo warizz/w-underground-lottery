@@ -63,30 +63,8 @@ it('should update state.endDate when call onEndDateChange()', () => {
   expect(wrapper.state('endDate').getTime()).toBe(endDate.getTime());
 });
 
-it('should call service.data.updatePeriod then call setPeriod when call openPeriod()', (done) => {
-  const props = {
-    setFetching() {},
-    setCurrentPeriod() {
-      done();
-    },
-    service: {
-      data: {
-        getCurrentPeriod() {
-          return new Promise(resolve => resolve());
-        },
-        openPeriod() {
-          return new Promise(resolve => resolve());
-        },
-        updatePeriod() {},
-      },
-    },
-  };
-  const wrapper = mount(<DashboardContainer {...props} />);
-
-  wrapper.instance().openPeriod();
-});
-
-it('should call service.data.updatePeriod then call setPeriod when call closePeriod()', () => {
+it('should call spesific functions when call openPeriod()', async () => {
+  const currentPeriodMock = {};
   const setFetchingMock = jest.fn();
   const setCurrentPeriodMock = jest.fn();
   const props = {
@@ -95,7 +73,35 @@ it('should call service.data.updatePeriod then call setPeriod when call closePer
     service: {
       data: {
         getCurrentPeriod() {
-          return new Promise(resolve => resolve('ah'));
+          return new Promise(resolve => resolve(currentPeriodMock));
+        },
+        openPeriod() {
+          return new Promise(resolve => resolve());
+        },
+        updatePeriod() {},
+      },
+    },
+  };
+  const wrapper = shallow(<DashboardContainer {...props} />);
+
+  await wrapper.instance().openPeriod().then(() => {
+    expect(setCurrentPeriodMock).toHaveBeenCalledTimes(1);
+    expect(setCurrentPeriodMock).toHaveBeenCalledWith(currentPeriodMock);
+    expect(setFetchingMock).toHaveBeenCalledTimes(2);
+  });
+});
+
+it('should call spesific functions when call closePeriod()', async () => {
+  const currentPeriodMock = {};
+  const setFetchingMock = jest.fn();
+  const setCurrentPeriodMock = jest.fn();
+  const props = {
+    setFetching: setFetchingMock,
+    setCurrentPeriod: setCurrentPeriodMock,
+    service: {
+      data: {
+        getCurrentPeriod() {
+          return new Promise(resolve => resolve(currentPeriodMock));
         },
         openPeriod() {},
         updatePeriod() {
@@ -106,28 +112,66 @@ it('should call service.data.updatePeriod then call setPeriod when call closePer
   };
   const wrapper = shallow(<DashboardContainer {...props} />);
 
-  return wrapper.instance().closePeriod().then(() => {
-    expect(setFetchingMock).toHaveBeenCalledTimes(2);
+  await wrapper.instance().closePeriod().then(() => {
     expect(setCurrentPeriodMock).toHaveBeenCalledTimes(1);
+    expect(setCurrentPeriodMock).toHaveBeenCalledWith(currentPeriodMock);
+    expect(setFetchingMock).toHaveBeenCalledTimes(2);
   });
 });
 
-// it('should call service.data.getSummary in componentDidMount when currentPeriod is present', () => {
-//   const props = {
-//     currentPeriod: {
-//       id: 'id',
-//     },
-//     setFetching() {},
-//     setCurrentPeriod() {},
-//     service: {
-//       data: {
-//         getCurrentPeriod() {},
-//         openPeriod() {},
-//         updatePeriod() {},
-//         getSummary: () => new Promise(resolve => resolve('test')),
-//       },
-//     },
-//   };
-//   const wrapper = mount(<DashboardContainer {...props} />);
-//   expect(wrapper.update().state('summary')).toBe('test');
-// });
+it('should do specified tasks when componentDidMount with currentPeriod is present', async () => {
+  const summaryMock = {};
+  const props = {
+    currentPeriod: {
+      id: 'id',
+    },
+    setFetching() {},
+    setCurrentPeriod() {},
+    service: {
+      data: {
+        getCurrentPeriod() {},
+        openPeriod() {},
+        updatePeriod() {},
+        getSummary: () => new Promise(resolve => resolve(summaryMock)),
+      },
+    },
+  };
+  const wrapper = mount(<DashboardContainer {...props} />);
+  await Promise.resolve().then(() => {
+    expect(wrapper.update().state('summary')).toBe(summaryMock);
+  });
+});
+
+it('should do specified tasks when call setPaid()', async () => {
+  const summaryMock = {};
+  const currentPeriodMock = {};
+  const setFetchingMock = jest.fn();
+  const setCurrentPeriodMock = jest.fn();
+  const props = {
+    setFetching: setFetchingMock,
+    setCurrentPeriod: setCurrentPeriodMock,
+    service: {
+      data: {
+        getCurrentPeriod() {
+          return new Promise(resolve => resolve(currentPeriodMock));
+        },
+        openPeriod() {},
+        updatePeriod() {
+          return new Promise(resolve => resolve());
+        },
+        updateBets() {
+          return new Promise(resolve => resolve());
+        },
+        getSummary() {
+          return new Promise(resolve => resolve(summaryMock));
+        },
+      },
+    },
+  };
+  const wrapper = shallow(<DashboardContainer {...props} />);
+
+  await wrapper.instance().setPaid()().then(() => {
+    expect(setFetchingMock).toHaveBeenCalledTimes(2);
+    expect(wrapper.update().state('summary')).toBe(summaryMock);
+  });
+});

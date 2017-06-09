@@ -5,7 +5,18 @@ import Card from '../components/card';
 import './summary.css';
 
 const SummaryPage = (props) => {
-  const { currentPeriod, bets, copyToClipboard, paying, setPaid, service } = props;
+  const { currentPeriod, bets, paying, setPaid, service } = props;
+
+  const copyToClipboard = () => {
+    const textarea = document.createElement('textarea');
+    textarea.textContent = document.getElementById('for-clipboard').innerText;
+    textarea.style.position = 'fixed';
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+    props.setAlert('copied to clipboard');
+  };
 
   if (!currentPeriod) {
     return (
@@ -138,7 +149,6 @@ SummaryPage.propTypes = {
     isOpen: PropTypes.bool,
     result: PropTypes.shape({}),
   }),
-  copyToClipboard: PropTypes.func,
   paying: PropTypes.bool,
   setPaid: PropTypes.func,
   service: PropTypes.shape({
