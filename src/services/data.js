@@ -34,10 +34,15 @@ function getCurrentPeriod() {
           return resolve();
         }
 
-        const period = res.data;
+        const { id, endedAt, isOpen, bets = [] } = res.data;
+        const period = {
+          id,
+          isOpen,
+          endedAt: new Date(endedAt),
+        };
 
-        if (period.bets) {
-          period.bets = period.bets.map((bet) => {
+        if (bets.length > 0) {
+          period.bets = bets.map((bet) => {
             const updated = Object.assign({}, bet);
             if (bet.createdAt) {
               updated.createdAt = new Date(bet.createdAt);
