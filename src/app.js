@@ -11,7 +11,6 @@ import ConnectedDashboardContainer from './container/dashboard';
 import HomePage from './pages/home';
 import SignInPage from './pages/sign-in';
 import HistoryPage from './pages/history';
-import ResultPage from './pages/result';
 import reducer from './reducers/index';
 import lib from './constants/lib';
 
@@ -26,7 +25,6 @@ const App = () =>
         <Route path="/" component={HomePage} />
         <Route path="/history" component={HistoryPage} />
         <Route path="/dashboard" component={props => <ConnectedDashboardContainer {...props} service={service} />} />
-        <Route path="/dashboard/result" component={ResultPage} />
       </Route>
     </Router>
   </Provider>);

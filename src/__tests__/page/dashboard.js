@@ -13,7 +13,6 @@ it('should render elements correctly when !currentPeriod.isOpen', () => {
 
   expect(wrapper.find('input#txt-start-date').exists()).toBe(true);
   expect(wrapper.find('button#open-period').exists()).toBe(true);
-  expect(wrapper.find('#to-result').exists()).toBe(true);
 });
 
 it('should render elements correctly when currentPeriod.isOpen', () => {

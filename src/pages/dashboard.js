@@ -1,6 +1,5 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
-import Link from 'react-router/lib/Link';
 import Card from '../components/card';
 import Summary from '../pages/summary';
 import './dashboard.css';
@@ -25,7 +24,6 @@ const DashboardPage = (props) => {
     openPeriodButtonElement = (
       <div className="action column">
         <button id="open-period" className="border-bottom primary" onClick={() => openPeriodClickedCallback(endDate)}>{'เปิดแทง'}</button>
-        <Link id="to-result" to="/dashboard/result">{'กรอกผลรางวัลงวดล่าสุด'}</Link>
       </div>
     );
   }
