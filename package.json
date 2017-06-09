@@ -40,6 +40,7 @@
       "src/**/*.{js,jsx}",
       "!<rootDir>/node_modules/",
       "!<rootDir>/path/to/dir/",
+      "!src/app.js",
       "!src/index.js",
       "!src/config.js"
     ]
