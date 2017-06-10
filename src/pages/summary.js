@@ -75,31 +75,61 @@ const SummaryPage = (props) => {
           const sumPrice = buyer.bets.map(service.calculation.calculateTotal(result)).reduce((a, b) => a + b);
           // check if this user paid or not
           const paid = buyer.bets.map(bet => bet.isPaid).includes(true);
-          // const itemStyle = paid ? styles.paidItem : {};
           return (
             <Card key={buyer.name}>
               <div className="title">{buyer.name}</div>
               <div className="body">
                 <ul>
                   {buyer.bets.map((betItem) => {
+                    let className = 'bet';
+
+                    if (paid) {
+                      className += ' paid';
+                    }
+
                     const rewardCallback = (number, price, reward, rewardType) => `ถูก ${rewardType} [${number}] ${price} x ${reward} = ${price * reward} บาท`;
                     const reward = service.calculation.checkReward(result, rewardCallback)(betItem);
+
                     if (reward) {
+                      className += ' win';
+
                       return (
-                        <li id={`bet-item-${betItem.id}-reward`} key={`bet-it--${betItem.id}`} className={`bet win${paid ? ' paid' : ''}`}>
+                        <li id={`bet-item-${betItem.id}-reward`} key={`bet-it--${betItem.id}`} className={className}>
                           {reward}
                         </li>
                       );
                     }
-                    const price1Label = betItem.number.length > 2 ? ' เต็ง ' : ' บน ';
-                    const price2Label = betItem.number.length > 2 ? ' โต๊ด ' : ' ล่าง ';
+
+                    const { number, price1, price2, price3 } = betItem;
+
+                    // generate label for each prices
+                    let price1Label;
+                    let price2Label;
                     const price3Label = ' ล่าง ';
-                    let bet = `${betItem.number} =`;
-                    bet += betItem.price1 ? `${price1Label}${betItem.price1}` : '';
-                    bet += betItem.price2 ? `${price2Label}${betItem.price2}` : '';
-                    bet += betItem.price3 ? `${price3Label}${betItem.price3}` : '';
+                    if (number.length === 3) {
+                      price1Label = ' เต็ง ';
+                      price2Label = ' โต๊ด ';
+                    } else {
+                      price1Label = ' บน ';
+                      price2Label = ' ล่าง ';
+                    }
+
+                    // generate label for each bet number
+                    let bet = `${number} =`;
+                    if (price1) {
+                      bet += `${price1Label}${betItem.price1}`;
+                    }
+                    if (price2) {
+                      bet += `${price2Label}${betItem.price2}`;
+                    }
+                    if (price3) {
+                      bet += `${price3Label}${betItem.price3}`;
+                    }
+
+                    const id = `bet-it--${betItem.id}`;
+
                     return (
-                      <li key={`bet-it--${betItem.id}`} className={`bet${paid ? ' paid' : ''}`}>
+                      <li id={id} key={id} className={className}>
                         {bet}
                       </li>
                     );

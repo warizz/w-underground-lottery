@@ -8,9 +8,9 @@ import { Provider } from 'react-redux';
 import service from './services/index';
 import LayoutContainer from './container/layout';
 import ConnectedDashboardContainer from './container/dashboard';
+import ConnectedHistoryContainer from './container/history';
 import HomePage from './pages/home';
 import SignInPage from './pages/sign-in';
-import HistoryPage from './pages/history';
 import reducer from './reducers/index';
 import lib from './constants/lib';
 
@@ -23,7 +23,7 @@ const App = () =>
       <Route component={LayoutContainer} onEnter={lib.initApplicationState(store)}>
         <IndexRoute component={HomePage} />
         <Route path="/" component={HomePage} />
-        <Route path="/history" component={HistoryPage} />
+        <Route path="/history" component={props => <ConnectedHistoryContainer {...props} service={service} />} />
         <Route path="/dashboard" component={props => <ConnectedDashboardContainer {...props} service={service} />} />
       </Route>
     </Router>
