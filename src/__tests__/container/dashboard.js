@@ -119,26 +119,43 @@ it('should call spesific functions when call closePeriod()', async () => {
   });
 });
 
-it('should do specified tasks when componentDidMount with currentPeriod is present', async () => {
-  const summaryMock = {};
-  const props = {
-    currentPeriod: {
-      id: 'id',
-    },
-    setFetching() {},
-    setCurrentPeriod() {},
-    service: {
-      data: {
-        getCurrentPeriod() {},
-        openPeriod() {},
-        updatePeriod() {},
-        getSummary: () => new Promise(resolve => resolve(summaryMock)),
+describe('lifecycle functions', () => {
+  it('should do specific tasks when componentDidMount with no currentPeriod', async () => {
+    const setCurrentPeriodMock = jest.fn();
+    const setFetchingMock = jest.fn();
+    const props = {
+      setFetching: setFetchingMock,
+      setCurrentPeriod: setCurrentPeriodMock,
+    };
+    await shallow(<DashboardContainer {...props} />).instance().componentDidMount();
+    expect(setCurrentPeriodMock).toHaveBeenCalledTimes(1);
+    expect(setFetchingMock).toHaveBeenCalledTimes(1);
+    expect(setFetchingMock).toHaveBeenLastCalledWith(false);
+  });
+  it('should do specific tasks when componentDidMount with currentPeriod is present', async () => {
+    const summaryMock = {};
+    const props = {
+      currentPeriod: {
+        id: 'id',
       },
-    },
-  };
-  const wrapper = mount(<DashboardContainer {...props} />);
-  await Promise.resolve().then(() => {
-    expect(wrapper.update().state('summary')).toBe(summaryMock);
+      setFetching() {},
+      setCurrentPeriod() {},
+      service: {
+        data: {
+          getCurrentPeriod() {},
+          openPeriod() {},
+          updatePeriod() {},
+          getSummary: () => new Promise(resolve => resolve(summaryMock)),
+        },
+      },
+    };
+    const wrapper = mount(<DashboardContainer {...props} />);
+    await Promise.resolve().then(() => {
+      expect(wrapper.update().state('summary')).toBe(summaryMock);
+    });
+  });
+  it('should do nothing when componentWillReceiveProps with no currentPeriod', async () => {
+    await shallow(<DashboardContainer />).instance().componentWillReceiveProps({ currentPeriod: {} });
   });
 });
 

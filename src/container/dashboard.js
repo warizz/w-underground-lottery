@@ -42,18 +42,12 @@ export class DashboardContainer extends React.Component {
     const self = this;
     return () => {
       self.props.setFetching(true);
-      return this.props.service.data
-        .updateBets(periodId, userId, { isPaid })
-        .then(() => {
-          this.props.service.data
-            .getSummary(periodId)
-            .then((res) => {
-              this.setState({ summary: res });
-              self.props.setFetching(false);
-            })
-            .catch(this.handleError);
-        })
-        .catch(this.handleError);
+      return this.props.service.data.updateBets(periodId, userId, { isPaid }).then(() => {
+        this.props.service.data.getSummary(periodId).then((res) => {
+          this.setState({ summary: res });
+          self.props.setFetching(false);
+        });
+      });
     };
   }
   setPeriod() {
@@ -94,8 +88,14 @@ DashboardContainer.propTypes = {
   setFetching: PropTypes.func,
   setPageName: PropTypes.func,
   service: PropTypes.shape({
-    data: PropTypes.shape({ getCurrentPeriod: PropTypes.func, openPeriod: PropTypes.func, updatePeriod: PropTypes.func, updateBets: PropTypes.func, getSummary: PropTypes.func }),
-  }).isRequired,
+    data: PropTypes.shape({
+      getCurrentPeriod: PropTypes.func,
+      openPeriod: PropTypes.func,
+      updatePeriod: PropTypes.func,
+      updateBets: PropTypes.func,
+      getSummary: PropTypes.func,
+    }),
+  }),
   setAlert: PropTypes.func,
 };
 
@@ -105,6 +105,14 @@ DashboardContainer.defaultProps = {
   setFetching() {},
   setPageName() {},
   setAlert() {},
+  service: {
+    data: {
+      getCurrentPeriod: async () => {},
+      openPeriod: async () => {},
+      updatePeriod: async () => {},
+      getSummary: async () => {},
+    },
+  },
 };
 
 export default connect(mapStateToProps, {
