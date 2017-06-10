@@ -1,6 +1,7 @@
 import service from '../../services/index';
 
 describe('service.calculation', () => {
+  const calculator = service.calculation;
   const result = {
     six: '053630',
     two: '61',
@@ -215,6 +216,57 @@ describe('service.calculation', () => {
       const rewardPrice = 100 * 2;
       const expected = ticketPrice - rewardPrice;
       expect(value).toBe(expected);
+    });
+  });
+
+  describe('calculateTicketPrice', () => {
+    it('no bet', () => {
+      const price = calculator.calculateTicketPrice();
+      expect(price).toBe(0);
+    });
+
+    it('no number', () => {
+      const price = calculator.calculateTicketPrice({});
+      expect(price).toBe(0);
+    });
+
+    it('1: x = 0', () => {
+      const bet = {
+        number: '1',
+      };
+      const price = calculator.calculateTicketPrice(bet);
+      expect(price).toBe(0);
+    });
+
+    it('1: 100 + 200 = 300', () => {
+      const bet = {
+        number: '1',
+        price1: 100,
+        price2: 200,
+      };
+      const price = calculator.calculateTicketPrice(bet);
+      expect(price).toBe(300);
+    });
+
+    it('12: 10 + 20 = 27', () => {
+      const bet = {
+        number: '12',
+        price1: 10,
+        price2: 20,
+      };
+      const price = calculator.calculateTicketPrice(bet);
+      expect(price).toBe(27);
+    });
+
+    it('123: 10 + 20 + 30 = 54', () => {
+      const bet = {
+        number: '12',
+        price1: 10,
+        price2: 20,
+        price3: 30,
+      };
+      const price = calculator.calculateTicketPrice(bet);
+      expect(price).toBe(54);
     });
   });
 });

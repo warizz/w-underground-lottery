@@ -1,5 +1,30 @@
 import * as config from '../config';
 
+function calculateTicketPrice(bet) {
+  if (!bet) {
+    return 0;
+  }
+  if (!bet.number) {
+    return 0;
+  }
+
+  let total = 0;
+  if (bet.price1) {
+    total += Number(bet.price1);
+  }
+  if (bet.price2) {
+    total += Number(bet.price2);
+  }
+  if (bet.price3) {
+    total += Number(bet.price3);
+  }
+  if (bet.number.length > 1) {
+    total *= Number(1) - Number(config.discountPercent);
+  }
+
+  return total;
+}
+
 // tode means match giving numbers any order
 const checkTode = (numbers, result) => {
   const arrResult = result.split('');
@@ -114,6 +139,7 @@ const calculateTotal = result => (bet) => {
 };
 
 export default {
+  calculateTicketPrice,
   calculateTotal,
   checkReward,
 };
