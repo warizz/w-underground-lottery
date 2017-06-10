@@ -104,21 +104,11 @@ describe('internal functions', () => {
       const setFetchingMock = jest.fn();
       const setCurrentPeriodMock = jest.fn();
       const setAlertMock = jest.fn();
-      const insertBetMock = jest.fn(async () => {});
       const props = {
         currentPeriod: currentPeriodMock,
         setFetching: setFetchingMock,
         setCurrentPeriod: setCurrentPeriodMock,
         setAlert: setAlertMock,
-        service: {
-          data: {
-            deleteBet: async () => {},
-            getCurrentPeriod: async () => {},
-            updateBet: async () => {},
-            insertBet: insertBetMock,
-            logOut: async () => {},
-          },
-        },
       };
       const wrapper = mount(<HomeContainer {...props} />);
 
@@ -127,8 +117,6 @@ describe('internal functions', () => {
       expect(setFetchingMock).toHaveBeenLastCalledWith(false);
       expect(setCurrentPeriodMock).toHaveBeenCalledTimes(1);
       expect(setAlertMock).toHaveBeenCalledWith('Saved');
-      expect(insertBetMock).toHaveBeenCalledTimes(1);
-      expect(insertBetMock).toHaveBeenCalledWith(bet);
       wrapper.update();
       expect(wrapper.state('editingBet')).toBe(null);
     });
