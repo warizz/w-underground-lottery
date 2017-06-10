@@ -5,10 +5,9 @@ cache:
   directories:
     - node_modules
 script:
-  - npm test
+  - npm test -- --coverage
   - npm run build
 before_install:
   - pip install --user codecov
 after_success:
-  - npm test -- --coverage
   - codecov

@@ -143,8 +143,9 @@ function logIn(accessToken) {
   });
 }
 
-function logOut(accessToken) {
+function logOut() {
   return new Promise((resolve, reject) => {
+    const accessToken = docCookies.getItem(`fbat_${fbAppId}`);
     axios
       .request({
         url: `${baseURL}/log_out`,

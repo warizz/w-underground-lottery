@@ -9,7 +9,7 @@ import service from './services/index';
 import LayoutContainer from './container/layout';
 import ConnectedDashboardContainer from './container/dashboard';
 import ConnectedHistoryContainer from './container/history';
-import HomePage from './pages/home';
+import ConnectedHomeContainer from './container/home';
 import SignInPage from './pages/sign-in';
 import reducer from './reducers/index';
 import lib from './constants/lib';
@@ -21,8 +21,8 @@ const App = () =>
     <Router history={browserHistory}>
       <Route path="/log-in" component={SignInPage} />
       <Route component={LayoutContainer} onEnter={lib.initApplicationState(store)}>
-        <IndexRoute component={HomePage} />
-        <Route path="/" component={HomePage} />
+        <IndexRoute component={props => <ConnectedHomeContainer {...props} service={service} />} />
+        <Route path="/" component={props => <ConnectedHomeContainer {...props} service={service} />} />
         <Route path="/history" component={props => <ConnectedHistoryContainer {...props} service={service} />} />
         <Route path="/dashboard" component={props => <ConnectedDashboardContainer {...props} service={service} />} />
       </Route>

@@ -47,9 +47,9 @@ const UserProfile = (props) => {
 UserProfile.propTypes = {
   logOutHandler: PropTypes.func.isRequired,
   user: PropTypes.shape({
-    is_admin: PropTypes.bool.isRequired,
-    name: PropTypes.string.isRequired,
-    picture: PropTypes.string.isRequired,
+    is_admin: PropTypes.bool,
+    name: PropTypes.string,
+    picture: PropTypes.string,
   }),
 };
 
