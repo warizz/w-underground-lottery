@@ -5,6 +5,7 @@ import BetList from '../components/bet-list/bet-list';
 import BetEditor from '../components/bet-editor';
 import ResultDisplay from '../components/result-display';
 import UserProfile from '../components/user-profile';
+import service from '../services/index';
 import './home.css';
 
 const HomePage = (props) => {
@@ -43,6 +44,7 @@ const HomePage = (props) => {
           deleteHandler={handleDeleteBet}
           isEditable={currentPeriod.isOpen}
           periodEndedAt={moment(currentPeriod.endedAt).format('DD MMM YYYY')}
+          calculator={service.calculation}
         />
       </div>
       <div className="hidden-xs">
