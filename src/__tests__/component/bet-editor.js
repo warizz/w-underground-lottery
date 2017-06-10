@@ -49,9 +49,8 @@ it('should render input changes correctly', () => {
 it('should get random number when click random button', () => {
   const wrapper = mount(<BetEditor />);
 
-  expect(wrapper.find('#number').node.value).toBe('');
-  wrapper.find('button.random').simulate('click');
-  expect(wrapper.find('#number').node.value).toMatch(/^\d{1,3}$/);
+  wrapper.instance().getRandomNumber();
+  expect(wrapper.state('number')).toMatch(/^\d{1,3}$/);
 });
 
 describe('handleNumberChange', () => {

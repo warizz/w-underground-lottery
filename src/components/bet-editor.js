@@ -36,8 +36,7 @@ class BetEditor extends React.Component {
   }
   getRandomNumber() {
     const number = service.utility.getRandomNumber(1, 3);
-    this.setState({ enablePrice3: number.length > 2 });
-    this.setState({ number });
+    this.setState({ enablePrice3: number.length > 2, number });
     this.price1Input.focus();
   }
   setAlert(alertText) {
