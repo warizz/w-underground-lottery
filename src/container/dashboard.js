@@ -111,6 +111,7 @@ DashboardContainer.defaultProps = {
       openPeriod: async () => {},
       updatePeriod: async () => {},
       getSummary: async () => {},
+      updateBets: async () => {},
     },
   },
 };

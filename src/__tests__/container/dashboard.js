@@ -6,38 +6,16 @@ import reducer from '../../reducers/index';
 import ConnectedDashboardContainer, { DashboardContainer } from '../../container/dashboard';
 
 it('should render contained component', () => {
-  const props = {
-    service: {
-      data: {
-        getCurrentPeriod: () => new Promise(resolve => resolve()),
-        openPeriod() {},
-        updatePeriod() {},
-        updateBets() {},
-        getSummary() {},
-      },
-    },
-  };
-  const wrapper = mount(<DashboardContainer {...props} />);
+  const wrapper = mount(<DashboardContainer />);
 
   expect(wrapper.find('div.dashboard').exists()).toBe(true);
 });
 
 it('should render connected component', () => {
-  const props = {
-    service: {
-      data: {
-        getCurrentPeriod: () => new Promise(resolve => resolve()),
-        openPeriod() {},
-        updatePeriod() {},
-        updateBets() {},
-        getSummary() {},
-      },
-    },
-  };
   const store = createStore(reducer);
   const wrapper = mount(
     <Provider store={store}>
-      <ConnectedDashboardContainer {...props} />
+      <ConnectedDashboardContainer />
     </Provider>,
   );
 
@@ -45,18 +23,7 @@ it('should render connected component', () => {
 });
 
 it('should update state.endDate when call onEndDateChange()', () => {
-  const props = {
-    service: {
-      data: {
-        getCurrentPeriod: () => new Promise(resolve => resolve()),
-        openPeriod() {},
-        updatePeriod() {},
-        updateBets() {},
-        getSummary() {},
-      },
-    },
-  };
-  const wrapper = mount(<DashboardContainer {...props} />);
+  const wrapper = mount(<DashboardContainer />);
   const endDate = new Date();
 
   wrapper.instance().onEndDateChange({ target: { value: endDate } });
@@ -64,57 +31,31 @@ it('should update state.endDate when call onEndDateChange()', () => {
 });
 
 it('should call spesific functions when call openPeriod()', async () => {
-  const currentPeriodMock = {};
   const setFetchingMock = jest.fn();
   const setCurrentPeriodMock = jest.fn();
   const props = {
     setFetching: setFetchingMock,
     setCurrentPeriod: setCurrentPeriodMock,
-    service: {
-      data: {
-        getCurrentPeriod() {
-          return new Promise(resolve => resolve(currentPeriodMock));
-        },
-        openPeriod() {
-          return new Promise(resolve => resolve());
-        },
-        updatePeriod() {},
-      },
-    },
   };
   const wrapper = shallow(<DashboardContainer {...props} />);
 
   await wrapper.instance().openPeriod().then(() => {
     expect(setCurrentPeriodMock).toHaveBeenCalledTimes(1);
-    expect(setCurrentPeriodMock).toHaveBeenCalledWith(currentPeriodMock);
     expect(setFetchingMock).toHaveBeenCalledTimes(2);
   });
 });
 
 it('should call spesific functions when call closePeriod()', async () => {
-  const currentPeriodMock = {};
   const setFetchingMock = jest.fn();
   const setCurrentPeriodMock = jest.fn();
   const props = {
     setFetching: setFetchingMock,
     setCurrentPeriod: setCurrentPeriodMock,
-    service: {
-      data: {
-        getCurrentPeriod() {
-          return new Promise(resolve => resolve(currentPeriodMock));
-        },
-        openPeriod() {},
-        updatePeriod() {
-          return new Promise(resolve => resolve());
-        },
-      },
-    },
   };
   const wrapper = shallow(<DashboardContainer {...props} />);
 
   await wrapper.instance().closePeriod().then(() => {
     expect(setCurrentPeriodMock).toHaveBeenCalledTimes(1);
-    expect(setCurrentPeriodMock).toHaveBeenCalledWith(currentPeriodMock);
     expect(setFetchingMock).toHaveBeenCalledTimes(2);
   });
 });
@@ -160,35 +101,15 @@ describe('lifecycle functions', () => {
 });
 
 it('should do specified tasks when call setPaid()', async () => {
-  const summaryMock = {};
-  const currentPeriodMock = {};
   const setFetchingMock = jest.fn();
   const setCurrentPeriodMock = jest.fn();
   const props = {
     setFetching: setFetchingMock,
     setCurrentPeriod: setCurrentPeriodMock,
-    service: {
-      data: {
-        getCurrentPeriod() {
-          return new Promise(resolve => resolve(currentPeriodMock));
-        },
-        openPeriod() {},
-        updatePeriod() {
-          return new Promise(resolve => resolve());
-        },
-        updateBets() {
-          return new Promise(resolve => resolve());
-        },
-        getSummary() {
-          return new Promise(resolve => resolve(summaryMock));
-        },
-      },
-    },
   };
   const wrapper = shallow(<DashboardContainer {...props} />);
 
   await wrapper.instance().setPaid()().then(() => {
     expect(setFetchingMock).toHaveBeenCalledTimes(2);
-    expect(wrapper.update().state('summary')).toBe(summaryMock);
   });
 });
