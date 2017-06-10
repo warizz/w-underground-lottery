@@ -42,7 +42,9 @@
       "!<rootDir>/path/to/dir/",
       "!src/app.js",
       "!src/index.js",
-      "!src/config.js"
+      "!src/config.js",
+      "!src/actions/*.js",
+      "!src/reducers/*.js"
     ]
   }
 }
