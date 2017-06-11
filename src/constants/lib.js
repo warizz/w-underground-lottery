@@ -15,8 +15,7 @@ function initApplicationState(store) {
         store.dispatch(action.data.setCurrentPeriod(currentPeriod));
         store.dispatch(action.data.setFetching(false));
       })
-      .catch((error) => {
-        console.error(error);
+      .catch(() => {
         store.dispatch(action.data.setFetching(false));
       });
   };

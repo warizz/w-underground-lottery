@@ -190,8 +190,12 @@ describe('internal functions', () => {
     });
   });
   it('should do specific tasks when call logOut()', async () => {
+    const removeItemMock = jest.fn();
     const pushMock = jest.fn();
     const props = {
+      cookieManager: {
+        removeItem: removeItemMock,
+      },
       router: {
         push: pushMock,
       },
@@ -199,6 +203,7 @@ describe('internal functions', () => {
     const wrapper = mount(<HomeContainer {...props} />);
 
     await wrapper.instance().logOut();
+    expect(removeItemMock).toHaveBeenCalledTimes(1);
     expect(pushMock).toHaveBeenCalledTimes(1);
     expect(pushMock).toHaveBeenCalledWith('/log-in');
   });

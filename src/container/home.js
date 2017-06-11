@@ -83,7 +83,10 @@ export class HomeContainer extends React.Component {
     );
   }
   logOut() {
-    return this.props.service.data.logOut().then(() => this.props.router.push('/log-in'));
+    return this.props.service.data.logOut().then(() => {
+      this.props.cookieManager.removeItem(`fbat_${process.env.REACT_APP_FB_APP_ID}`);
+      this.props.router.push('/log-in');
+    });
   }
   render() {
     const { editingBet } = this.state;
@@ -104,6 +107,9 @@ export class HomeContainer extends React.Component {
 }
 
 HomeContainer.propTypes = {
+  cookieManager: PropTypes.shape({
+    removeItem: PropTypes.func,
+  }),
   currentPeriod: PropTypes.shape({}),
   user: PropTypes.shape({}),
   setPageName: PropTypes.func,
@@ -125,6 +131,9 @@ HomeContainer.propTypes = {
 };
 
 HomeContainer.defaultProps = {
+  cookieManager: {
+    removeItem() {},
+  },
   currentPeriod: {},
   user: {},
   setPageName() {},
