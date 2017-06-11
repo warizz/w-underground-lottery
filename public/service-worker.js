@@ -47,7 +47,7 @@ this.addEventListener('fetch', (event) => {
           cache.put(event.request, responseToCache);
         });
 
-        return response;
+        return fetchResponse;
       });
     }),
   );
