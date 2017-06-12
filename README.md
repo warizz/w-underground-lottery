@@ -14,6 +14,9 @@ client
   react/
     react-redux
     react-router@3
+    test/
+      jest
+      enzyme
 
 server
   node/
