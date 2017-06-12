@@ -14,14 +14,16 @@ import ConnectedHomeContainer from './container/home';
 import ConnectedSignInContainer from './container/sign-in';
 import reducer from './reducers/index';
 import lib from './constants/lib';
+import CookieManager from './helper/cookie-manager';
 
 const store = createStore(reducer);
+const cookieManager = new CookieManager(docCookies);
 
 const App = () =>
   (<Provider store={store}>
     <Router history={browserHistory}>
       <Route path="/log-in" component={props => <ConnectedSignInContainer {...props} service={service} cookieManager={docCookies} />} />
-      <Route component={LayoutContainer} onEnter={lib.initApplicationState(store)}>
+      <Route component={LayoutContainer} onEnter={lib.initApplicationState(store, cookieManager)}>
         <IndexRoute component={props => <ConnectedHomeContainer {...props} service={service} cookieManager={docCookies} />} />
         <Route path="/" component={props => <ConnectedHomeContainer {...props} service={service} cookieManager={docCookies} />} />
         <Route path="/history" component={props => <ConnectedHistoryContainer {...props} service={service} />} />
