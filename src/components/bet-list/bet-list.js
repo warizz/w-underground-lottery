@@ -1,6 +1,5 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
-import constants from '../../constants/index';
 import BetItem from './bet-item';
 import Card from '../card';
 import './bet-list.css';
@@ -42,7 +41,7 @@ BetList.propTypes = {
   }),
   deleteHandler: PropTypes.func.isRequired,
   editHandler: PropTypes.func.isRequired,
-  bets: PropTypes.arrayOf(constants.customPropType.betShape),
+  bets: PropTypes.arrayOf(PropTypes.shape({})),
   periodEndedAt: PropTypes.string.isRequired,
   isEditable: PropTypes.bool,
 };

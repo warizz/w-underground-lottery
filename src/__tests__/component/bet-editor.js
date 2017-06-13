@@ -113,28 +113,98 @@ describe('handleSaveBet', () => {
     expect(wrapper.state('alertText')).toBe('at least 1 price must be filled');
   });
 
-  it('should get alert "เลขวิ่ง ขั้นต่ำ 100"', () => {
-    const wrapper = mount(<BetEditor />);
+  describe('alerting "เลขวิ่ง ขั้นต่ำ 100"', () => {
+    it('should get alert "เลขวิ่ง ขั้นต่ำ 100"', () => {
+      const wrapper = mount(<BetEditor />);
 
-    wrapper.setState({ number: '1', price1: 10 });
-    wrapper.instance().handleSaveBet();
-    expect(wrapper.state('alertText')).toBe('เลขวิ่ง ขั้นต่ำ 100');
+      wrapper.setState({ number: '1', price1: 10 });
+      wrapper.instance().handleSaveBet();
+      expect(wrapper.state('alertText')).toBe('เลขวิ่ง ขั้นต่ำ 100');
+    });
+
+    it('should get alert "เลขวิ่ง ขั้นต่ำ 100"', () => {
+      const wrapper = mount(<BetEditor />);
+
+      wrapper.setState({ number: '1', price2: 10 });
+      wrapper.instance().handleSaveBet();
+      expect(wrapper.state('alertText')).toBe('เลขวิ่ง ขั้นต่ำ 100');
+    });
+
+    it('should not get alert "เลขวิ่ง ขั้นต่ำ 100"', () => {
+      const wrapper = mount(<BetEditor />);
+
+      wrapper.setState({ number: '1', price1: 100 });
+      wrapper.instance().handleSaveBet();
+      expect(wrapper.state('alertText')).toBeFalsy();
+    });
+
+    it('should not get alert "เลขวิ่ง ขั้นต่ำ 100"', () => {
+      const wrapper = mount(<BetEditor />);
+
+      wrapper.setState({ number: '1', price2: 100 });
+      wrapper.instance().handleSaveBet();
+      expect(wrapper.state('alertText')).toBeFalsy();
+    });
   });
 
-  it('should get alert "ขั้นต่ำ 10"', () => {
-    const wrapper = mount(<BetEditor />);
+  describe('alerting "ขั้นต่ำ 10"', () => {
+    it('should get alert "ขั้นต่ำ 10"', () => {
+      const wrapper = mount(<BetEditor />);
 
-    wrapper.setState({ number: '12', price1: 5 });
-    wrapper.instance().handleSaveBet();
-    expect(wrapper.state('alertText')).toBe('ขั้นต่ำ 10');
+      wrapper.setState({ number: '12', price1: 5, price3: 10 });
+      wrapper.instance().handleSaveBet();
+      expect(wrapper.state('alertText')).toBe('ขั้นต่ำ 10');
+    });
+
+    it('should get alert "ขั้นต่ำ 10"', () => {
+      const wrapper = mount(<BetEditor />);
+
+      wrapper.setState({ number: '12', price2: 5 });
+      wrapper.instance().handleSaveBet();
+      expect(wrapper.state('alertText')).toBe('ขั้นต่ำ 10');
+    });
+
+    it('should get alert "ขั้นต่ำ 10"', () => {
+      const wrapper = mount(<BetEditor />);
+
+      wrapper.setState({ number: '12', price3: 5 });
+      wrapper.instance().handleSaveBet();
+      expect(wrapper.state('alertText')).toBe('ขั้นต่ำ 10');
+    });
+
+    it('should not get alert "ขั้นต่ำ 10"', () => {
+      const wrapper = mount(<BetEditor />);
+
+      wrapper.setState({ number: '12', price1: 10, price2: 10, price3: 10 });
+      wrapper.instance().handleSaveBet();
+      expect(wrapper.state('alertText')).toBeFalsy();
+    });
   });
 
-  it('should get alert "โต๊ด ต้อง เต็ง"', () => {
-    const wrapper = mount(<BetEditor />);
+  describe('alerting "โต๊ด ต้อง เต็ง"', () => {
+    it('should get alert "โต๊ด ต้อง เต็ง"', () => {
+      const wrapper = mount(<BetEditor />);
 
-    wrapper.setState({ number: '123', price2: 100 });
-    wrapper.instance().handleSaveBet();
-    expect(wrapper.state('alertText')).toBe('โต๊ด ต้อง เต็ง');
+      wrapper.setState({ number: '123', price2: 100 });
+      wrapper.instance().handleSaveBet();
+      expect(wrapper.state('alertText')).toBe('โต๊ด ต้อง เต็ง');
+    });
+
+    it('should not get alert "โต๊ด ต้อง เต็ง"', () => {
+      const wrapper = mount(<BetEditor />);
+
+      wrapper.setState({ number: '123', price1: 100 });
+      wrapper.instance().handleSaveBet();
+      expect(wrapper.state('alertText')).toBeFalsy();
+    });
+
+    it('should not get alert "โต๊ด ต้อง เต็ง"', () => {
+      const wrapper = mount(<BetEditor />);
+
+      wrapper.setState({ number: '123', price1: 100, price2: 200 });
+      wrapper.instance().handleSaveBet();
+      expect(wrapper.state('alertText')).toBeFalsy();
+    });
   });
 
   it('should call saveBetHandler() and reset state', () => {
@@ -148,5 +218,40 @@ describe('handleSaveBet', () => {
     expect(wrapper.state('number')).toBeFalsy();
     expect(wrapper.state('price1')).toBeFalsy();
     expect(wrapper.state('price2')).toBeFalsy();
+  });
+});
+
+describe('static functions', () => {
+  describe('prepareState', () => {
+    it('should get default state when no editingBet provided', () => {
+      const state = BetEditor.prepareState(null);
+
+      expect(state.enablePrice3).toBe(false);
+      expect(state.number).toBeFalsy();
+      expect(state.price1).toBeFalsy();
+      expect(state.price2).toBeFalsy();
+      expect(state.price3).toBeFalsy();
+    });
+
+    it('should get expected state when no editingBet with 2 digits number provided', () => {
+      const editingBetMock = { number: '12', price1: 10, price2: 20 };
+      const state = BetEditor.prepareState(editingBetMock);
+
+      expect(state.enablePrice3).toBe(false);
+      expect(state.number).toBe('12');
+      expect(state.price1).toBe(10);
+      expect(state.price2).toBe(20);
+    });
+
+    it('should get expected state when no editingBet with 2 digits number provided', () => {
+      const editingBetMock = { number: '123', price1: 10, price2: 20, price3: 30 };
+      const state = BetEditor.prepareState(editingBetMock);
+
+      expect(state.enablePrice3).toBe(true);
+      expect(state.number).toBe('123');
+      expect(state.price1).toBe(10);
+      expect(state.price2).toBe(20);
+      expect(state.price3).toBe(30);
+    });
   });
 });

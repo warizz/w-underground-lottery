@@ -2,6 +2,7 @@ import React from 'react';
 import { PropTypes } from 'prop-types';
 import moment from 'moment';
 import Card from '../components/card';
+import TextBuilder from '../helper/text-builder';
 import './history.css';
 
 const HistoryPage = (props) => {
@@ -20,13 +21,8 @@ const HistoryPage = (props) => {
         <div className="body">
           <ul>
             {h.bets.map((bet) => {
-              const price1Label = bet.number.length > 2 ? ' เต็ง ' : ' บน ';
-              const price2Label = bet.number.length > 2 ? ' โต๊ด ' : ' ล่าง ';
-              const price3Label = ' ล่าง ';
-              let historyItem = `${bet.number} =`;
-              historyItem += bet.price1 ? `${price1Label}${bet.price1}` : '';
-              historyItem += bet.price2 ? `${price2Label}${bet.price2}` : '';
-              historyItem += bet.price3 ? `${price3Label}${bet.price3}` : '';
+              const { number, price1, price2, price3 } = bet;
+              const historyItem = TextBuilder.buildTicketSummary(number, price1, price2, price3);
               return (
                 <li className={`bet-item-${bet.id}`} key={`bet-it--${bet.id}`}>
                   {historyItem}

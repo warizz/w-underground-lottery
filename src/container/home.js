@@ -49,7 +49,6 @@ export class HomeContainer extends React.Component {
     if (!currentPeriod.isOpen) {
       return Promise.reject(new Error('Invalid operation: current period is closed'));
     }
-
     let inputBet = currentPeriod.bets.find(item => item.number === bet.number);
     let actor;
     if (inputBet) {
@@ -110,7 +109,9 @@ HomeContainer.propTypes = {
   cookieManager: PropTypes.shape({
     removeItem: PropTypes.func,
   }),
-  currentPeriod: PropTypes.shape({}),
+  currentPeriod: PropTypes.shape({
+    bets: PropTypes.arrayOf(PropTypes.shape({})),
+  }),
   user: PropTypes.shape({}),
   setPageName: PropTypes.func,
   setFetching: PropTypes.func,
@@ -134,7 +135,9 @@ HomeContainer.defaultProps = {
   cookieManager: {
     removeItem() {},
   },
-  currentPeriod: {},
+  currentPeriod: {
+    bets: [],
+  },
   user: {},
   setPageName() {},
   setFetching() {},

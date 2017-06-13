@@ -39,6 +39,7 @@ function getCurrentPeriod() {
           id,
           isOpen,
           endedAt: new Date(endedAt),
+          bets,
         };
 
         if (bets.length > 0) {

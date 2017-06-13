@@ -12,13 +12,8 @@ const HomePage = (props) => {
   const { currentPeriod, user, logOut, handleSaveBet, editingBet, inputToggle, setEditingBet, handleDeleteBet } = props;
   let betEditorElement = null;
   let resultDisplayElement = null;
-
   if (currentPeriod.isOpen) {
-    betEditorElement = (
-      <div id="bet-editor-container" className="visible-xs" style={{ display: 'flex' }}>
-        <BetEditor saveBetHandler={handleSaveBet} editingBet={editingBet} onClose={inputToggle} />
-      </div>
-    );
+    betEditorElement = <BetEditor saveBetHandler={handleSaveBet} editingBet={editingBet} onClose={inputToggle} />;
   }
   if (currentPeriod.result) {
     resultDisplayElement = (
@@ -36,7 +31,9 @@ const HomePage = (props) => {
         <div className="visible-xs visible-sm" style={{ display: 'flex' }}>
           <UserProfile user={user} logOutHandler={logOut} />
         </div>
-        {betEditorElement}
+        <div id="bet-editor-container" className="visible-xs" style={{ display: 'flex' }}>
+          {betEditorElement}
+        </div>
         {resultDisplayElement}
         <BetList
           bets={currentPeriod.bets}
@@ -48,7 +45,9 @@ const HomePage = (props) => {
         />
       </div>
       <div className="hidden-xs">
-        {betEditorElement}
+        <div id="bet-editor-container" className="hidden-xs" style={{ display: 'flex' }}>
+          {betEditorElement}
+        </div>
       </div>
     </div>
   );

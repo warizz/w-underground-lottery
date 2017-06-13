@@ -18,7 +18,7 @@ class Snackbar extends React.Component {
     if (nextProps.text !== this.state.text) {
       const { text } = nextProps;
       this.setState({ text });
-      const { timer = 1000 } = this.props;
+      const { timer } = this.props;
       this.setTimer(timer);
     }
   }

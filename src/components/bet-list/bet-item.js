@@ -1,6 +1,5 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
-import constants from '../../constants/index';
 import Card from '../card';
 import './bet-item.css';
 
@@ -104,7 +103,12 @@ class BetItem extends React.Component {
 }
 
 BetItem.propTypes = {
-  bet: constants.customPropType.betShape,
+  bet: PropTypes.shape({
+    number: PropTypes.string,
+    price1: PropTypes.number,
+    price2: PropTypes.number,
+    price3: PropTypes.number,
+  }),
   editHandler: PropTypes.func,
   deleteHandler: PropTypes.func,
   isEditable: PropTypes.bool,

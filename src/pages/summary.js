@@ -2,6 +2,7 @@ import React from 'react';
 import { PropTypes } from 'prop-types';
 import moment from 'moment';
 import Card from '../components/card';
+import TextBuilder from '../helper/text-builder';
 import './summary.css';
 
 const SummaryPage = (props) => {
@@ -75,8 +76,34 @@ const SummaryPage = (props) => {
           const sumPrice = buyer.bets.map(service.calculation.calculateTotal(result)).reduce((a, b) => a + b);
           // check if this user paid or not
           const paid = buyer.bets.map(bet => bet.isPaid).includes(true);
+
+          let paymentStatusElement = null;
+          // Can toggle payment status only when period closed
+          if (!currentPeriod.isOpen) {
+            // block clicking while processing payment
+            if (paying === buyer.name) {
+              paymentStatusElement = <span className="payment-status-processing" style={{ fontWeight: 'bold' }}>...</span>;
+            } else {
+              let statusLabel;
+              if (paid) {
+                statusLabel = 'จ่ายแล้ว';
+              } else {
+                statusLabel = `ต้องจ่ายทั้งหมด: ${sumPrice} ฿`;
+              }
+
+              const isPaid = buyer.bets.map(bet => bet.isPaid).includes(true);
+
+              paymentStatusElement = (
+                <label id={`payment-status-for-${buyer.name}`} htmlFor={`paid-check-for-${buyer.name}`}>
+                  <input checked={isPaid} id={`paid-check-for-${buyer.name}`} onChange={setPaid(currentPeriod.id, buyer.id, !paid)} style={{ marginRight: '1em' }} type="checkbox" />
+                  {statusLabel}
+                </label>
+              );
+            }
+          }
+
           return (
-            <Card key={buyer.name}>
+            <Card key={buyer.name} className={`buyer-${buyer.name}`}>
               <div className="title">{buyer.name}</div>
               <div className="body">
                 <ul>
@@ -101,31 +128,7 @@ const SummaryPage = (props) => {
                     }
 
                     const { number, price1, price2, price3 } = betItem;
-
-                    // generate label for each prices
-                    let price1Label;
-                    let price2Label;
-                    const price3Label = ' ล่าง ';
-                    if (number.length === 3) {
-                      price1Label = ' เต็ง ';
-                      price2Label = ' โต๊ด ';
-                    } else {
-                      price1Label = ' บน ';
-                      price2Label = ' ล่าง ';
-                    }
-
-                    // generate label for each bet number
-                    let bet = `${number} =`;
-                    if (price1) {
-                      bet += `${price1Label}${betItem.price1}`;
-                    }
-                    if (price2) {
-                      bet += `${price2Label}${betItem.price2}`;
-                    }
-                    if (price3) {
-                      bet += `${price3Label}${betItem.price3}`;
-                    }
-
+                    const bet = TextBuilder.buildTicketSummary(number, price1, price2, price3);
                     const id = `bet-it--${betItem.id}`;
 
                     return (
@@ -137,19 +140,7 @@ const SummaryPage = (props) => {
                 </ul>
               </div>
               <div className="action">
-                {!currentPeriod.isOpen && paying === buyer.name && <span style={{ fontWeight: 'bold' }}>...</span>}
-                {!currentPeriod.isOpen &&
-                  paying !== buyer.name &&
-                  <label htmlFor={`paid-check-for-${buyer.name}`}>
-                    <input
-                      checked={buyer.bets.map(bet => bet.isPaid).includes(true)}
-                      id={`paid-check-for-${buyer.name}`}
-                      onChange={setPaid(currentPeriod.id, buyer.id, !paid)}
-                      style={{ marginRight: '1em' }}
-                      type="checkbox"
-                    />
-                    {paid ? 'จ่ายแล้ว' : `ต้องจ่ายทั้งหมด: ${sumPrice} ฿`}
-                  </label>}
+                {paymentStatusElement}
               </div>
             </Card>
           );

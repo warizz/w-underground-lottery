@@ -131,7 +131,49 @@ describe('rendering bet', () => {
 
     expect(wrapper.find('li.bet.win').text()).toBe('ถูก x [1] 100 x 2 = 200 บาท');
   });
-  it('should render correct text for 1:100:200', () => {
+  it('should render expected buyers', () => {
+    const props = {
+      bets: [
+        {
+          id: '1',
+          number: '1',
+          price1: 100,
+          price2: 200,
+          createdBy: {
+            id: 'buyer-1',
+            name: 'buyer-1',
+          },
+        },
+        {
+          id: '2',
+          number: '12',
+          price1: 10,
+          price2: 20,
+          createdBy: {
+            id: 'buyer-1',
+            name: 'buyer-1',
+          },
+        },
+        {
+          id: '3',
+          number: '123',
+          price3: 300,
+          createdBy: {
+            id: 'buyer-2',
+            name: 'buyer-2',
+          },
+        },
+      ],
+      currentPeriod: {
+        endedAt: new Date(2017, 1, 1),
+      },
+    };
+    const wrapper = shallow(<Page {...props} />);
+
+    expect(wrapper.find('.buyer-buyer-1').exists()).toBe(true);
+    expect(wrapper.find('.buyer-buyer-2').exists()).toBe(true);
+  });
+  it('should not render payment status when current period is openning', () => {
     const props = {
       bets: [
         {
@@ -141,29 +183,31 @@ describe('rendering bet', () => {
           price2: 200,
           createdBy: {
             id: 'id',
-            name: 'name',
+            name: 'buyer-1',
           },
         },
       ],
       currentPeriod: {
+        isOpen: true,
         endedAt: new Date(2017, 1, 1),
       },
     };
     const wrapper = shallow(<Page {...props} />);
 
-    expect(wrapper.find('li#bet-it--123').text()).toBe('1 = บน 100 ล่าง 200');
+    expect(wrapper.find('label#payment-status-for-buyer-1').exists()).toBe(false);
   });
-  it('should render correct text for 12:10:20', () => {
+  it('should not render payment status processing when processing a buyer payment', () => {
     const props = {
+      paying: 'buyer-1',
       bets: [
         {
           id: '123',
-          number: '12',
-          price1: 10,
-          price2: 20,
+          number: '1',
+          price1: 100,
+          price2: 200,
           createdBy: {
             id: 'id',
-            name: 'name',
+            name: 'buyer-1',
           },
         },
       ],
@@ -173,30 +217,7 @@ describe('rendering bet', () => {
     };
     const wrapper = shallow(<Page {...props} />);
 
-    expect(wrapper.find('li#bet-it--123').text()).toBe('12 = บน 10 ล่าง 20');
-  });
-  it('should render correct text for 123:10:20:30', () => {
-    const props = {
-      bets: [
-        {
-          id: '123',
-          number: '123',
-          price1: 10,
-          price2: 20,
-          price3: 30,
-          createdBy: {
-            id: 'id',
-            name: 'name',
-          },
-        },
-      ],
-      currentPeriod: {
-        endedAt: new Date(2017, 1, 1),
-      },
-    };
-    const wrapper = shallow(<Page {...props} />);
-
-    expect(wrapper.find('li#bet-it--123').text()).toBe('123 = เต็ง 10 โต๊ด 20 ล่าง 30');
+    expect(wrapper.find('span.payment-status-processing').exists()).toBe(true);
   });
   it('should render correct style for paid bets', () => {
     const props = {

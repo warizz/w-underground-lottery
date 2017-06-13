@@ -25,6 +25,26 @@ describe('service.data.period', () => {
       });
     });
 
+    it('should success with data (normalising when bet has no createdAt)', (done) => {
+      nock(host).get('/period').reply(200, {
+        bets: [{}],
+      });
+
+      service.data.getCurrentPeriod().then((res) => {
+        expect(res.bets).toBeTruthy();
+        done();
+      });
+    });
+
+    it('should success with data (normalising when period has no bets)', (done) => {
+      nock(host).get('/period').reply(200, {});
+
+      service.data.getCurrentPeriod().then((res) => {
+        expect(res.bets).toBeTruthy();
+        done();
+      });
+    });
+
     it('should success without data', (done) => {
       nock(host).get('/period').reply(200);
 

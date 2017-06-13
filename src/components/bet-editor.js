@@ -1,20 +1,30 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
 import service from '../services/index';
-import constants from '../constants/index';
 import Card from './card';
 import './bet-editor.css';
 
 class BetEditor extends React.Component {
+  static prepareState(editingBet) {
+    const bet = {
+      enablePrice3: false,
+      number: '',
+      price1: '',
+      price2: '',
+      price3: '',
+    };
+    if (!editingBet) {
+      return bet;
+    }
+    if (editingBet.number.length === 3) {
+      bet.enablePrice3 = true;
+    }
+    return Object.assign(bet, editingBet);
+  }
   constructor(props) {
     super(props);
     this.state = {
-      enablePrice3: props.editingBet ? props.editingBet.number.toString().length > 2 : false,
-      id: props.editingBet ? props.editingBet.id : '',
-      number: props.editingBet ? props.editingBet.number : '',
-      price1: props.editingBet ? props.editingBet.price1 || '' : '',
-      price2: props.editingBet ? props.editingBet.price2 || '' : '',
-      price3: props.editingBet ? props.editingBet.price3 || '' : '',
+      ...BetEditor.prepareState(props.editingBet),
     };
     this.handleNumberChange = this.handleNumberChange.bind(this);
     this.handleSaveBet = this.handleSaveBet.bind(this);
@@ -23,12 +33,7 @@ class BetEditor extends React.Component {
   }
   componentWillReceiveProps(nextProps) {
     this.setState({
-      enablePrice3: nextProps.editingBet ? nextProps.editingBet.number.toString().length > 2 : false,
-      id: nextProps.editingBet ? nextProps.editingBet.id : '',
-      number: nextProps.editingBet ? nextProps.editingBet.number : '',
-      price1: nextProps.editingBet ? nextProps.editingBet.price1 || '' : '',
-      price2: nextProps.editingBet ? nextProps.editingBet.price2 || '' : '',
-      price3: nextProps.editingBet ? nextProps.editingBet.price3 || '' : '',
+      ...BetEditor.prepareState(nextProps.editingBet),
     });
   }
   shouldComponentUpdate(nextProps, nextState) {
@@ -90,23 +95,50 @@ class BetEditor extends React.Component {
     }
 
     if (this.state.number.length === 1) {
-      if ((this.state.price1 && Number(this.state.price1) < 100) || (this.state.price2 && Number(this.state.price2) < 100)) {
-        this.setAlert('เลขวิ่ง ขั้นต่ำ 100')();
-        return;
+      if (this.state.price1) {
+        if (Number(this.state.price1) < 100) {
+          this.setAlert('เลขวิ่ง ขั้นต่ำ 100')();
+          return;
+        }
+      }
+      if (this.state.price2) {
+        if (Number(this.state.price2) < 100) {
+          this.setAlert('เลขวิ่ง ขั้นต่ำ 100')();
+          return;
+        }
       }
     }
 
     if (this.state.number.length > 1) {
-      if ((this.state.price1 && Number(this.state.price1) < 10) || (this.state.price2 && Number(this.state.price2) < 10) || (this.state.price3 && Number(this.state.price3) < 10)) {
-        this.setAlert('ขั้นต่ำ 10')();
-        return;
+      if (this.state.price1) {
+        if (Number(this.state.price1) < 10) {
+          this.setAlert('ขั้นต่ำ 10')();
+          return;
+        }
+      }
+
+      if (this.state.price2) {
+        if (Number(this.state.price2) < 10) {
+          this.setAlert('ขั้นต่ำ 10')();
+          return;
+        }
+      }
+
+      if (this.state.price3) {
+        if (Number(this.state.price3) < 10) {
+          this.setAlert('ขั้นต่ำ 10')();
+          return;
+        }
       }
     }
 
-    if (this.state.number.length > 2 && this.state.price2) {
-      if (!this.state.price1) {
-        this.setAlert('โต๊ด ต้อง เต็ง')();
-        return;
+    // if 3 digits number, if you wanna bet on price2, you have to bet on price1
+    if (this.state.number.length === 3) {
+      if (this.state.price2) {
+        if (!this.state.price1) {
+          this.setAlert('โต๊ด ต้อง เต็ง')();
+          return;
+        }
       }
     }
 
@@ -119,9 +151,7 @@ class BetEditor extends React.Component {
     };
 
     this.props.saveBetHandler(bet);
-
     this.reset();
-
     this.numberInput.focus();
   }
   render() {
@@ -182,7 +212,13 @@ class BetEditor extends React.Component {
 }
 
 BetEditor.propTypes = {
-  editingBet: constants.customPropType.betShape,
+  editingBet: PropTypes.shape({
+    id: PropTypes.string,
+    number: PropTypes.string,
+    price1: PropTypes.number,
+    price2: PropTypes.number,
+    price3: PropTypes.number,
+  }),
   saveBetHandler: PropTypes.func.isRequired,
 };
 

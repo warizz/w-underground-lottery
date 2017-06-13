@@ -50,11 +50,11 @@ const checkReward = (result, callback) => (bet) => {
     return null;
   }
 
-  if (bet.number.toString().length === 3) {
+  if (bet.number.length === 3) {
     // เต็ง x 500
     if (bet.price1) {
-      const reward = 500;
       if (bet.number === result.six.substring(3, 6)) {
+        const reward = 500;
         return callback(bet.number, bet.price1, reward, rewardType.TENG);
       }
     }
@@ -85,7 +85,7 @@ const checkReward = (result, callback) => (bet) => {
     }
   }
 
-  if (bet.number.toString().length === 2) {
+  if (bet.number.length === 2) {
     const reward = 70;
 
     // บน
@@ -102,7 +102,7 @@ const checkReward = (result, callback) => (bet) => {
     }
   }
 
-  if (bet.number.toString().length === 1) {
+  if (bet.number.length === 1) {
     // บน
     if (bet.price1) {
       const reward = 2;
@@ -124,18 +124,13 @@ const checkReward = (result, callback) => (bet) => {
 
 const calculateTotal = result => (bet) => {
   // calculate ticket price
-  let money = 0;
-  if (bet.number.length > 1) {
-    money = (Number(1) - Number(config.discountPercent)) * (Number(bet.price1 || 0) + Number(bet.price2 || 0) + Number(bet.price3 || 0));
-  } else {
-    money = Number(bet.price1 || 0) + Number(bet.price2 || 0);
-  }
+  const ticketPrice = calculateTicketPrice(bet);
 
   // this callback will return reward price
   const rewardCallback = (number, price, reward) => price * reward;
 
   // this will return reward price - ticket price
-  return money - checkReward(result, rewardCallback)(bet);
+  return ticketPrice - checkReward(result, rewardCallback)(bet);
 };
 
 export default {

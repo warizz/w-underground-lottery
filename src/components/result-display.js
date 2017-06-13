@@ -1,7 +1,6 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
 import service from '../services/index';
-import constant from '../constants/index';
 import Card from './card';
 import './result-display.css';
 
@@ -71,7 +70,14 @@ const ResultDisplay = (props) => {
 };
 
 ResultDisplay.propTypes = {
-  bets: PropTypes.arrayOf(constant.customPropType.betShape),
+  bets: PropTypes.arrayOf(
+    PropTypes.shape({
+      number: PropTypes.string,
+      price1: PropTypes.number,
+      price2: PropTypes.number,
+      price3: PropTypes.number,
+    }),
+  ),
   six: PropTypes.string.isRequired,
   two: PropTypes.string.isRequired,
   firstThree: PropTypes.string.isRequired,

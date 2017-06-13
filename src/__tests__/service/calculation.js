@@ -24,11 +24,13 @@ describe('service.calculation', () => {
       it('should match 3 numbers TENG when call checkReward()', () => {
         const bet = {
           number: '630',
-          price1: '10',
+          price1: 10,
+          price2: 20,
+          price3: 30,
         };
         const assertFunc = (number, price, reward, type) => {
           expect(number).toBe(bet.number);
-          expect(price).toBe('10');
+          expect(price).toBe(10);
           expect(reward).toBe(500);
           expect(type).toBe(rewardType.TENG);
         };
@@ -38,11 +40,11 @@ describe('service.calculation', () => {
       it('should match 3 numbers TODE when call checkReward()', () => {
         const bet = {
           number: '360',
-          price2: '20',
+          price2: 20,
         };
         const assertFunc = (number, price, reward, type) => {
           expect(number).toBe(bet.number);
-          expect(price).toBe('20');
+          expect(price).toBe(20);
           expect(reward).toBe(100);
           expect(type).toBe(rewardType.TODE);
         };
@@ -52,11 +54,11 @@ describe('service.calculation', () => {
       it('should match 3 numbers firstThree when call checkReward()', () => {
         const bet = {
           number: '121',
-          price3: '30',
+          price3: 30,
         };
         const assertFunc = (number, price, reward, type) => {
           expect(number).toBe(bet.number);
-          expect(price).toBe('30');
+          expect(price).toBe(30);
           expect(reward).toBe(100);
           expect(type).toBe(rewardType.BELOW);
         };
@@ -104,6 +106,29 @@ describe('service.calculation', () => {
         };
         checkReward(result, assertFunc)(bet);
       });
+
+      describe('when not matched', () => {
+        it('should return null', () => {
+          const bet = {
+            number: '000',
+            price1: 10,
+            price2: 20,
+            price3: 30,
+          };
+          const value = checkReward(result, null)(bet);
+          expect(value).toBe(null);
+        });
+
+        it('should return null', () => {
+          const bet = {
+            number: '630',
+            price2: 20,
+            price3: 30,
+          };
+          const value = checkReward(result, null)(bet);
+          expect(value).toBe(null);
+        });
+      });
     });
 
     describe('2 numbers', () => {
@@ -133,6 +158,27 @@ describe('service.calculation', () => {
           expect(type).toBe(rewardType.BELOW);
         };
         checkReward(result, assertFunc)(bet);
+      });
+
+      describe('when not matched', () => {
+        it('should return null', () => {
+          const bet = {
+            number: '77',
+            price1: 100,
+          };
+          const value = checkReward(result, null)(bet);
+          expect(value).toBe(null);
+        });
+
+        it('should return null', () => {
+          const bet = {
+            number: '77',
+            price1: 100,
+            price2: 200,
+          };
+          const value = checkReward(result, null)(bet);
+          expect(value).toBe(null);
+        });
       });
     });
 
@@ -169,8 +215,8 @@ describe('service.calculation', () => {
     describe('Not receiving any reward', () => {
       it('should return null when result is null', () => {
         const bet = {
-          number: '654',
-          price1: '100',
+          number: '7',
+          price1: 100,
         };
         const value = checkReward(null, null)(bet);
         expect(value).toBe(null);
@@ -178,8 +224,18 @@ describe('service.calculation', () => {
 
       it('should return null when not match any', () => {
         const bet = {
-          number: '654',
-          price1: '100',
+          number: '7',
+          price1: 100,
+        };
+        const value = checkReward(result, null)(bet);
+        expect(value).toBe(null);
+      });
+
+      it('should return null when not match any', () => {
+        const bet = {
+          number: '7',
+          price1: 100,
+          price2: 200,
         };
         const value = checkReward(result, null)(bet);
         expect(value).toBe(null);
