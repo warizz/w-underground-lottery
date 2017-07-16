@@ -34,12 +34,13 @@ function getCurrentPeriod() {
           return resolve();
         }
 
-        const { id, endedAt, isOpen, bets = [] } = res.data;
+        const { id, endedAt, isOpen, bets = [], result } = res.data;
         const period = {
           id,
           isOpen,
           endedAt: new Date(endedAt),
           bets,
+          result,
         };
 
         if (bets.length > 0) {
