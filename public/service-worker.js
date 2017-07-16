@@ -1,4 +1,4 @@
-const CACHE_NAME = 'v5';
+const CACHE_NAME = 'v6';
 const urlsToCache = ['./', 'https://fonts.googleapis.com/icon?family=Material+Icons'];
 
 this.addEventListener('install', (event) => {
