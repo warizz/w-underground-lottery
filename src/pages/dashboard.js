@@ -50,7 +50,7 @@ const DashboardPage = props => {
     updateResultButtonElement = (
       <div className="action column">
         <button
-          id="open-period"
+          id="update-result"
           className="border-bottom primary"
           onClick={() => updateResultClickedCallback()}
           disabled={isUpdatingResult}

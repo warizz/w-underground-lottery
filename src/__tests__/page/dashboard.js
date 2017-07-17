@@ -21,6 +21,7 @@ it('should render elements correctly when currentPeriod.isOpen', () => {
   expect(wrapper.find('button#close-period').exists()).toBe(true);
 });
 
+// eslint-disable-next-line max-len
 it('should call openPeriodClickedCallback when click button#open-period', () => {
   const openPeriodClickedCallbackMock = jest.fn();
   const props = {
@@ -33,6 +34,19 @@ it('should call openPeriodClickedCallback when click button#open-period', () => 
   expect(openPeriodClickedCallbackMock).toHaveBeenCalledWith(props.endDate);
 });
 
+// eslint-disable-next-line max-len
+it('should call updateResultClickedCallback when click button#update-result', () => {
+  const updateResultClickedCallback = jest.fn();
+  const props = {
+    updateResultClickedCallback,
+  };
+  const wrapper = shallow(<Page {...props} />);
+
+  wrapper.find('button#update-result').simulate('click');
+  expect(updateResultClickedCallback).toHaveBeenCalled();
+});
+
+// eslint-disable-next-line max-len
 it('should call closeButtonClickedCallback when click button#close-period', () => {
   const closeButtonClickedCallbackMock = jest.fn();
   const props = {
@@ -46,5 +60,7 @@ it('should call closeButtonClickedCallback when click button#close-period', () =
   const wrapper = shallow(<Page {...props} />);
 
   wrapper.find('button#close-period').simulate('click');
-  expect(closeButtonClickedCallbackMock).toHaveBeenCalledWith(props.currentPeriod.id);
+  expect(closeButtonClickedCallbackMock).toHaveBeenCalledWith(
+    props.currentPeriod.id
+  );
 });
