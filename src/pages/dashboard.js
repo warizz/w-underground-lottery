@@ -4,11 +4,21 @@ import Card from '../components/card';
 import Summary from '../pages/summary';
 import './dashboard.css';
 
-const DashboardPage = (props) => {
-  const { currentPeriod, endDate, endDateChangedCallback, closeButtonClickedCallback, openPeriodClickedCallback, setAlert } = props;
+const DashboardPage = props => {
+  const {
+    currentPeriod,
+    endDate,
+    endDateChangedCallback,
+    closeButtonClickedCallback,
+    openPeriodClickedCallback,
+    setAlert,
+    updateResultClickedCallback,
+    isUpdatingResult,
+  } = props;
   let endDateSeletorElement = null;
   let openPeriodButtonElement = null;
   let closePeriodButtonElement = null;
+  let updateResultButtonElement = null;
 
   if (!currentPeriod.isOpen) {
     endDateSeletorElement = (
@@ -16,14 +26,37 @@ const DashboardPage = (props) => {
         <div className="row">
           <div className="input-group">
             <label htmlFor="txt-start-date">วันหวยออก</label>
-            <input type="date" id="txt-start-date" value={endDate} onChange={endDateChangedCallback} />
+            <input
+              type="date"
+              id="txt-start-date"
+              value={endDate}
+              onChange={endDateChangedCallback}
+            />
           </div>
         </div>
       </div>
     );
     openPeriodButtonElement = (
       <div className="action column">
-        <button id="open-period" className="border-bottom primary" onClick={() => openPeriodClickedCallback(endDate)}>{'เปิดแทง'}</button>
+        <button
+          id="open-period"
+          className="border-bottom primary"
+          onClick={() => openPeriodClickedCallback(endDate)}
+        >
+          {'เปิดแทง'}
+        </button>
+      </div>
+    );
+    updateResultButtonElement = (
+      <div className="action column">
+        <button
+          id="open-period"
+          className="border-bottom primary"
+          onClick={() => updateResultClickedCallback()}
+          disabled={isUpdatingResult}
+        >
+          {isUpdatingResult ? 'Updating...' : 'อัพเดทผลงวดล่าสุด'}
+        </button>
       </div>
     );
   }
@@ -31,7 +64,13 @@ const DashboardPage = (props) => {
   if (currentPeriod.isOpen) {
     closePeriodButtonElement = (
       <div className="action" style={{ border: 'none' }}>
-        <button id="close-period" className="danger" onClick={() => closeButtonClickedCallback(currentPeriod.id)}>{'ปิดรับแทง'}</button>
+        <button
+          id="close-period"
+          className="danger"
+          onClick={() => closeButtonClickedCallback(currentPeriod.id)}
+        >
+          {'ปิดรับแทง'}
+        </button>
       </div>
     );
   }
@@ -42,8 +81,15 @@ const DashboardPage = (props) => {
         {endDateSeletorElement}
         {openPeriodButtonElement}
         {closePeriodButtonElement}
+        {updateResultButtonElement}
       </Card>
-      <Summary bets={props.summary.bets} currentPeriod={props.currentPeriod} service={props.service} setPaid={props.setPaid} setAlert={setAlert} />
+      <Summary
+        bets={props.summary.bets}
+        currentPeriod={props.currentPeriod}
+        service={props.service}
+        setPaid={props.setPaid}
+        setAlert={setAlert}
+      />
     </div>
   );
 };
@@ -57,6 +103,7 @@ DashboardPage.propTypes = {
   endDateChangedCallback: PropTypes.func,
   closeButtonClickedCallback: PropTypes.func,
   openPeriodClickedCallback: PropTypes.func,
+  updateResultClickedCallback: PropTypes.func,
   summary: PropTypes.shape({
     bets: PropTypes.arrayOf(PropTypes.shape({})),
   }),
@@ -69,6 +116,7 @@ DashboardPage.propTypes = {
       updatePeriod: PropTypes.func,
     }),
   }),
+  isUpdatingResult: PropTypes.bool,
 };
 
 DashboardPage.defaultProps = {
@@ -78,6 +126,7 @@ DashboardPage.defaultProps = {
   endDateChangedCallback() {},
   closeButtonClickedCallback() {},
   openPeriodClickedCallback() {},
+  updateResultClickedCallback() {},
   summary: {},
   setAlert() {},
   setPaid() {},
@@ -89,6 +138,7 @@ DashboardPage.defaultProps = {
     },
   },
   copyToClipboard() {},
+  isUpdatingResult: false,
 };
 
 export default DashboardPage;

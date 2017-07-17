@@ -10,6 +10,7 @@ export class DashboardContainer extends React.Component {
     super(props);
     this.state = {
       endDate: moment().format('YYYY-MM-DD'),
+      isUpdatingResult: false,
     };
     this.openPeriod = this.openPeriod.bind(this);
     this.closePeriod = this.closePeriod.bind(this);
@@ -22,17 +23,21 @@ export class DashboardContainer extends React.Component {
   }
   componentDidMount() {
     if (this.props.currentPeriod.id) {
-      return this.props.service.data.getSummary(this.props.currentPeriod.id).then((res) => {
-        this.setState({ summary: res });
-      });
+      return this.props.service.data
+        .getSummary(this.props.currentPeriod.id)
+        .then(res => {
+          this.setState({ summary: res });
+        });
     }
     return this.setPeriod();
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.currentPeriod.id) {
-      this.props.service.data.getSummary(nextProps.currentPeriod.id).then((res) => {
-        this.setState({ summary: res });
-      });
+      this.props.service.data
+        .getSummary(nextProps.currentPeriod.id)
+        .then(res => {
+          this.setState({ summary: res });
+        });
     }
   }
   onEndDateChange(e) {
@@ -42,16 +47,21 @@ export class DashboardContainer extends React.Component {
     const self = this;
     return () => {
       self.props.setFetching(true);
-      return this.props.service.data.updateBets(periodId, userId, { isPaid }).then(() => {
-        this.props.service.data.getSummary(periodId).then((res) => {
-          this.setState({ summary: res });
-          self.props.setFetching(false);
+      return this.props.service.data
+        .updateBets(periodId, userId, { isPaid })
+        .then(() => {
+          this.props.service.data.getSummary(periodId).then(res => {
+            this.setState({ summary: res });
+            self.props.setFetching(false);
+          });
         });
-      });
     };
   }
   setPeriod() {
-    return this.props.service.data.getCurrentPeriod().then(res => this.props.setCurrentPeriod(res)).then(() => this.props.setFetching(false));
+    return this.props.service.data
+      .getCurrentPeriod()
+      .then(res => this.props.setCurrentPeriod(res))
+      .then(() => this.props.setFetching(false));
   }
   openPeriod(endDate) {
     const endedAt = new Date(endDate);
@@ -61,8 +71,17 @@ export class DashboardContainer extends React.Component {
   }
   closePeriod(id) {
     this.props.setFetching(true);
-    return this.props.service.data.updatePeriod(id, { isOpen: false }).then(this.setPeriod);
+    return this.props.service.data
+      .updatePeriod(id, { isOpen: false })
+      .then(this.setPeriod);
   }
+  updateResult = () => {
+    this.setState({ isUpdatingResult: true });
+    return this.props.service.data
+      .updateResult()
+      .then(() => this.setState({ isUpdatingResult: false }))
+      .catch(() => this.setState({ isUpdatingResult: false }));
+  };
   render() {
     return (
       <DashboardPage
@@ -71,6 +90,8 @@ export class DashboardContainer extends React.Component {
         endDate={this.state.endDate}
         endDateChangedCallback={this.onEndDateChange}
         openPeriodClickedCallback={this.openPeriod}
+        updateResultClickedCallback={this.updateResult}
+        isUpdatingResult={this.state.isUpdatingResult}
         service={this.props.service}
         setAlert={this.props.setAlert}
         summary={this.state.summary}
@@ -94,6 +115,7 @@ DashboardContainer.propTypes = {
       updatePeriod: PropTypes.func,
       updateBets: PropTypes.func,
       getSummary: PropTypes.func,
+      updateResult: PropTypes.func,
     }),
   }),
   setAlert: PropTypes.func,
@@ -112,6 +134,7 @@ DashboardContainer.defaultProps = {
       updatePeriod: async () => {},
       getSummary: async () => {},
       updateBets: async () => {},
+      updateResult: async () => {},
     },
   },
 };

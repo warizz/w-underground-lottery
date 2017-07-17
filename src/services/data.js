@@ -29,7 +29,7 @@ function getCurrentPeriod() {
         baseURL,
         headers: { 'x-access-token': token },
       })
-      .then((res) => {
+      .then(res => {
         if (!res.data) {
           return resolve();
         }
@@ -44,7 +44,7 @@ function getCurrentPeriod() {
         };
 
         if (bets.length > 0) {
-          period.bets = bets.map((bet) => {
+          period.bets = bets.map(bet => {
             const updated = Object.assign({}, bet);
             if (bet.createdAt) {
               updated.createdAt = new Date(bet.createdAt);
@@ -141,7 +141,10 @@ function insertBets(periodId, bets) {
 function logIn(accessToken) {
   const data = { access_token: accessToken };
   return new Promise((resolve, reject) => {
-    axios.post(`${baseURL}/log_in`, data).then(res => resolve(res.data)).catch(reject);
+    axios
+      .post(`${baseURL}/log_in`, data)
+      .then(res => resolve(res.data))
+      .catch(reject);
   });
 }
 
@@ -235,6 +238,21 @@ function updatePeriod(id, update) {
   });
 }
 
+function updateResult() {
+  const token = docCookies.getItem(`fbat_${fbAppId}`);
+  return new Promise((resolve, reject) => {
+    axios
+      .request({
+        url: '/results',
+        method: 'post',
+        baseURL,
+        headers: { 'x-access-token': token },
+      })
+      .then(() => resolve())
+      .catch(reject);
+  });
+}
+
 export default {
   deleteBet,
   getCurrentPeriod,
@@ -249,4 +267,5 @@ export default {
   updateBet,
   updateBets,
   updatePeriod,
+  updateResult,
 };
