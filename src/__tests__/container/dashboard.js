@@ -3,7 +3,9 @@ import { mount, shallow } from 'enzyme';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import reducer from '../../reducers/index';
-import ConnectedDashboardContainer, { DashboardContainer } from '../../container/dashboard';
+import ConnectedDashboardContainer, {
+  DashboardContainer,
+} from '../../container/dashboard';
 
 it('should render contained component', () => {
   const wrapper = mount(<DashboardContainer />);
@@ -16,7 +18,7 @@ it('should render connected component', () => {
   const wrapper = mount(
     <Provider store={store}>
       <ConnectedDashboardContainer />
-    </Provider>,
+    </Provider>
   );
 
   expect(wrapper.find('div.dashboard').exists()).toBe(true);
@@ -60,7 +62,24 @@ it('should call spesific functions when call closePeriod()', async () => {
   });
 });
 
+it('should call spesific functions when call updateResult()', async () => {
+  const updateResultMock = async () => jest.fn();
+  const props = {
+    service: {
+      data: {
+        updateResult: updateResultMock,
+      },
+    },
+  };
+  const wrapper = shallow(<DashboardContainer {...props} />);
+
+  wrapper.instance().updateResult().then(() => {
+    expect(updateResultMock).toHaveBeenCalledTimes(1);
+  });
+});
+
 describe('lifecycle functions', () => {
+  // eslint-disable-next-line max-len
   it('should do specific tasks when componentDidMount with no currentPeriod', async () => {
     const setCurrentPeriodMock = jest.fn();
     const setFetchingMock = jest.fn();
@@ -68,11 +87,15 @@ describe('lifecycle functions', () => {
       setFetching: setFetchingMock,
       setCurrentPeriod: setCurrentPeriodMock,
     };
-    await shallow(<DashboardContainer {...props} />).instance().componentDidMount();
+    await shallow(<DashboardContainer {...props} />)
+      .instance()
+      .componentDidMount();
     expect(setCurrentPeriodMock).toHaveBeenCalledTimes(1);
     expect(setFetchingMock).toHaveBeenCalledTimes(1);
     expect(setFetchingMock).toHaveBeenLastCalledWith(false);
   });
+
+  // eslint-disable-next-line max-len
   it('should do specific tasks when componentDidMount with currentPeriod is present', async () => {
     const summaryMock = {};
     const props = {
@@ -95,8 +118,12 @@ describe('lifecycle functions', () => {
       expect(wrapper.update().state('summary')).toBe(summaryMock);
     });
   });
+
+  // eslint-disable-next-line max-len
   it('should do nothing when componentWillReceiveProps with no currentPeriod', async () => {
-    await shallow(<DashboardContainer />).instance().componentWillReceiveProps({ currentPeriod: {} });
+    await shallow(<DashboardContainer />)
+      .instance()
+      .componentWillReceiveProps({ currentPeriod: {} });
   });
 });
 

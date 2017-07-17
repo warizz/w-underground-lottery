@@ -64,3 +64,13 @@ it('should call closeButtonClickedCallback when click button#close-period', () =
     props.currentPeriod.id
   );
 });
+
+it('should display expected text when updating result', () => {
+  const expectedText = 'Updating...';
+  const props = {
+    isUpdatingResult: true,
+  };
+  const wrapper = shallow(<Page {...props} />);
+
+  expect(wrapper.find('button#update-result').text()).toBe(expectedText);
+});
