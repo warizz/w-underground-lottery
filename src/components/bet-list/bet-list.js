@@ -1,21 +1,32 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
 import BetItem from './bet-item';
-import Card from '../card';
+import Card from '../Card';
 import './bet-list.css';
 
-const BetList = (props) => {
-  const { bets, calculator, deleteHandler, editHandler, periodEndedAt, isEditable } = props;
+const BetList = props => {
+  const {
+    bets,
+    calculator,
+    deleteHandler,
+    editHandler,
+    periodEndedAt,
+    isEditable,
+  } = props;
   let total = 0;
 
   if (bets.length > 0) {
-    total = bets.map(calculator.calculateTicketPrice).reduce((a, b) => a + b, 0);
+    total = bets
+      .map(calculator.calculateTicketPrice)
+      .reduce((a, b) => a + b, 0);
   }
   return (
     <div className="bet-list">
       <Card>
         <div className="title">{periodEndedAt}</div>
-        <div className="body"><b>{`total: ${total} ฿`}</b></div>
+        <div className="body">
+          <b>{`total: ${total} ฿`}</b>
+        </div>
       </Card>
       <div className="list">
         {bets.length > 0 &&
@@ -29,7 +40,15 @@ const BetList = (props) => {
               }
               return 0;
             })
-            .map(bet => <BetItem key={bet.id} bet={bet} deleteHandler={deleteHandler} editHandler={editHandler} isEditable={isEditable} />)}
+            .map(bet => (
+              <BetItem
+                key={bet.id}
+                bet={bet}
+                deleteHandler={deleteHandler}
+                editHandler={editHandler}
+                isEditable={isEditable}
+              />
+            ))}
       </div>
     </div>
   );

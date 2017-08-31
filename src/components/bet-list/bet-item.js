@@ -1,6 +1,6 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
-import Card from '../card';
+import Card from '../Card';
 import './bet-item.css';
 
 class BetItem extends React.Component {
@@ -68,34 +68,48 @@ class BetItem extends React.Component {
         <Card>
           <div className="body">
             <div className="item">
-              <div className="bet-number"><b>{bet.number}</b></div>
-              <div><b>reward</b></div>
+              <div className="bet-number">
+                <b>{bet.number}</b>
+              </div>
+              <div>
+                <b>reward</b>
+              </div>
             </div>
-            {bet.price1 &&
+            {bet.price1 && (
               <div className="item">
                 <div className="price-1">{`${price1Label} ${bet.price1}`}</div>
                 <div className="reward">{price1Reward}</div>
-              </div>}
-            {bet.price2 &&
+              </div>
+            )}
+            {bet.price2 && (
               <div className="item">
                 <div className="price-2">{`${price2Label} ${bet.price2}`}</div>
                 <div className="reward">{price2Reward}</div>
-              </div>}
-            {bet.price3 &&
+              </div>
+            )}
+            {bet.price3 && (
               <div className="item">
                 <div className="price-3">{`${price3Label} ${bet.price3}`}</div>
                 <div className="reward">{price3Reward}</div>
-              </div>}
+              </div>
+            )}
           </div>
-          {isEditable &&
+          {isEditable && (
             <div className="action">
-              <button className="edit border-right" onClick={this.handleEdit(bet)}>
+              <button
+                className="edit border-right"
+                onClick={this.handleEdit(bet)}
+              >
                 {'edit'}
               </button>
-              <button className="delete danger" onClick={this.handleDelete(bet.id)}>
+              <button
+                className="delete danger"
+                onClick={this.handleDelete(bet.id)}
+              >
                 {'delete'}
               </button>
-            </div>}
+            </div>
+          )}
         </Card>
       </div>
     );

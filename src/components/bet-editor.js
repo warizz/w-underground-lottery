@@ -1,7 +1,7 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
 import service from '../services/index';
-import Card from './card';
+import Card from './Card';
 import './bet-editor.css';
 
 class BetEditor extends React.Component {
@@ -64,7 +64,7 @@ class BetEditor extends React.Component {
     });
   }
   handlePriceChange(key) {
-    return (e) => {
+    return e => {
       if (service.utility.validateNumber(e.target.value) === false) {
         return;
       }
@@ -167,43 +167,71 @@ class BetEditor extends React.Component {
                   onChange={this.handleNumberChange}
                   type="number"
                   value={this.state.number}
-                  ref={(input) => {
+                  ref={input => {
                     this.numberInput = input;
                   }}
                 />
               </div>
               <div className="input-group">
-                <button className="random" onClick={this.getRandomNumber}>random</button>
+                <button className="random" onClick={this.getRandomNumber}>
+                  random
+                </button>
               </div>
             </div>
             <div className="row">
               <div className="input-group">
-                {this.state.enablePrice3 === false && <label htmlFor="price1">บน</label>}
-                {this.state.enablePrice3 && <label htmlFor="price1">เต็ง</label>}
+                {this.state.enablePrice3 === false && (
+                  <label htmlFor="price1">บน</label>
+                )}
+                {this.state.enablePrice3 && (
+                  <label htmlFor="price1">เต็ง</label>
+                )}
                 <input
                   id="price1"
                   onChange={this.handlePriceChange('price1')}
                   type="number"
                   value={this.state.price1}
-                  ref={(input) => {
+                  ref={input => {
                     this.price1Input = input;
                   }}
                 />
               </div>
               <div className="input-group">
-                {this.state.enablePrice3 === false && <label htmlFor="price2">ล่าง</label>}
-                {this.state.enablePrice3 && <label htmlFor="price1">โต๊ด</label>}
-                <input id="price2" onChange={this.handlePriceChange('price2')} type="number" value={this.state.price2} />
+                {this.state.enablePrice3 === false && (
+                  <label htmlFor="price2">ล่าง</label>
+                )}
+                {this.state.enablePrice3 && (
+                  <label htmlFor="price1">โต๊ด</label>
+                )}
+                <input
+                  id="price2"
+                  onChange={this.handlePriceChange('price2')}
+                  type="number"
+                  value={this.state.price2}
+                />
               </div>
-              <div className={`input-group${this.state.enablePrice3 ? ' visible' : ' hidden'}`}>
+              <div
+                className={`input-group${this.state.enablePrice3
+                  ? ' visible'
+                  : ' hidden'}`}
+              >
                 <label htmlFor="price3">ล่าง</label>
-                <input id="price3" onChange={this.handlePriceChange('price3')} type="number" value={this.state.price3 || ''} />
+                <input
+                  id="price3"
+                  onChange={this.handlePriceChange('price3')}
+                  type="number"
+                  value={this.state.price3 || ''}
+                />
               </div>
             </div>
           </div>
           <div className="action">
-            <button className="border-right" onClick={this.reset}>reset</button>
-            <button className="primary" onClick={this.handleSaveBet}>save</button>
+            <button className="border-right" onClick={this.reset}>
+              reset
+            </button>
+            <button className="primary" onClick={this.handleSaveBet}>
+              save
+            </button>
           </div>
         </Card>
       </div>
