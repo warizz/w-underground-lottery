@@ -14,7 +14,7 @@ it('should render with only required props', () => {
   const props = { bet };
   const wrapper = shallow(<Sut {...props} />);
 
-  expect(wrapper.find('div.bet-item').exists()).toBe(true);
+  expect(wrapper.find('div.bet-item-component').exists()).toBe(true);
   expect(wrapper.find('button.edit').exists()).toBe(false);
   expect(wrapper.find('button.delete').exists()).toBe(false);
 });

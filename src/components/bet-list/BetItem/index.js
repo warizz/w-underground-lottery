@@ -83,7 +83,7 @@ class BetItem extends React.Component<Props> {
     }
 
     return (
-      <div className="bet-item">
+      <div className="bet-item-component">
         <Card>
           <div className="body">
             <div className="item">
