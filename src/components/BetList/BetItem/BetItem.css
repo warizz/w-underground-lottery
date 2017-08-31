@@ -1,11 +1,10 @@
-div.bet-item div.item
+div.bet-item-component div.item
 {
     display: flex;
-
     justify-content: space-between;
 }
 
-div.bet-item div.item > div.reward
+div.bet-item-component div.item > div.reward
 {
     font-weight: bold;
 

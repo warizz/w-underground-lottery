@@ -1,24 +1,43 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
 import moment from 'moment';
-import BetList from '../components/bet-list/bet-list';
+import BetList from '../components/BetList';
 import BetEditor from '../components/bet-editor';
 import ResultDisplay from '../components/result-display';
 import UserProfile from '../components/user-profile';
 import service from '../services/index';
 import './home.css';
 
-const HomePage = (props) => {
-  const { currentPeriod, user, logOut, handleSaveBet, editingBet, inputToggle, setEditingBet, handleDeleteBet } = props;
+const HomePage = props => {
+  const {
+    currentPeriod,
+    user,
+    logOut,
+    handleSaveBet,
+    editingBet,
+    inputToggle,
+    setEditingBet,
+    handleDeleteBet,
+  } = props;
   let betEditorElement = null;
   let resultDisplayElement = null;
   if (currentPeriod.isOpen) {
-    betEditorElement = <BetEditor saveBetHandler={handleSaveBet} editingBet={editingBet} onClose={inputToggle} />;
+    betEditorElement = (
+      <BetEditor
+        saveBetHandler={handleSaveBet}
+        editingBet={editingBet}
+        onClose={inputToggle}
+      />
+    );
   }
   if (currentPeriod.result) {
     resultDisplayElement = (
       <div id="result-display-container" style={{ margin: '0 0 10px 0' }}>
-        <ResultDisplay {...currentPeriod.result} bets={currentPeriod.bets} endedAt={moment(currentPeriod.endedAt).format('DD MMM YYYY')} />
+        <ResultDisplay
+          {...currentPeriod.result}
+          bets={currentPeriod.bets}
+          endedAt={moment(currentPeriod.endedAt).format('DD MMM YYYY')}
+        />
       </div>
     );
   }
@@ -31,7 +50,11 @@ const HomePage = (props) => {
         <div className="visible-xs visible-sm" style={{ display: 'flex' }}>
           <UserProfile user={user} logOutHandler={logOut} />
         </div>
-        <div id="bet-editor-container" className="visible-xs" style={{ display: 'flex' }}>
+        <div
+          id="bet-editor-container"
+          className="visible-xs"
+          style={{ display: 'flex' }}
+        >
           {betEditorElement}
         </div>
         {resultDisplayElement}
@@ -41,11 +64,15 @@ const HomePage = (props) => {
           deleteHandler={handleDeleteBet}
           isEditable={currentPeriod.isOpen}
           periodEndedAt={moment(currentPeriod.endedAt).format('DD MMM YYYY')}
-          calculator={service.calculation}
+          calculateTicketPrice={service.calculation.calculateTicketPrice}
         />
       </div>
       <div className="hidden-xs">
-        <div id="bet-editor-container" className="hidden-xs" style={{ display: 'flex' }}>
+        <div
+          id="bet-editor-container"
+          className="hidden-xs"
+          style={{ display: 'flex' }}
+        >
           {betEditorElement}
         </div>
       </div>

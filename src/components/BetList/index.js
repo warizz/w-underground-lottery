@@ -1,13 +1,22 @@
+// @flow
 import React from 'react';
-import { PropTypes } from 'prop-types';
+import type { Bet } from '../../type/Bet';
 import BetItem from './BetItem';
 import Card from '../Card';
-import './bet-list.css';
 
-const BetList = props => {
+type Props = {
+  bets: Bet[],
+  calculateTicketPrice: (bet: Bet) => number,
+  deleteHandler: (id: string) => void,
+  editHandler: (bet: Bet) => void,
+  periodEndedAt: string,
+  isEditable: boolean
+};
+
+const BetList = (props: Props) => {
   const {
     bets,
-    calculator,
+    calculateTicketPrice,
     deleteHandler,
     editHandler,
     periodEndedAt,
@@ -16,12 +25,11 @@ const BetList = props => {
   let total = 0;
 
   if (bets.length > 0) {
-    total = bets
-      .map(calculator.calculateTicketPrice)
-      .reduce((a, b) => a + b, 0);
+    total = bets.map(calculateTicketPrice).reduce((a, b) => a + b, 0);
   }
+
   return (
-    <div className="bet-list">
+    <div className="bet-list-component">
       <Card>
         <div className="title">{periodEndedAt}</div>
         <div className="body">
@@ -54,24 +62,11 @@ const BetList = props => {
   );
 };
 
-BetList.propTypes = {
-  calculator: PropTypes.shape({
-    calculateTicketPrice: PropTypes.func,
-  }),
-  deleteHandler: PropTypes.func.isRequired,
-  editHandler: PropTypes.func.isRequired,
-  bets: PropTypes.arrayOf(PropTypes.shape({})),
-  periodEndedAt: PropTypes.string.isRequired,
-  isEditable: PropTypes.bool,
-};
-
 BetList.defaultProps = {
-  calculator: {
-    calculateTicketPrice() {},
-  },
+  bets: [],
+  calculateTicketPrice() {},
   deleteHandler() {},
   editHandler() {},
-  bets: [],
   isEditable: false,
 };
 

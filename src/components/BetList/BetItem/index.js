@@ -1,15 +1,8 @@
 // @flow
 import React from 'react';
+import type { Bet } from '../../../type/Bet';
 import Card from '../../Card';
 import './BetItem.css';
-
-type Bet = {
-  id: string,
-  number: string,
-  price1: number,
-  price2: number,
-  price3: number
-};
 
 type Props = {
   bet: Bet,
