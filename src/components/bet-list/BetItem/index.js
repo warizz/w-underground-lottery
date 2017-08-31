@@ -1,21 +1,40 @@
+// @flow
 import React from 'react';
-import { PropTypes } from 'prop-types';
-import Card from '../Card';
-import './bet-item.css';
+import Card from '../../Card';
+import './BetItem.css';
 
-class BetItem extends React.Component {
-  handleEdit(bet) {
+type Bet = {
+  id: string,
+  number: string,
+  price1: number,
+  price2: number,
+  price3: number
+};
+
+type Props = {
+  bet: Bet,
+  deleteHandler: (id: string) => void,
+  editHandler: (bet: Bet) => void,
+  isEditable: boolean
+};
+
+class BetItem extends React.Component<Props> {
+  static defaultProps = {
+    deleteHandler() {},
+    editHandler() {},
+    isEditable: false,
+  };
+
+  handleEdit(bet: Bet) {
     return () => this.props.editHandler(bet);
   }
-  handleDelete(id) {
+
+  handleDelete(id: string) {
     return () => this.props.deleteHandler(id);
   }
+
   render() {
     const { bet, isEditable } = this.props;
-
-    if (!bet) {
-      return null;
-    }
 
     if (bet.number.length > 3) {
       return null;
@@ -115,24 +134,5 @@ class BetItem extends React.Component {
     );
   }
 }
-
-BetItem.propTypes = {
-  bet: PropTypes.shape({
-    number: PropTypes.string,
-    price1: PropTypes.number,
-    price2: PropTypes.number,
-    price3: PropTypes.number,
-  }),
-  editHandler: PropTypes.func,
-  deleteHandler: PropTypes.func,
-  isEditable: PropTypes.bool,
-};
-
-BetItem.defaultProps = {
-  bet: null,
-  editHandler() {},
-  deleteHandler() {},
-  isEditable: false,
-};
 
 export default BetItem;

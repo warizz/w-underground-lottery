@@ -1,6 +1,6 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
-import BetItem from './bet-item';
+import BetItem from './BetItem';
 import Card from '../Card';
 import './bet-list.css';
 
