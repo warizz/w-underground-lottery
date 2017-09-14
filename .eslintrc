@@ -2,8 +2,10 @@
   "extends": "react-app",
   rules: {
     "max-len": [2, 80],
-    "comma-dangle": ["error", "always-multiline"],
-    "quotes": ["error", "single"]
+    "comma-dangle": [2, "always-multiline"],
+    "quotes": [2, "single"],
+    "sort-keys": 2,
+    "react/jsx-sort-props": 2
   },
   env: {
     browser: true

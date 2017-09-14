@@ -1,9 +1,9 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
-import ToolBar from '../components/tool-bar';
+import Toolbar from '../components/Toolbar';
 import Snackbar from '../components/snackbar';
 
-const LayoutPage = (props) => {
+const LayoutPage = props => {
   const { alert, children, goBack, pageName, setAlert } = props;
   let childrenElement = null;
 
@@ -18,7 +18,7 @@ const LayoutPage = (props) => {
 
   return (
     <div className="layout-component">
-      <ToolBar pageName={pageName} backButtonClickedCallback={goBack} />
+      <Toolbar pageName={pageName} onClickMainButton={goBack} />
       {childrenElement}
     </div>
   );

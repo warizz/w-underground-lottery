@@ -6,10 +6,10 @@ it('should render with no props', () => {
   const wrapper = mount(<LayoutPage />);
 
   expect(wrapper.find('div.layout-component').exists()).toBe(true);
-  expect(wrapper.find('div.tool-bar').exists()).toBe(true);
+  expect(wrapper.find('div.toolbar-component').exists()).toBe(true);
 });
 
-it('should render snackbar and call onClose()', (done) => {
+it('should render snackbar and call onClose()', done => {
   const props = {
     alert: 'alert',
     setAlert(arg) {
@@ -20,6 +20,6 @@ it('should render snackbar and call onClose()', (done) => {
   mount(
     <LayoutPage {...props}>
       <div>test</div>
-    </LayoutPage>,
+    </LayoutPage>
   );
 });
