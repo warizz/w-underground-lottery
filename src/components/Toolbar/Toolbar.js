@@ -4,12 +4,12 @@ import homeIcon from './home-icon.svg';
 import backIcon from './back-icon.svg';
 
 type Props = {
-  onClickIconButton: () => void,
+  onClickMainButton: () => void,
   pageName: string
 };
 
 const Toolbar = (props: Props) => {
-  const { onClickIconButton, pageName } = props;
+  const { onClickMainButton, pageName } = props;
   const getIcon = (pageName: string) => {
     switch (pageName) {
       case 'Home':
@@ -36,8 +36,8 @@ const Toolbar = (props: Props) => {
       }}
     >
       <button
-        className="icon-button back"
-        onClick={onClickIconButton}
+        className="main"
+        onClick={onClickMainButton}
         style={{
           backgroundColor: 'transparent',
           border: 'none',
@@ -45,7 +45,7 @@ const Toolbar = (props: Props) => {
           padding: 0,
         }}
       >
-        <img alt="back-button" src={getIcon(pageName)} />
+        <img alt="main-icon" className="main-icon" src={getIcon(pageName)} />
       </button>
       <h1 className="page-name" style={{ margin: '0 0 0 16px' }}>
         {pageName}

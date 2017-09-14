@@ -18,7 +18,7 @@ const LayoutPage = props => {
 
   return (
     <div className="layout-component">
-      <Toolbar pageName={pageName} onClickIconButton={goBack} />
+      <Toolbar pageName={pageName} onClickMainButton={goBack} />
       {childrenElement}
     </div>
   );
