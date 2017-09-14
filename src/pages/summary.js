@@ -1,11 +1,11 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
 import moment from 'moment';
-import Card from '../components/card';
+import Card from '../components/Card';
 import TextBuilder from '../helper/text-builder';
 import './summary.css';
 
-const SummaryPage = (props) => {
+const SummaryPage = props => {
   const { currentPeriod, bets, paying, setPaid, service } = props;
 
   const copyToClipboard = () => {
@@ -23,7 +23,9 @@ const SummaryPage = (props) => {
     return (
       <div className="summary-component">
         <Card>
-          <div id="placeholder" className="body center">{'no period'}</div>
+          <div id="placeholder" className="body center">
+            {'no period'}
+          </div>
         </Card>
       </div>
     );
@@ -33,7 +35,9 @@ const SummaryPage = (props) => {
     return (
       <div className="summary-component">
         <Card>
-          <div id="placeholder" className="body center">{'no one bet yet'}</div>
+          <div id="placeholder" className="body center">
+            {'no one bet yet'}
+          </div>
         </Card>
       </div>
     );
@@ -41,7 +45,7 @@ const SummaryPage = (props) => {
 
   // this will get list of all buyers
   const temp = [];
-  bets.map((a) => {
+  bets.map(a => {
     if (temp.indexOf(a.createdBy.name) === -1) {
       temp.push(a.createdBy.name);
     }
@@ -50,13 +54,16 @@ const SummaryPage = (props) => {
 
   // this will group bet of each buyer
   const buyers = temp.map(buyer => ({
-    id: bets.filter(betItem => betItem.createdBy.name === buyer)[0].createdBy.id,
+    id: bets.filter(betItem => betItem.createdBy.name === buyer)[0].createdBy
+      .id,
     bets: bets.filter(betItem => betItem.createdBy.name === buyer),
     name: buyer,
   }));
 
   const result = currentPeriod.result;
-  const total = bets.map(service.calculation.calculateTotal(result)).reduce((a, b) => a + b, 0);
+  const total = bets
+    .map(service.calculation.calculateTotal(result))
+    .reduce((a, b) => a + b, 0);
 
   return (
     <div className="summary-component">
@@ -64,16 +71,18 @@ const SummaryPage = (props) => {
         <div id="period-endedAt" className="title">
           {moment(currentPeriod.endedAt).format('D MMMM YYYY')}
         </div>
-        <div className="body">
-          {`total: ${total} ฿`}
-        </div>
+        <div className="body">{`total: ${total} ฿`}</div>
         <div className="action">
-          <button id="copy-to-clipboard" onClick={() => copyToClipboard()}>copy to clipboard</button>
+          <button id="copy-to-clipboard" onClick={() => copyToClipboard()}>
+            copy to clipboard
+          </button>
         </div>
       </Card>
       <div id="for-clipboard">
-        {buyers.map((buyer) => {
-          const sumPrice = buyer.bets.map(service.calculation.calculateTotal(result)).reduce((a, b) => a + b);
+        {buyers.map(buyer => {
+          const sumPrice = buyer.bets
+            .map(service.calculation.calculateTotal(result))
+            .reduce((a, b) => a + b);
           // check if this user paid or not
           const paid = buyer.bets.map(bet => bet.isPaid).includes(true);
 
@@ -82,7 +91,14 @@ const SummaryPage = (props) => {
           if (!currentPeriod.isOpen) {
             // block clicking while processing payment
             if (paying === buyer.name) {
-              paymentStatusElement = <span className="payment-status-processing" style={{ fontWeight: 'bold' }}>...</span>;
+              paymentStatusElement = (
+                <span
+                  className="payment-status-processing"
+                  style={{ fontWeight: 'bold' }}
+                >
+                  ...
+                </span>
+              );
             } else {
               let statusLabel;
               if (paid) {
@@ -94,8 +110,17 @@ const SummaryPage = (props) => {
               const isPaid = buyer.bets.map(bet => bet.isPaid).includes(true);
 
               paymentStatusElement = (
-                <label id={`payment-status-for-${buyer.name}`} htmlFor={`paid-check-for-${buyer.name}`}>
-                  <input checked={isPaid} id={`paid-check-for-${buyer.name}`} onChange={setPaid(currentPeriod.id, buyer.id, !paid)} style={{ marginRight: '1em' }} type="checkbox" />
+                <label
+                  id={`payment-status-for-${buyer.name}`}
+                  htmlFor={`paid-check-for-${buyer.name}`}
+                >
+                  <input
+                    checked={isPaid}
+                    id={`paid-check-for-${buyer.name}`}
+                    onChange={setPaid(currentPeriod.id, buyer.id, !paid)}
+                    style={{ marginRight: '1em' }}
+                    type="checkbox"
+                  />
                   {statusLabel}
                 </label>
               );
@@ -107,28 +132,47 @@ const SummaryPage = (props) => {
               <div className="title">{buyer.name}</div>
               <div className="body">
                 <ul>
-                  {buyer.bets.map((betItem) => {
+                  {buyer.bets.map(betItem => {
                     let className = 'bet';
 
                     if (paid) {
                       className += ' paid';
                     }
 
-                    const rewardCallback = (number, price, reward, rewardType) => `ถูก ${rewardType} [${number}] ${price} x ${reward} = ${price * reward} บาท`;
-                    const reward = service.calculation.checkReward(result, rewardCallback)(betItem);
+                    const rewardCallback = (
+                      number,
+                      price,
+                      reward,
+                      rewardType
+                    ) =>
+                      `ถูก ${rewardType} [${number}] ${price} x ${reward} = ${price *
+                        reward} บาท`;
+                    const reward = service.calculation.checkReward(
+                      result,
+                      rewardCallback
+                    )(betItem);
 
                     if (reward) {
                       className += ' win';
 
                       return (
-                        <li id={`bet-item-${betItem.id}-reward`} key={`bet-it--${betItem.id}`} className={className}>
+                        <li
+                          id={`bet-item-${betItem.id}-reward`}
+                          key={`bet-it--${betItem.id}`}
+                          className={className}
+                        >
                           {reward}
                         </li>
                       );
                     }
 
                     const { number, price1, price2, price3 } = betItem;
-                    const bet = TextBuilder.buildTicketSummary(number, price1, price2, price3);
+                    const bet = TextBuilder.buildTicketSummary(
+                      number,
+                      price1,
+                      price2,
+                      price3
+                    );
                     const id = `bet-it--${betItem.id}`;
 
                     return (
@@ -139,9 +183,7 @@ const SummaryPage = (props) => {
                   })}
                 </ul>
               </div>
-              <div className="action">
-                {paymentStatusElement}
-              </div>
+              <div className="action">{paymentStatusElement}</div>
             </Card>
           );
         })}
@@ -162,7 +204,7 @@ SummaryPage.propTypes = {
         id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
       }).isRequired,
-    }),
+    })
   ),
   currentPeriod: PropTypes.shape({
     id: PropTypes.string,

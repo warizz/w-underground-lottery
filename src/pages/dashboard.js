@@ -1,6 +1,6 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
-import Card from '../components/card';
+import Card from '../components/Card';
 import Summary from '../pages/summary';
 import './dashboard.css';
 

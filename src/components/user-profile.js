@@ -1,17 +1,21 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
 import Link from 'react-router/lib/Link';
-import Card from './card';
+import Card from './Card';
 import './user-profile.css';
 
-const UserProfile = (props) => {
+const UserProfile = props => {
   let body;
 
   if (props.user) {
     let dashboardLink;
 
     if (props.user.is_admin) {
-      dashboardLink = <Link to="/dashboard" className="border-bottom">go to admin dashboard</Link>;
+      dashboardLink = (
+        <Link to="/dashboard" className="border-bottom">
+          go to admin dashboard
+        </Link>
+      );
     } else {
       dashboardLink = null;
     }
@@ -19,12 +23,19 @@ const UserProfile = (props) => {
     body = (
       <Card>
         <div className="body center">
-          <img className="picture" src={props.user.picture} alt="user-profile" role="presentation" />
+          <img
+            className="picture"
+            src={props.user.picture}
+            alt="user-profile"
+            role="presentation"
+          />
           <div className="name">{props.user.name}</div>
         </div>
         <div className="action column">
           {dashboardLink}
-          <Link to="/history" className="border-bottom">see history</Link>
+          <Link to="/history" className="border-bottom">
+            see history
+          </Link>
           <button onClick={props.logOutHandler}>log out</button>
         </div>
       </Card>
@@ -37,11 +48,7 @@ const UserProfile = (props) => {
     );
   }
 
-  return (
-    <div className="user-profile">
-      {body}
-    </div>
-  );
+  return <div className="user-profile">{body}</div>;
 };
 
 UserProfile.propTypes = {
