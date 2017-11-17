@@ -12,11 +12,11 @@ const SignInPage = props => {
   }
 
   let messageBoxElement = (
-    <div className="message">
+    <div className='message'>
       <b>{'why log in with facebook?'}</b>
       <li>
         {
-          "don't reinvent the wheel: facebook already have great security by 1000 top class engineers keeping your password safe."
+          'don\'t reinvent the wheel: facebook already have great security by 1000 top class engineers keeping your password safe.'
         }
       </li>
       <li>{'this app need only your username and profile picture, it can do no harm.'}</li>
@@ -24,18 +24,18 @@ const SignInPage = props => {
   );
   if (errorText) {
     messageBoxElement = (
-      <div className="message error">
+      <div className='message error'>
         <b>{errorText}</b>
       </div>
     );
   }
 
   return (
-    <div className="sign-in">
+    <div className='sign-in'>
       <button
-        className="sign-in"
+        className='sign-in'
         disabled={fetching}
-        id="sign-in"
+        id='sign-in'
         onClick={signInButtonClickedCallback}
       >
         {signInButtonText}

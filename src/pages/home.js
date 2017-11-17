@@ -28,7 +28,7 @@ const HomePage = props => {
   }
   if (currentPeriod.result) {
     resultDisplayElement = (
-      <div id="result-display-container" style={{ margin: '0 0 10px 0' }}>
+      <div id='result-display-container' style={{ margin: '0 0 10px 0' }}>
         <ResultDisplay
           {...currentPeriod.result}
           bets={currentPeriod.bets}
@@ -38,15 +38,15 @@ const HomePage = props => {
     );
   }
   return (
-    <div className="home">
-      <div className="pane visible-md visible-lg">
+    <div className='home'>
+      <div className='pane visible-md visible-lg'>
         <UserProfile logOutHandler={logOut} user={user} />
       </div>
-      <div className="pane center">
-        <div className="visible-xs visible-sm" style={{ display: 'flex' }}>
+      <div className='pane center'>
+        <div className='visible-xs visible-sm' style={{ display: 'flex' }}>
           <UserProfile logOutHandler={logOut} user={user} />
         </div>
-        <div className="visible-xs" id="bet-editor-container" style={{ display: 'flex' }}>
+        <div className='visible-xs' id='bet-editor-container' style={{ display: 'flex' }}>
           {betEditorElement}
         </div>
         {resultDisplayElement}
@@ -59,8 +59,8 @@ const HomePage = props => {
           periodEndedAt={moment(currentPeriod.endedAt).format('DD MMM YYYY')}
         />
       </div>
-      <div className="hidden-xs">
-        <div className="hidden-xs" id="bet-editor-container" style={{ display: 'flex' }}>
+      <div className='hidden-xs'>
+        <div className='hidden-xs' id='bet-editor-container' style={{ display: 'flex' }}>
           {betEditorElement}
         </div>
       </div>

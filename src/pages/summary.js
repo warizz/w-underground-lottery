@@ -21,9 +21,9 @@ const SummaryPage = props => {
 
   if (!currentPeriod) {
     return (
-      <div className="summary-component">
+      <div className='summary-component'>
         <Card>
-          <div className="body center" id="placeholder">
+          <div className='body center' id='placeholder'>
             {'no period'}
           </div>
         </Card>
@@ -33,9 +33,9 @@ const SummaryPage = props => {
 
   if (bets.length === 0) {
     return (
-      <div className="summary-component">
+      <div className='summary-component'>
         <Card>
-          <div className="body center" id="placeholder">
+          <div className='body center' id='placeholder'>
             {'no one bet yet'}
           </div>
         </Card>
@@ -63,19 +63,19 @@ const SummaryPage = props => {
   const total = bets.map(service.calculation.calculateTotal(result)).reduce((a, b) => a + b, 0);
 
   return (
-    <div className="summary-component">
+    <div className='summary-component'>
       <Card>
-        <div className="title" id="period-endedAt">
+        <div className='title' id='period-endedAt'>
           {moment(currentPeriod.endedAt).format('D MMMM YYYY')}
         </div>
-        <div className="body">{`total: ${total} ฿`}</div>
-        <div className="action">
-          <button id="copy-to-clipboard" onClick={() => copyToClipboard()}>
+        <div className='body'>{`total: ${total} ฿`}</div>
+        <div className='action'>
+          <button id='copy-to-clipboard' onClick={() => copyToClipboard()}>
             copy to clipboard
           </button>
         </div>
       </Card>
-      <div id="for-clipboard">
+      <div id='for-clipboard'>
         {buyers.map(buyer => {
           const sumPrice = buyer.bets
             .map(service.calculation.calculateTotal(result))
@@ -89,7 +89,7 @@ const SummaryPage = props => {
             // block clicking while processing payment
             if (paying === buyer.name) {
               paymentStatusElement = (
-                <span className="payment-status-processing" style={{ fontWeight: 'bold' }}>
+                <span className='payment-status-processing' style={{ fontWeight: 'bold' }}>
                   ...
                 </span>
               );
@@ -113,7 +113,7 @@ const SummaryPage = props => {
                     id={`paid-check-for-${buyer.name}`}
                     onChange={setPaid(currentPeriod.id, buyer.id, !paid)}
                     style={{ marginRight: '1em' }}
-                    type="checkbox"
+                    type='checkbox'
                   />
                   {statusLabel}
                 </label>
@@ -123,8 +123,8 @@ const SummaryPage = props => {
 
           return (
             <Card className={`buyer-${buyer.name}`} key={buyer.name}>
-              <div className="title">{buyer.name}</div>
-              <div className="body">
+              <div className='title'>{buyer.name}</div>
+              <div className='body'>
                 <ul>
                   {buyer.bets.map(betItem => {
                     let className = 'bet';
@@ -163,7 +163,7 @@ const SummaryPage = props => {
                   })}
                 </ul>
               </div>
-              <div className="action">{paymentStatusElement}</div>
+              <div className='action'>{paymentStatusElement}</div>
             </Card>
           );
         })}

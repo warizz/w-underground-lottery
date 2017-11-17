@@ -18,8 +18,8 @@ const HistoryPage = props => {
     filteredHistory.length > 0 ? (
       filteredHistory.map(h => (
         <Card key={h.id}>
-          <div className="title">{moment(h.endedAt).format('DD MMM YYYY')}</div>
-          <div className="body">
+          <div className='title'>{moment(h.endedAt).format('DD MMM YYYY')}</div>
+          <div className='body'>
             <ul>
               {h.bets.map(bet => {
                 const { number, price1, price2, price3 } = bet;
@@ -33,8 +33,8 @@ const HistoryPage = props => {
             </ul>
           </div>
           {clonable && (
-            <div className="action">
-              <button id="clone" onClick={() => clone(h.bets)}>
+            <div className='action'>
+              <button id='clone' onClick={() => clone(h.bets)}>
                 clone
               </button>
             </div>
@@ -43,13 +43,13 @@ const HistoryPage = props => {
       ))
     ) : (
       <Card>
-        <div className="placeholder">{'you have no history here, make one!'}</div>
+        <div className='placeholder'>{'you have no history here, make one!'}</div>
       </Card>
     );
 
   return (
-    <div className="history">
-      <div className="bet-list">{list}</div>
+    <div className='history'>
+      <div className='bet-list'>{list}</div>
     </div>
   );
 };

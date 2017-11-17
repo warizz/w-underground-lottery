@@ -33,7 +33,7 @@ class Snackbar extends React.Component {
     const containerClassName = `snackbar${text ? ' active' : ' inactive'}`;
     return (
       <div className={containerClassName}>
-        <div className="body">{text}</div>
+        <div className='body'>{text}</div>
       </div>
     );
   }

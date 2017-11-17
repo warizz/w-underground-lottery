@@ -2,6 +2,7 @@
   "extends": [
     "react-app",
     "plugin:jsx-a11y/recommended",
+    "prettier",
     "standard",
     "standard-jsx",
     "standard-react"

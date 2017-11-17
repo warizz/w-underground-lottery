@@ -35,43 +35,43 @@ const ResultDisplay = props => {
     );
   }
   return (
-    <div className="result-display">
+    <div className='result-display'>
       <Card>
-        <div className="title">{props.endedAt}</div>
-        <div className="body center">
+        <div className='title'>{props.endedAt}</div>
+        <div className='body center'>
           {resultElement}
-          <div className="row">
-            <div className="result-group">
+          <div className='row'>
+            <div className='result-group'>
               <div>รางวัลที่หนึ่ง</div>
-              <span className="six" style={{ fontSize: '50px' }}>
+              <span className='six' style={{ fontSize: '50px' }}>
                 {props.six}
               </span>
             </div>
           </div>
-          <div className="row">
-            <div className="result-group">
+          <div className='row'>
+            <div className='result-group'>
               <div>เลขท้ายสองตัว</div>
-              <span className="two" style={{ fontSize: '30px' }}>
+              <span className='two' style={{ fontSize: '30px' }}>
                 {props.two}
               </span>
             </div>
           </div>
-          <div className="row">
-            <div className="result-group">
+          <div className='row'>
+            <div className='result-group'>
               <div>สามตัวล่าง</div>
-              <div className="three">
-                <span className="firstThree" style={{ fontSize: '30px' }}>
+              <div className='three'>
+                <span className='firstThree' style={{ fontSize: '30px' }}>
                   {props.firstThree}
                 </span>
-                <span className="secondThree" style={{ fontSize: '30px' }}>
+                <span className='secondThree' style={{ fontSize: '30px' }}>
                   {props.secondThree}
                 </span>
               </div>
-              <div className="three">
-                <span className="thirdThree" style={{ fontSize: '30px' }}>
+              <div className='three'>
+                <span className='thirdThree' style={{ fontSize: '30px' }}>
                   {props.thirdThree}
                 </span>
-                <span className="fourthThree" style={{ fontSize: '30px' }}>
+                <span className='fourthThree' style={{ fontSize: '30px' }}>
                   {props.fourthThree}
                 </span>
               </div>
