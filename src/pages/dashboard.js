@@ -27,10 +27,10 @@ const DashboardPage = props => {
           <div className="input-group">
             <label htmlFor="txt-start-date">วันหวยออก</label>
             <input
-              type="date"
               id="txt-start-date"
-              value={endDate}
               onChange={endDateChangedCallback}
+              type="date"
+              value={endDate}
             />
           </div>
         </div>
@@ -39,8 +39,8 @@ const DashboardPage = props => {
     openPeriodButtonElement = (
       <div className="action column">
         <button
-          id="open-period"
           className="border-bottom primary"
+          id="open-period"
           onClick={() => openPeriodClickedCallback(endDate)}
         >
           {'เปิดแทง'}
@@ -50,10 +50,10 @@ const DashboardPage = props => {
     updateResultButtonElement = (
       <div className="action column">
         <button
-          id="update-result"
           className="border-bottom primary"
-          onClick={() => updateResultClickedCallback()}
           disabled={isUpdatingResult}
+          id="update-result"
+          onClick={() => updateResultClickedCallback()}
         >
           {isUpdatingResult ? 'Updating...' : 'อัพเดทผลงวดล่าสุด'}
         </button>
@@ -65,8 +65,8 @@ const DashboardPage = props => {
     closePeriodButtonElement = (
       <div className="action" style={{ border: 'none' }}>
         <button
-          id="close-period"
           className="danger"
+          id="close-period"
           onClick={() => closeButtonClickedCallback(currentPeriod.id)}
         >
           {'ปิดรับแทง'}
@@ -87,8 +87,8 @@ const DashboardPage = props => {
         bets={props.summary.bets}
         currentPeriod={props.currentPeriod}
         service={props.service}
-        setPaid={props.setPaid}
         setAlert={setAlert}
+        setPaid={props.setPaid}
       />
     </div>
   );

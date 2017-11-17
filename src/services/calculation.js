@@ -29,7 +29,7 @@ function calculateTicketPrice(bet) {
 const checkTode = (numbers, result) => {
   const arrResult = result.split('');
 
-  numbers.split('').forEach((number) => {
+  numbers.split('').forEach(number => {
     if (arrResult.indexOf(number) !== -1) {
       arrResult.splice(arrResult.indexOf(number), 1);
     }
@@ -38,12 +38,12 @@ const checkTode = (numbers, result) => {
   return arrResult.length === 0;
 };
 
-const checkReward = (result, callback) => (bet) => {
+const checkReward = (result, callback) => bet => {
   const rewardType = {
+    BELOW: 'ล่าง',
     TENG: 'เต็ง',
     TODE: 'โต๊ด',
     UPPER: 'บน',
-    BELOW: 'ล่าง',
   };
 
   if (!result) {
@@ -122,7 +122,7 @@ const checkReward = (result, callback) => (bet) => {
   return null;
 };
 
-const calculateTotal = result => (bet) => {
+const calculateTotal = result => bet => {
   // calculate ticket price
   const ticketPrice = calculateTicketPrice(bet);
 

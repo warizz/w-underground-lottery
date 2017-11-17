@@ -9,10 +9,10 @@ function deleteBet(id) {
   return new Promise((resolve, reject) => {
     axios
       .request({
-        url: `/bet/${id}`,
-        method: 'delete',
         baseURL,
         headers: { 'x-access-token': token },
+        method: 'delete',
+        url: `/bet/${id}`,
       })
       .then(() => resolve())
       .catch(reject);
@@ -24,10 +24,10 @@ function getCurrentPeriod() {
   return new Promise((resolve, reject) => {
     axios
       .request({
-        url: '/period',
-        method: 'get',
         baseURL,
         headers: { 'x-access-token': token },
+        method: 'get',
+        url: '/period',
       })
       .then(res => {
         if (!res.data) {
@@ -36,10 +36,10 @@ function getCurrentPeriod() {
 
         const { id, endedAt, isOpen, bets = [], result } = res.data;
         const period = {
+          bets,
+          endedAt: new Date(endedAt),
           id,
           isOpen,
-          endedAt: new Date(endedAt),
-          bets,
           result,
         };
 
@@ -64,10 +64,10 @@ function getHistory() {
   return new Promise((resolve, reject) => {
     axios
       .request({
-        url: '/history',
-        method: 'get',
         baseURL,
         headers: { 'x-access-token': token },
+        method: 'get',
+        url: '/history',
       })
       .then(res => resolve(res.data))
       .catch(reject);
@@ -79,10 +79,10 @@ function getSummary(periodId) {
   return new Promise((resolve, reject) => {
     axios
       .request({
-        url: `/summary/${periodId}`,
-        method: 'get',
         baseURL,
         headers: { 'x-access-token': token },
+        method: 'get',
+        url: `/summary/${periodId}`,
       })
       .then(res => resolve(res.data))
       .catch(reject);
@@ -91,17 +91,14 @@ function getSummary(periodId) {
 
 function getUser() {
   const token = docCookies.getItem(`fbat_${fbAppId}`);
-  return new Promise((resolve, reject) => {
-    axios
-      .request({
-        url: '/me',
-        method: 'get',
-        baseURL,
-        headers: { 'x-access-token': token },
-      })
-      .then(res => resolve(res.data))
-      .catch(reject);
-  });
+  return axios
+    .request({
+      baseURL,
+      headers: { 'x-access-token': token },
+      method: 'get',
+      url: '/me',
+    })
+    .then(res => res.data);
 }
 
 function insertBet(bet) {
@@ -110,11 +107,11 @@ function insertBet(bet) {
     const data = bet;
     axios
       .request({
-        url: '/bet',
-        method: 'post',
         baseURL,
-        headers: { 'x-access-token': token },
         data,
+        headers: { 'x-access-token': token },
+        method: 'post',
+        url: '/bet',
       })
       .then(res => resolve(res.data))
       .catch(reject);
@@ -127,11 +124,11 @@ function insertBets(periodId, bets) {
     const data = bets;
     axios
       .request({
-        url: `/bets/${periodId}`,
-        method: 'post',
         baseURL,
-        headers: { 'x-access-token': token },
         data,
+        headers: { 'x-access-token': token },
+        method: 'post',
+        url: `/bets/${periodId}`,
       })
       .then(res => resolve(res.data))
       .catch(reject);
@@ -139,13 +136,14 @@ function insertBets(periodId, bets) {
 }
 
 function logIn(accessToken) {
-  const data = { access_token: accessToken };
-  return new Promise((resolve, reject) => {
-    axios
-      .post(`${baseURL}/log_in`, data)
-      .then(res => resolve(res.data))
-      .catch(reject);
-  });
+  return axios
+    .request({
+      baseURL,
+      data: { access_token: accessToken },
+      method: 'POST',
+      url: '/signin',
+    })
+    .then(res => res.data);
 }
 
 function logOut() {
@@ -153,10 +151,10 @@ function logOut() {
     const accessToken = docCookies.getItem(`fbat_${fbAppId}`);
     axios
       .request({
-        url: `${baseURL}/log_out`,
-        method: 'patch',
         baseURL,
         headers: { 'x-access-token': accessToken },
+        method: 'patch',
+        url: `${baseURL}/log_out`,
       })
       .then(res => resolve(res.data))
       .catch(reject);
@@ -169,11 +167,11 @@ function openPeriod(endedAt) {
     const data = { endedAt };
     axios
       .request({
-        url: '/periods/latest',
-        method: 'post',
         baseURL,
-        headers: { 'x-access-token': token },
         data,
+        headers: { 'x-access-token': token },
+        method: 'post',
+        url: '/periods/latest',
       })
       .then(resolve)
       .catch(reject);
@@ -190,11 +188,11 @@ function updateBet(bet) {
     };
     axios
       .request({
-        url: `/bet/${bet.id}`,
-        method: 'patch',
         baseURL,
-        headers: { 'x-access-token': token },
         data,
+        headers: { 'x-access-token': token },
+        method: 'patch',
+        url: `/bet/${bet.id}`,
       })
       .then(res => resolve(res.data))
       .catch(reject);
@@ -210,11 +208,11 @@ function updateBets(periodId, userId, update) {
     };
     axios
       .request({
-        url: `/bets/${periodId}`,
-        method: 'patch',
         baseURL,
-        headers: { 'x-access-token': token },
         data,
+        headers: { 'x-access-token': token },
+        method: 'patch',
+        url: `/bets/${periodId}`,
       })
       .then(res => resolve(res.data))
       .catch(reject);
@@ -227,11 +225,11 @@ function updatePeriod(id, update) {
     const data = update;
     axios
       .request({
-        url: '/periods/latest',
-        method: 'patch',
         baseURL,
-        headers: { 'x-access-token': token },
         data,
+        headers: { 'x-access-token': token },
+        method: 'patch',
+        url: '/periods/latest',
       })
       .then(res => resolve(res.data))
       .catch(reject);
@@ -243,10 +241,10 @@ function updateResult() {
   return new Promise((resolve, reject) => {
     axios
       .request({
-        url: '/results',
-        method: 'post',
         baseURL,
         headers: { 'x-access-token': token },
+        method: 'post',
+        url: '/results',
       })
       .then(() => resolve())
       .catch(reject);

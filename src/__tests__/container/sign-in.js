@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React from 'react';
 import { mount, shallow } from 'enzyme';
 import { createStore } from 'redux';
@@ -10,7 +11,7 @@ it('should render connected component', () => {
   const wrapper = mount(
     <Provider store={store}>
       <ConnectedContainer />
-    </Provider>,
+    </Provider>
   );
 
   expect(wrapper.find('div.sign-in').exists()).toBe(true);
@@ -112,7 +113,11 @@ describe('internal functions', () => {
       expect(fbLogInMock).toHaveBeenCalledTimes(1);
       expect(serverLogInMock).toHaveBeenCalledTimes(1);
       expect(setItemMock).toHaveBeenCalledTimes(1);
-      expect(setItemMock).toHaveBeenCalledWith(`fbat_${process.env.REACT_APP_FB_APP_ID}`, fbResponseMock.authResponse.accessToken, 60 * 60 * 24 * 30);
+      expect(setItemMock).toHaveBeenCalledWith(
+        `fbat_${process.env.REACT_APP_FB_APP_ID}`,
+        fbResponseMock.authResponse.accessToken,
+        60 * 60 * 24 * 30
+      );
       expect(wrapper.state('fetching')).toBe(false);
     });
   });

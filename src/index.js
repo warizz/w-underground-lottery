@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './app';
+import registerServiceWorker from './registerServiceWorker';
 
 (() => {
   window.fbAsyncInit = () => {
@@ -26,3 +27,4 @@ import App from './app';
 })();
 
 ReactDOM.render(<App />, document.getElementById('root'));
+registerServiceWorker();

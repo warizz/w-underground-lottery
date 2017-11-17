@@ -32,11 +32,11 @@ export class HomeContainer extends React.Component {
   handleDeleteBet(id) {
     this.props.setFetching(true);
     return this.props.service.data.deleteBet(id).then(() =>
-      this.props.service.data.getCurrentPeriod().then((res) => {
+      this.props.service.data.getCurrentPeriod().then(res => {
         this.props.setCurrentPeriod(res);
         this.props.setFetching(false);
         this.props.setAlert('deleted');
-      }),
+      })
     );
   }
   handleSaveBet(bet) {
@@ -73,12 +73,12 @@ export class HomeContainer extends React.Component {
 
     this.props.setFetching(true);
     return actor(inputBet).then(() =>
-      this.props.service.data.getCurrentPeriod().then((res) => {
+      this.props.service.data.getCurrentPeriod().then(res => {
         this.props.setCurrentPeriod(res);
         this.props.setFetching(false);
         this.props.setAlert('Saved');
         this.setState({ editingBet: null });
-      }),
+      })
     );
   }
   logOut() {
@@ -93,13 +93,13 @@ export class HomeContainer extends React.Component {
     return (
       <HomePage
         currentPeriod={currentPeriod}
-        user={user}
-        logOut={this.logOut}
-        handleSaveBet={this.handleSaveBet}
-        handleDeleteBet={this.handleDeleteBet}
         editingBet={editingBet}
+        handleDeleteBet={this.handleDeleteBet}
+        handleSaveBet={this.handleSaveBet}
         inputToggle={this.inputToggle}
+        logOut={this.logOut}
         setEditingBet={this.setEditingBet}
+        user={user}
       />
     );
   }

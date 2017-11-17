@@ -12,7 +12,7 @@ const UserProfile = props => {
 
     if (props.user.is_admin) {
       dashboardLink = (
-        <Link to="/dashboard" className="border-bottom">
+        <Link className="border-bottom" to="/dashboard">
           go to admin dashboard
         </Link>
       );
@@ -24,16 +24,16 @@ const UserProfile = props => {
       <Card>
         <div className="body center">
           <img
-            className="picture"
-            src={props.user.picture}
             alt="user-profile"
+            className="picture"
             role="presentation"
+            src={props.user.picture}
           />
           <div className="name">{props.user.name}</div>
         </div>
         <div className="action column">
           {dashboardLink}
-          <Link to="/history" className="border-bottom">
+          <Link className="border-bottom" to="/history">
             see history
           </Link>
           <button onClick={props.logOutHandler}>log out</button>

@@ -6,5 +6,5 @@ export type Bet = {
   number: string,
   price1: number,
   price2: number,
-  price3: number
+  price3: number,
 };

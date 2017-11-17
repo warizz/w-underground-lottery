@@ -23,21 +23,17 @@ export class DashboardContainer extends React.Component {
   }
   componentDidMount() {
     if (this.props.currentPeriod.id) {
-      return this.props.service.data
-        .getSummary(this.props.currentPeriod.id)
-        .then(res => {
-          this.setState({ summary: res });
-        });
+      return this.props.service.data.getSummary(this.props.currentPeriod.id).then(res => {
+        this.setState({ summary: res });
+      });
     }
     return this.setPeriod();
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.currentPeriod.id) {
-      this.props.service.data
-        .getSummary(nextProps.currentPeriod.id)
-        .then(res => {
-          this.setState({ summary: res });
-        });
+      this.props.service.data.getSummary(nextProps.currentPeriod.id).then(res => {
+        this.setState({ summary: res });
+      });
     }
   }
   onEndDateChange(e) {
@@ -47,14 +43,12 @@ export class DashboardContainer extends React.Component {
     const self = this;
     return () => {
       self.props.setFetching(true);
-      return this.props.service.data
-        .updateBets(periodId, userId, { isPaid })
-        .then(() => {
-          this.props.service.data.getSummary(periodId).then(res => {
-            this.setState({ summary: res });
-            self.props.setFetching(false);
-          });
+      return this.props.service.data.updateBets(periodId, userId, { isPaid }).then(() => {
+        this.props.service.data.getSummary(periodId).then(res => {
+          this.setState({ summary: res });
+          self.props.setFetching(false);
         });
+      });
     };
   }
   setPeriod() {
@@ -71,9 +65,7 @@ export class DashboardContainer extends React.Component {
   }
   closePeriod(id) {
     this.props.setFetching(true);
-    return this.props.service.data
-      .updatePeriod(id, { isOpen: false })
-      .then(this.setPeriod);
+    return this.props.service.data.updatePeriod(id, { isOpen: false }).then(this.setPeriod);
   }
   updateResult = () => {
     this.setState({ isUpdatingResult: true });
@@ -84,17 +76,17 @@ export class DashboardContainer extends React.Component {
   render() {
     return (
       <DashboardPage
-        currentPeriod={this.props.currentPeriod}
         closeButtonClickedCallback={this.closePeriod}
+        currentPeriod={this.props.currentPeriod}
         endDate={this.state.endDate}
         endDateChangedCallback={this.onEndDateChange}
-        openPeriodClickedCallback={this.openPeriod}
-        updateResultClickedCallback={this.updateResult}
         isUpdatingResult={this.state.isUpdatingResult}
+        openPeriodClickedCallback={this.openPeriod}
         service={this.props.service}
         setAlert={this.props.setAlert}
-        summary={this.state.summary}
         setPaid={this.setPaid}
+        summary={this.state.summary}
+        updateResultClickedCallback={this.updateResult}
       />
     );
   }

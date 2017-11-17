@@ -8,11 +8,7 @@ type Props = {
 
 const Card = (props: Props) => {
   const { children } = props;
-  return (
-    <div className="card-component" tabIndex={0}>
-      {children}
-    </div>
-  );
+  return <div className='card-component'>{children}</div>;
 };
 
 export default Card;

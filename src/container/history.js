@@ -1,5 +1,6 @@
+/* eslint-disable max-len */
 import React from 'react';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import actions from '../actions/index';
 import HistoryPage from '../pages/history';
@@ -11,23 +12,28 @@ export class HistoryContainer extends React.Component {
       history: [],
     };
   }
+
   componentDidMount() {
     this.props.setPageName('History');
     return this.props.service.data.getHistory().then(res => this.setState({ history: res }));
   }
+
   componentWillReceiveProps() {
     return this.props.service.data.getHistory().then(res => this.setState({ history: res }));
   }
+
   clone(currentPeriod) {
-    return (bets) => {
+    return bets => {
       if (!currentPeriod.isOpen) {
         return this.props.setAlert('period is closed');
       }
 
       const newBets = bets
-        .map((bet) => {
+        .map(bet => {
           // if cloning bet have same number as current period's bet, skip it.
-          const numberAlreadyExists = currentPeriod.bets.find(currentBet => currentBet.number === bet.number);
+          const numberAlreadyExists = currentPeriod.bets.find(
+            currentBet => currentBet.number === bet.number
+          );
           if (numberAlreadyExists) {
             return null;
           }
@@ -43,7 +49,7 @@ export class HistoryContainer extends React.Component {
 
       this.props.setFetching(true);
       return this.props.service.data.insertBets(currentPeriod.id, newBets).then(() => {
-        this.props.service.data.getCurrentPeriod().then((res) => {
+        this.props.service.data.getCurrentPeriod().then(res => {
           this.props.setCurrentPeriod(res);
           this.props.setFetching(false);
           this.props.setAlert('cloned');
@@ -67,10 +73,6 @@ HistoryContainer.propTypes = {
   currentPeriod: PropTypes.shape({
     isOpen: PropTypes.bool,
   }),
-  setAlert: PropTypes.func.isRequired,
-  setCurrentPeriod: PropTypes.func.isRequired,
-  setFetching: PropTypes.func.isRequired,
-  setPageName: PropTypes.func,
   service: PropTypes.shape({
     data: PropTypes.shape({
       getHistory: PropTypes.func,
@@ -78,6 +80,10 @@ HistoryContainer.propTypes = {
       insertBets: PropTypes.func,
     }),
   }),
+  setAlert: PropTypes.func.isRequired,
+  setCurrentPeriod: PropTypes.func.isRequired,
+  setFetching: PropTypes.func.isRequired,
+  setPageName: PropTypes.func,
 };
 
 HistoryContainer.defaultProps = {

@@ -29,14 +29,14 @@ const BetList = (props: Props) => {
   }
 
   return (
-    <div className="bet-list-component">
+    <div className='bet-list-component'>
       <Card>
-        <div className="title">{periodEndedAt}</div>
-        <div className="body">
+        <div className='title'>{periodEndedAt}</div>
+        <div className='body'>
           <b>{`total: ${total} ฿`}</b>
         </div>
       </Card>
-      <div className="list">
+      <div className='list'>
         {bets.length > 0 &&
           bets
             .sort((a, b) => {
@@ -50,11 +50,11 @@ const BetList = (props: Props) => {
             })
             .map(bet => (
               <BetItem
-                key={bet.id}
                 bet={bet}
                 deleteHandler={deleteHandler}
                 editHandler={editHandler}
                 isEditable={isEditable}
+                key={bet.id}
               />
             ))}
       </div>

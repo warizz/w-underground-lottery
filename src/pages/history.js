@@ -23,17 +23,9 @@ const HistoryPage = props => {
             <ul>
               {h.bets.map(bet => {
                 const { number, price1, price2, price3 } = bet;
-                const historyItem = TextBuilder.buildTicketSummary(
-                  number,
-                  price1,
-                  price2,
-                  price3
-                );
+                const historyItem = TextBuilder.buildTicketSummary(number, price1, price2, price3);
                 return (
-                  <li
-                    className={`bet-item-${bet.id}`}
-                    key={`bet-it--${bet.id}`}
-                  >
+                  <li className={`bet-item-${bet.id}`} key={`bet-it--${bet.id}`}>
                     {historyItem}
                   </li>
                 );
@@ -51,9 +43,7 @@ const HistoryPage = props => {
       ))
     ) : (
       <Card>
-        <div className="placeholder">
-          {'you have no history here, make one!'}
-        </div>
+        <div className="placeholder">{'you have no history here, make one!'}</div>
       </Card>
     );
 

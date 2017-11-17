@@ -165,11 +165,11 @@ class BetEditor extends React.Component {
                 <input
                   id="number"
                   onChange={this.handleNumberChange}
-                  type="number"
-                  value={this.state.number}
                   ref={input => {
                     this.numberInput = input;
                   }}
+                  type="number"
+                  value={this.state.number}
                 />
               </div>
               <div className="input-group">
@@ -180,29 +180,21 @@ class BetEditor extends React.Component {
             </div>
             <div className="row">
               <div className="input-group">
-                {this.state.enablePrice3 === false && (
-                  <label htmlFor="price1">บน</label>
-                )}
-                {this.state.enablePrice3 && (
-                  <label htmlFor="price1">เต็ง</label>
-                )}
+                {this.state.enablePrice3 === false && <label htmlFor="price1">บน</label>}
+                {this.state.enablePrice3 && <label htmlFor="price1">เต็ง</label>}
                 <input
                   id="price1"
                   onChange={this.handlePriceChange('price1')}
-                  type="number"
-                  value={this.state.price1}
                   ref={input => {
                     this.price1Input = input;
                   }}
+                  type="number"
+                  value={this.state.price1}
                 />
               </div>
               <div className="input-group">
-                {this.state.enablePrice3 === false && (
-                  <label htmlFor="price2">ล่าง</label>
-                )}
-                {this.state.enablePrice3 && (
-                  <label htmlFor="price1">โต๊ด</label>
-                )}
+                {this.state.enablePrice3 === false && <label htmlFor="price2">ล่าง</label>}
+                {this.state.enablePrice3 && <label htmlFor="price1">โต๊ด</label>}
                 <input
                   id="price2"
                   onChange={this.handlePriceChange('price2')}
@@ -210,11 +202,7 @@ class BetEditor extends React.Component {
                   value={this.state.price2}
                 />
               </div>
-              <div
-                className={`input-group${this.state.enablePrice3
-                  ? ' visible'
-                  : ' hidden'}`}
-              >
+              <div className={`input-group${this.state.enablePrice3 ? ' visible' : ' hidden'}`}>
                 <label htmlFor="price3">ล่าง</label>
                 <input
                   id="price3"

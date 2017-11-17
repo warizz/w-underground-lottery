@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React from 'react';
 import { mount, shallow } from 'enzyme';
 import { createStore } from 'redux';
@@ -10,7 +11,7 @@ it('should render connected component', () => {
   const wrapper = mount(
     <Provider store={store}>
       <ConnectedContainer />
-    </Provider>,
+    </Provider>
   );
 
   expect(wrapper.find('div.history').exists()).toBe(true);
@@ -72,7 +73,7 @@ describe('cloning', () => {
     expect(setAlertMock).toHaveBeenCalledTimes(1);
     expect(setAlertMock).toHaveBeenCalledWith('period is closed');
   });
-  it("should not complete when cloning bets have same number as current period' bets", async () => {
+  it('should not complete when cloning bets have same number as current period\' bets', async () => {
     const setAlertMock = jest.fn();
     const currentPeriodMock = {
       id: '1',

@@ -1,0 +1,31 @@
+{
+  "extends": [
+    "react-app",
+    "plugin:jsx-a11y/recommended",
+    "standard",
+    "standard-jsx",
+    "standard-react"
+  ],
+  "plugins": ["jsx-a11y"],
+  "rules": {
+    "max-len": [2, 100],
+    "comma-dangle": [2, "always-multiline"],
+    "quotes": [2, "single"],
+    "sort-keys": 1,
+    "semi": [2, "always"],
+    "space-before-function-paren": [
+      2,
+      { "anonymous": "always", "named": "never", "asyncArrow": "always" }
+    ],
+    "react/jsx-sort-props": 2
+  },
+  "env": {
+    "browser": true
+  },
+  "globals": {
+    "describe": true,
+    "it": true,
+    "expect": true,
+    "jest": true
+  }
+}

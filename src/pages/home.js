@@ -1,5 +1,5 @@
 import React from 'react';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import moment from 'moment';
 import BetList from '../components/BetList';
 import BetEditor from '../components/bet-editor';
@@ -23,11 +23,7 @@ const HomePage = props => {
   let resultDisplayElement = null;
   if (currentPeriod.isOpen) {
     betEditorElement = (
-      <BetEditor
-        saveBetHandler={handleSaveBet}
-        editingBet={editingBet}
-        onClose={inputToggle}
-      />
+      <BetEditor editingBet={editingBet} onClose={inputToggle} saveBetHandler={handleSaveBet} />
     );
   }
   if (currentPeriod.result) {
@@ -44,35 +40,27 @@ const HomePage = props => {
   return (
     <div className="home">
       <div className="pane visible-md visible-lg">
-        <UserProfile user={user} logOutHandler={logOut} />
+        <UserProfile logOutHandler={logOut} user={user} />
       </div>
       <div className="pane center">
         <div className="visible-xs visible-sm" style={{ display: 'flex' }}>
-          <UserProfile user={user} logOutHandler={logOut} />
+          <UserProfile logOutHandler={logOut} user={user} />
         </div>
-        <div
-          id="bet-editor-container"
-          className="visible-xs"
-          style={{ display: 'flex' }}
-        >
+        <div className="visible-xs" id="bet-editor-container" style={{ display: 'flex' }}>
           {betEditorElement}
         </div>
         {resultDisplayElement}
         <BetList
           bets={currentPeriod.bets}
-          editHandler={setEditingBet}
+          calculateTicketPrice={service.calculation.calculateTicketPrice}
           deleteHandler={handleDeleteBet}
+          editHandler={setEditingBet}
           isEditable={currentPeriod.isOpen}
           periodEndedAt={moment(currentPeriod.endedAt).format('DD MMM YYYY')}
-          calculateTicketPrice={service.calculation.calculateTicketPrice}
         />
       </div>
       <div className="hidden-xs">
-        <div
-          id="bet-editor-container"
-          className="hidden-xs"
-          style={{ display: 'flex' }}
-        >
+        <div className="hidden-xs" id="bet-editor-container" style={{ display: 'flex' }}>
           {betEditorElement}
         </div>
       </div>
