@@ -9,16 +9,16 @@
   ],
   "plugins": ["jsx-a11y"],
   "rules": {
-    "max-len": [2, 100],
     "comma-dangle": [2, "always-multiline"],
+    "max-len": [2, 100],
+    "react/jsx-sort-props": 2,
     "quotes": [2, "single"],
-    "sort-keys": 1,
     "semi": [2, "always"],
+    "sort-keys": 1,
     "space-before-function-paren": [
       2,
       { "anonymous": "always", "named": "never", "asyncArrow": "always" }
-    ],
-    "react/jsx-sort-props": 2
+    ]
   },
   "env": {
     "browser": true
