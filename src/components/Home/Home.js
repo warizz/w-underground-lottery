@@ -5,8 +5,8 @@ import BetList from '../BetList';
 import BetEditor from '../bet-editor';
 import ResultDisplay from '../ResultDisplay';
 import Reward from '../Reward';
-import UserProfile from '../user-profile';
 import service from '../../services/index';
+import UserProfile from './UserProfile';
 import './Home.css';
 
 const HomePage = ({
@@ -34,11 +34,14 @@ const HomePage = ({
   return (
     <div className='Home'>
       <div className='pane visible-md visible-lg'>
-        <UserProfile logOutHandler={logOut} user={user} />
+        <UserProfile onLogOut={logOut} user={user} />
       </div>
       <div className='pane center'>
-        <div className='visible-xs visible-sm' style={{ display: 'flex' }}>
-          <UserProfile logOutHandler={logOut} user={user} />
+        <div
+          className='visible-xs visible-sm'
+          style={{ display: 'flex', margin: '0 0 8px 0' }}
+        >
+          <UserProfile onLogOut={logOut} user={user} />
         </div>
         <div
           className='visible-xs'

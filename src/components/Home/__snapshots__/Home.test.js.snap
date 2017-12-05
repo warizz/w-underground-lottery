@@ -8,7 +8,7 @@ exports[`snapshot testing should match snapshot when no props 1`] = `
     className="pane visible-md visible-lg"
   >
     <UserProfile
-      logOutHandler={[Function]}
+      onLogOut={[Function]}
       user={Object {}}
     />
   </div>
@@ -20,11 +20,12 @@ exports[`snapshot testing should match snapshot when no props 1`] = `
       style={
         Object {
           "display": "flex",
+          "margin": "0 0 8px 0",
         }
       }
     >
       <UserProfile
-        logOutHandler={[Function]}
+        onLogOut={[Function]}
         user={Object {}}
       />
     </div>
@@ -70,7 +71,7 @@ exports[`snapshot testing should match snapshot when props.currentPeriod.isOpen 
     className="pane visible-md visible-lg"
   >
     <UserProfile
-      logOutHandler={[Function]}
+      onLogOut={[Function]}
       user={Object {}}
     />
   </div>
@@ -82,11 +83,12 @@ exports[`snapshot testing should match snapshot when props.currentPeriod.isOpen 
       style={
         Object {
           "display": "flex",
+          "margin": "0 0 8px 0",
         }
       }
     >
       <UserProfile
-        logOutHandler={[Function]}
+        onLogOut={[Function]}
         user={Object {}}
       />
     </div>
@@ -144,7 +146,7 @@ exports[`snapshot testing should match snapshot when props.currentPeriod.result 
     className="pane visible-md visible-lg"
   >
     <UserProfile
-      logOutHandler={[Function]}
+      onLogOut={[Function]}
       user={Object {}}
     />
   </div>
@@ -156,11 +158,12 @@ exports[`snapshot testing should match snapshot when props.currentPeriod.result 
       style={
         Object {
           "display": "flex",
+          "margin": "0 0 8px 0",
         }
       }
     >
       <UserProfile
-        logOutHandler={[Function]}
+        onLogOut={[Function]}
         user={Object {}}
       />
     </div>
