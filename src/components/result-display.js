@@ -18,7 +18,8 @@ const ResultDisplay = props => {
 
   if (bets.length > 0) {
     const rewardCallback = (number, price, reward, rewardType) =>
-      `ถูก ${rewardType} [${number}] ${price} x ${reward} = ${price * reward} บาท`;
+      `ถูก ${rewardType} [${number}] ${price} x ${reward} = ${price *
+        reward} บาท`;
     const userReward = bets
       .map(service.calculation.checkReward(result, rewardCallback))
       .filter(a => a);
@@ -28,7 +29,11 @@ const ResultDisplay = props => {
         {userReward.length > 0 && (
           <div>
             <div style={{ textAlign: 'center' }}>{'you win!'}</div>
-            <ul>{userReward.map(resultItem => <li key={resultItem}>{resultItem}</li>)}</ul>
+            <ul>
+              {userReward.map(resultItem => (
+                <li key={resultItem}>{resultItem}</li>
+              ))}
+            </ul>
           </div>
         )}
       </div>

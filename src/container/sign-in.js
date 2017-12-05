@@ -1,6 +1,6 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
-import SignInPage from '../pages/sign-in';
+import SignInPage from '../components/SignIn';
 
 export class SignInContainer extends React.Component {
   constructor(props) {
@@ -11,7 +11,9 @@ export class SignInContainer extends React.Component {
     this.authenFacebook = this.authenFacebook.bind(this);
   }
   componentDidMount() {
-    const hasToken = this.props.cookieManager.hasItem(`fbat_${process.env.REACT_APP_FB_APP_ID}`);
+    const hasToken = this.props.cookieManager.hasItem(
+      `fbat_${process.env.REACT_APP_FB_APP_ID}`
+    );
     if (hasToken) {
       this.props.router.push('/');
     }
@@ -56,7 +58,7 @@ export class SignInContainer extends React.Component {
       <SignInPage
         errorText={alertText}
         fetching={fetching}
-        signInButtonClickedCallback={this.authenFacebook}
+        onSignIn={this.authenFacebook}
       />
     );
   }

@@ -47,7 +47,9 @@ export class HomeContainer extends React.Component {
     }
 
     if (!currentPeriod.isOpen) {
-      return Promise.reject(new Error('Invalid operation: current period is closed'));
+      return Promise.reject(
+        new Error('Invalid operation: current period is closed')
+      );
     }
     let inputBet = currentPeriod.bets.find(item => item.number === bet.number);
     let actor;
@@ -83,7 +85,9 @@ export class HomeContainer extends React.Component {
   }
   logOut() {
     return this.props.service.data.logOut().then(() => {
-      this.props.cookieManager.removeItem(`fbat_${process.env.REACT_APP_FB_APP_ID}`);
+      this.props.cookieManager.removeItem(
+        `fbat_${process.env.REACT_APP_FB_APP_ID}`
+      );
       this.props.router.push('/log-in');
     });
   }

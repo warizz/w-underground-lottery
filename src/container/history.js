@@ -15,11 +15,15 @@ export class HistoryContainer extends React.Component {
 
   componentDidMount() {
     this.props.setPageName('History');
-    return this.props.service.data.getHistory().then(res => this.setState({ history: res }));
+    return this.props.service.data
+      .getHistory()
+      .then(res => this.setState({ history: res }));
   }
 
   componentWillReceiveProps() {
-    return this.props.service.data.getHistory().then(res => this.setState({ history: res }));
+    return this.props.service.data
+      .getHistory()
+      .then(res => this.setState({ history: res }));
   }
 
   clone(currentPeriod) {
@@ -48,13 +52,15 @@ export class HistoryContainer extends React.Component {
       }
 
       this.props.setFetching(true);
-      return this.props.service.data.insertBets(currentPeriod.id, newBets).then(() => {
-        this.props.service.data.getCurrentPeriod().then(res => {
-          this.props.setCurrentPeriod(res);
-          this.props.setFetching(false);
-          this.props.setAlert('cloned');
+      return this.props.service.data
+        .insertBets(currentPeriod.id, newBets)
+        .then(() => {
+          this.props.service.data.getCurrentPeriod().then(res => {
+            this.props.setCurrentPeriod(res);
+            this.props.setFetching(false);
+            this.props.setAlert('cloned');
+          });
         });
-      });
     };
   }
   render() {
