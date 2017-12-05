@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import BetList from '../components/BetList';
 import BetEditor from '../components/bet-editor';
-import ResultDisplay from '../components/result-display';
+import ResultDisplay from '../components/ResultDisplay';
 import UserProfile from '../components/user-profile';
 import service from '../services/index';
 import './home.css';
