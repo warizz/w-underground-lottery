@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`snapshot testing should match snapshot when no props 1`] = `
+<div
+  className="SignIn"
+>
+  <Button
+    as="button"
+    loading={false}
+    onClick={[Function]}
+    primary={true}
+  >
+    Sign in with Facebook
+  </Button>
+  <Message
+    info={true}
+  >
+    <MessageHeader>
+      Why log in with facebook?
+    </MessageHeader>
+    <p>
+      - Don\\'t reinvent the wheel: facebook already have great security by 1000 top class engineers keeping your password safe.
+    </p>
+    <p>
+      - This app need only your username and profile picture, it can do no harm.
+    </p>
+  </Message>
+</div>
+`;
+
+exports[`snapshot testing should match snapshot with props.errorText 1`] = `
+<div
+  className="SignIn"
+>
+  <Button
+    as="button"
+    loading={false}
+    onClick={[Function]}
+    primary={true}
+  >
+    Sign in with Facebook
+  </Button>
+  <Message
+    info={true}
+  >
+    <MessageHeader>
+      Why log in with facebook?
+    </MessageHeader>
+    <p>
+      - Don\\'t reinvent the wheel: facebook already have great security by 1000 top class engineers keeping your password safe.
+    </p>
+    <p>
+      - This app need only your username and profile picture, it can do no harm.
+    </p>
+  </Message>
+  <Message
+    negative={true}
+  >
+    <MessageHeader>
+      An error occurred
+    </MessageHeader>
+    <p>
+      errorText
+    </p>
+  </Message>
+</div>
+`;
