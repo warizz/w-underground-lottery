@@ -12,7 +12,7 @@ const UserProfile = props => {
 
     if (props.user.is_admin) {
       dashboardLink = (
-        <Link to="/dashboard" className="border-bottom">
+        <Link className='border-bottom' to='/dashboard'>
           go to admin dashboard
         </Link>
       );
@@ -22,18 +22,18 @@ const UserProfile = props => {
 
     body = (
       <Card>
-        <div className="body center">
+        <div className='body center'>
           <img
-            className="picture"
+            alt='user-profile'
+            className='picture'
+            role='presentation'
             src={props.user.picture}
-            alt="user-profile"
-            role="presentation"
           />
-          <div className="name">{props.user.name}</div>
+          <div className='name'>{props.user.name}</div>
         </div>
-        <div className="action column">
+        <div className='action column'>
           {dashboardLink}
-          <Link to="/history" className="border-bottom">
+          <Link className='border-bottom' to='/history'>
             see history
           </Link>
           <button onClick={props.logOutHandler}>log out</button>
@@ -43,12 +43,12 @@ const UserProfile = props => {
   } else {
     body = (
       <Card>
-        <div className="placeholder">{'...'}</div>
+        <div className='placeholder'>{'...'}</div>
       </Card>
     );
   }
 
-  return <div className="user-profile">{body}</div>;
+  return <div className='user-profile'>{body}</div>;
 };
 
 UserProfile.propTypes = {

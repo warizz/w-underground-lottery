@@ -22,25 +22,25 @@ const DashboardPage = props => {
 
   if (!currentPeriod.isOpen) {
     endDateSeletorElement = (
-      <div className="body">
-        <div className="row">
-          <div className="input-group">
-            <label htmlFor="txt-start-date">วันหวยออก</label>
+      <div className='body'>
+        <div className='row'>
+          <div className='input-group'>
+            <label htmlFor='txt-start-date'>วันหวยออก</label>
             <input
-              type="date"
-              id="txt-start-date"
-              value={endDate}
+              id='txt-start-date'
               onChange={endDateChangedCallback}
+              type='date'
+              value={endDate}
             />
           </div>
         </div>
       </div>
     );
     openPeriodButtonElement = (
-      <div className="action column">
+      <div className='action column'>
         <button
-          id="open-period"
-          className="border-bottom primary"
+          className='border-bottom primary'
+          id='open-period'
           onClick={() => openPeriodClickedCallback(endDate)}
         >
           {'เปิดแทง'}
@@ -48,12 +48,12 @@ const DashboardPage = props => {
       </div>
     );
     updateResultButtonElement = (
-      <div className="action column">
+      <div className='action column'>
         <button
-          id="update-result"
-          className="border-bottom primary"
-          onClick={() => updateResultClickedCallback()}
+          className='border-bottom primary'
           disabled={isUpdatingResult}
+          id='update-result'
+          onClick={() => updateResultClickedCallback()}
         >
           {isUpdatingResult ? 'Updating...' : 'อัพเดทผลงวดล่าสุด'}
         </button>
@@ -63,10 +63,10 @@ const DashboardPage = props => {
 
   if (currentPeriod.isOpen) {
     closePeriodButtonElement = (
-      <div className="action" style={{ border: 'none' }}>
+      <div className='action' style={{ border: 'none' }}>
         <button
-          id="close-period"
-          className="danger"
+          className='danger'
+          id='close-period'
           onClick={() => closeButtonClickedCallback(currentPeriod.id)}
         >
           {'ปิดรับแทง'}
@@ -76,7 +76,7 @@ const DashboardPage = props => {
   }
 
   return (
-    <div className="dashboard">
+    <div className='dashboard'>
       <Card>
         {endDateSeletorElement}
         {openPeriodButtonElement}
@@ -87,8 +87,8 @@ const DashboardPage = props => {
         bets={props.summary.bets}
         currentPeriod={props.currentPeriod}
         service={props.service}
-        setPaid={props.setPaid}
         setAlert={setAlert}
+        setPaid={props.setPaid}
       />
     </div>
   );

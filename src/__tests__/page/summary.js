@@ -1,3 +1,4 @@
+/* eslint-disable standard/no-callback-literal */
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import Page from '../../pages/summary';

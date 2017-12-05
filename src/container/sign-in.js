@@ -19,13 +19,17 @@ export class SignInContainer extends React.Component {
   authenFacebook() {
     this.setState({ fetching: true });
     return window.FB.login(
-      (res) => {
+      res => {
         if (res.authResponse) {
           const accessToken = res.authResponse.accessToken;
           return this.props.service.data
             .logIn(accessToken)
             .then(({ access_token }) => {
-              this.props.cookieManager.setItem(`fbat_${process.env.REACT_APP_FB_APP_ID}`, access_token, 60 * 60 * 24 * 30);
+              this.props.cookieManager.setItem(
+                `fbat_${process.env.REACT_APP_FB_APP_ID}`,
+                access_token,
+                60 * 60 * 24 * 30
+              );
               this.setState({ fetching: false });
               this.props.router.push('/');
             })
@@ -43,12 +47,18 @@ export class SignInContainer extends React.Component {
         });
         return Promise.resolve();
       },
-      { scope: 'public_profile' },
+      { scope: 'public_profile' }
     );
   }
   render() {
     const { alertText, fetching } = this.state;
-    return <SignInPage errorText={alertText} fetching={fetching} signInButtonClickedCallback={this.authenFacebook} />;
+    return (
+      <SignInPage
+        errorText={alertText}
+        fetching={fetching}
+        signInButtonClickedCallback={this.authenFacebook}
+      />
+    );
   }
 }
 

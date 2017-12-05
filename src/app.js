@@ -19,17 +19,38 @@ import CookieManager from './helper/cookie-manager';
 const store = createStore(reducer);
 const cookieManager = new CookieManager(docCookies);
 
-const App = () =>
-  (<Provider store={store}>
+const App = () => (
+  <Provider store={store}>
     <Router history={browserHistory}>
-      <Route path="/log-in" component={props => <ConnectedSignInContainer {...props} service={service} cookieManager={docCookies} />} />
+      <Route
+        component={props => (
+          <ConnectedSignInContainer {...props} cookieManager={docCookies} service={service} />
+        )}
+        path='/log-in'
+      />
       <Route component={LayoutContainer} onEnter={lib.initApplicationState(store, cookieManager)}>
-        <IndexRoute component={props => <ConnectedHomeContainer {...props} service={service} cookieManager={docCookies} />} />
-        <Route path="/" component={props => <ConnectedHomeContainer {...props} service={service} cookieManager={docCookies} />} />
-        <Route path="/history" component={props => <ConnectedHistoryContainer {...props} service={service} />} />
-        <Route path="/dashboard" component={props => <ConnectedDashboardContainer {...props} service={service} />} />
+        <IndexRoute
+          component={props => (
+            <ConnectedHomeContainer {...props} cookieManager={docCookies} service={service} />
+          )}
+        />
+        <Route
+          component={props => (
+            <ConnectedHomeContainer {...props} cookieManager={docCookies} service={service} />
+          )}
+          path='/'
+        />
+        <Route
+          component={props => <ConnectedHistoryContainer {...props} service={service} />}
+          path='/history'
+        />
+        <Route
+          component={props => <ConnectedDashboardContainer {...props} service={service} />}
+          path='/dashboard'
+        />
       </Route>
     </Router>
-  </Provider>);
+  </Provider>
+);
 
 export default App;

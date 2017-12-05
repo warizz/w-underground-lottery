@@ -21,7 +21,7 @@ const Toolbar = (props: Props) => {
 
   return (
     <div
-      className="toolbar-component"
+      className='toolbar-component'
       style={{
         alignItems: 'center',
         backgroundColor: '#e9ebee',
@@ -36,7 +36,7 @@ const Toolbar = (props: Props) => {
       }}
     >
       <button
-        className="main"
+        className='main'
         onClick={onClickMainButton}
         style={{
           backgroundColor: 'transparent',
@@ -45,9 +45,9 @@ const Toolbar = (props: Props) => {
           padding: 0,
         }}
       >
-        <img alt="main-icon" className="main-icon" src={getIcon(pageName)} />
+        <img alt='main-icon' className='main-icon' src={getIcon(pageName)} />
       </button>
-      <h1 className="page-name" style={{ margin: '0 0 0 16px' }}>
+      <h1 className='page-name' style={{ margin: '0 0 0 16px' }}>
         {pageName}
       </h1>
     </div>
