@@ -10,10 +10,10 @@ it('should render connected component', () => {
   const wrapper = mount(
     <Provider store={store}>
       <ConnectedContainer />
-    </Provider>,
+    </Provider>
   );
 
-  expect(wrapper.find('div.home').exists()).toBe(true);
+  expect(wrapper.find('div.Home').exists()).toBe(true);
 });
 
 describe('life cycle functions', () => {

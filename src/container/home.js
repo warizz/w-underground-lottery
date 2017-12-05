@@ -2,7 +2,7 @@ import React from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import actions from '../actions/index';
-import HomePage from '../pages/home';
+import Home from '../components/Home';
 
 export class HomeContainer extends React.Component {
   constructor(props) {
@@ -95,7 +95,7 @@ export class HomeContainer extends React.Component {
     const { editingBet } = this.state;
     const { currentPeriod, user } = this.props;
     return (
-      <HomePage
+      <Home
         currentPeriod={currentPeriod}
         editingBet={editingBet}
         handleDeleteBet={this.handleDeleteBet}

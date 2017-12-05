@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import BetList from '../components/BetList';
-import BetEditor from '../components/bet-editor';
-import ResultDisplay from '../components/ResultDisplay';
-import Reward from '../components/Reward';
-import UserProfile from '../components/user-profile';
-import service from '../services/index';
-import './home.css';
+import BetList from '../BetList';
+import BetEditor from '../bet-editor';
+import ResultDisplay from '../ResultDisplay';
+import Reward from '../Reward';
+import UserProfile from '../user-profile';
+import service from '../../services/index';
+import './Home.css';
 
 const HomePage = ({
   currentPeriod,
@@ -32,7 +32,7 @@ const HomePage = ({
   }
 
   return (
-    <div className='home'>
+    <div className='Home'>
       <div className='pane visible-md visible-lg'>
         <UserProfile logOutHandler={logOut} user={user} />
       </div>
@@ -77,27 +77,27 @@ const HomePage = ({
 
 HomePage.propTypes = {
   currentPeriod: PropTypes.shape({
-    id: PropTypes.string,
     bets: PropTypes.arrayOf(PropTypes.shape({})),
+    id: PropTypes.string,
   }),
-  user: PropTypes.shape({}),
-  logOut: PropTypes.func,
-  handleSaveBet: PropTypes.func,
-  handleDeleteBet: PropTypes.func,
   editingBet: PropTypes.shape({}),
+  handleDeleteBet: PropTypes.func,
+  handleSaveBet: PropTypes.func,
   inputToggle: PropTypes.func,
+  logOut: PropTypes.func,
   setEditingBet: PropTypes.func,
+  user: PropTypes.shape({}),
 };
 
 HomePage.defaultProps = {
   currentPeriod: {},
-  user: {},
-  logOut() {},
-  handleSaveBet() {},
-  handleDeleteBet() {},
   editingBet: {},
+  handleDeleteBet() {},
+  handleSaveBet() {},
   inputToggle() {},
+  logOut() {},
   setEditingBet() {},
+  user: {},
 };
 
 export default HomePage;

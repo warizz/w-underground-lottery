@@ -1,0 +1,28 @@
+.Home
+{
+    display: flex;
+    justify-content: center;
+
+    width: 100%;
+
+    @media (max-width: 767px)
+    {
+         > div.pane
+        {
+            width: 100%;
+        }
+    }
+
+    @media (min-width: 768px)
+    {
+         > div.pane
+        {
+            width: 300px;
+
+            &.center
+            {
+                margin: 0 10px;
+            }
+        }
+    }
+}

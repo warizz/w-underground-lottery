@@ -1,0 +1,219 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`snapshot testing should match snapshot when no props 1`] = `
+<div
+  className="Home"
+>
+  <div
+    className="pane visible-md visible-lg"
+  >
+    <UserProfile
+      logOutHandler={[Function]}
+      user={Object {}}
+    />
+  </div>
+  <div
+    className="pane center"
+  >
+    <div
+      className="visible-xs visible-sm"
+      style={
+        Object {
+          "display": "flex",
+        }
+      }
+    >
+      <UserProfile
+        logOutHandler={[Function]}
+        user={Object {}}
+      />
+    </div>
+    <div
+      className="visible-xs"
+      id="bet-editor-container"
+      style={
+        Object {
+          "display": "flex",
+        }
+      }
+    />
+    <BetList
+      bets={Array []}
+      calculateTicketPrice={[Function]}
+      deleteHandler={[Function]}
+      editHandler={[Function]}
+      isEditable={false}
+      periodEndedAt="05 Dec 2017"
+    />
+  </div>
+  <div
+    className="hidden-xs"
+  >
+    <div
+      className="hidden-xs"
+      id="bet-editor-container"
+      style={
+        Object {
+          "display": "flex",
+        }
+      }
+    />
+  </div>
+</div>
+`;
+
+exports[`snapshot testing should match snapshot when props.currentPeriod.isOpen 1`] = `
+<div
+  className="Home"
+>
+  <div
+    className="pane visible-md visible-lg"
+  >
+    <UserProfile
+      logOutHandler={[Function]}
+      user={Object {}}
+    />
+  </div>
+  <div
+    className="pane center"
+  >
+    <div
+      className="visible-xs visible-sm"
+      style={
+        Object {
+          "display": "flex",
+        }
+      }
+    >
+      <UserProfile
+        logOutHandler={[Function]}
+        user={Object {}}
+      />
+    </div>
+    <div
+      className="visible-xs"
+      id="bet-editor-container"
+      style={
+        Object {
+          "display": "flex",
+        }
+      }
+    >
+      <BetEditor
+        editingBet={Object {}}
+        onClose={[Function]}
+        saveBetHandler={[Function]}
+      />
+    </div>
+    <BetList
+      bets={Array []}
+      calculateTicketPrice={[Function]}
+      deleteHandler={[Function]}
+      editHandler={[Function]}
+      isEditable={true}
+      periodEndedAt="05 Dec 2017"
+    />
+  </div>
+  <div
+    className="hidden-xs"
+  >
+    <div
+      className="hidden-xs"
+      id="bet-editor-container"
+      style={
+        Object {
+          "display": "flex",
+        }
+      }
+    >
+      <BetEditor
+        editingBet={Object {}}
+        onClose={[Function]}
+        saveBetHandler={[Function]}
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`snapshot testing should match snapshot when props.currentPeriod.result 1`] = `
+<div
+  className="Home"
+>
+  <div
+    className="pane visible-md visible-lg"
+  >
+    <UserProfile
+      logOutHandler={[Function]}
+      user={Object {}}
+    />
+  </div>
+  <div
+    className="pane center"
+  >
+    <div
+      className="visible-xs visible-sm"
+      style={
+        Object {
+          "display": "flex",
+        }
+      }
+    >
+      <UserProfile
+        logOutHandler={[Function]}
+        user={Object {}}
+      />
+    </div>
+    <div
+      className="visible-xs"
+      id="bet-editor-container"
+      style={
+        Object {
+          "display": "flex",
+        }
+      }
+    />
+    <div
+      style={
+        Object {
+          "margin": "0 0 8px 0",
+        }
+      }
+    >
+      <Reward
+        bets={Array []}
+        result={Object {}}
+      />
+      <ResultDisplay
+        firstThree="-"
+        fourthThree="-"
+        secondThree="-"
+        six="-"
+        thirdThree="-"
+        two="-"
+      />
+    </div>
+    <BetList
+      bets={Array []}
+      calculateTicketPrice={[Function]}
+      deleteHandler={[Function]}
+      editHandler={[Function]}
+      isEditable={false}
+      periodEndedAt="05 Dec 2017"
+    />
+  </div>
+  <div
+    className="hidden-xs"
+  >
+    <div
+      className="hidden-xs"
+      id="bet-editor-container"
+      style={
+        Object {
+          "display": "flex",
+        }
+      }
+    />
+  </div>
+</div>
+`;

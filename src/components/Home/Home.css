@@ -1,0 +1,12 @@
+.Home {
+  display: flex;
+  justify-content: center;
+  width: 100%; }
+  @media (max-width: 767px) {
+    .Home > div.pane {
+      width: 100%; } }
+  @media (min-width: 768px) {
+    .Home > div.pane {
+      width: 300px; }
+      .Home > div.pane.center {
+        margin: 0 10px; } }

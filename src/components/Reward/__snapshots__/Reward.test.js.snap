@@ -12,16 +12,6 @@ exports[`snapshot testing should match snapshot with bet but wrong result 1`] = 
 </Segment>
 `;
 
-exports[`snapshot testing should match snapshot with bets 1`] = `
-<Segment
-  color="grey"
-  inverted={true}
-  textAlign="center"
->
-  You lose
-</Segment>
-`;
-
 exports[`snapshot testing should match snapshot with matched result 1`] = `
 <Segment
   color="green"
