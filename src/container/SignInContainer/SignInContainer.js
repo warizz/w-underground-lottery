@@ -1,8 +1,8 @@
 import React from 'react';
-import { PropTypes } from 'prop-types';
-import SignInPage from '../components/SignIn';
+import PropTypes from 'prop-types';
+import SignIn from '../../components/SignIn';
 
-export class SignInContainer extends React.Component {
+class SignInContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -55,7 +55,7 @@ export class SignInContainer extends React.Component {
   render() {
     const { alertText, fetching } = this.state;
     return (
-      <SignInPage
+      <SignIn
         errorText={alertText}
         fetching={fetching}
         onSignIn={this.authenFacebook}

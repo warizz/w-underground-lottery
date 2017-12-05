@@ -1,21 +1,7 @@
 /* eslint-disable max-len */
 import React from 'react';
 import { mount, shallow } from 'enzyme';
-import { createStore } from 'redux';
-import { Provider } from 'react-redux';
-import reducer from '../../reducers/index';
-import ConnectedContainer, { SignInContainer } from '../../container/sign-in';
-
-it('should render connected component', () => {
-  const store = createStore(reducer);
-  const wrapper = mount(
-    <Provider store={store}>
-      <ConnectedContainer />
-    </Provider>
-  );
-
-  expect(wrapper.find('div.sign-in').exists()).toBe(true);
-});
+import Uut from './';
 
 describe('lifecycle functions', () => {
   describe('componentDidMount', () => {
@@ -30,7 +16,7 @@ describe('lifecycle functions', () => {
           push: pushMock,
         },
       };
-      mount(<SignInContainer {...props} />);
+      mount(<Uut {...props} />);
       expect(hasItemMock).toHaveBeenCalledTimes(1);
       expect(pushMock).toHaveBeenCalledTimes(0);
     });
@@ -45,7 +31,7 @@ describe('lifecycle functions', () => {
           push: pushMock,
         },
       };
-      mount(<SignInContainer {...props} />);
+      mount(<Uut {...props} />);
       expect(hasItemMock).toHaveBeenCalledTimes(1);
       expect(pushMock).toHaveBeenCalledTimes(1);
       expect(pushMock).toHaveBeenCalledWith('/');
@@ -61,7 +47,7 @@ describe('internal functions', () => {
       window.FB = {
         login: fbLogInMock,
       };
-      const wrapper = mount(<SignInContainer />);
+      const wrapper = mount(<Uut />);
       wrapper.instance().authenFacebook();
       wrapper.update();
       expect(fbLogInMock).toHaveBeenCalledTimes(1);
@@ -75,7 +61,7 @@ describe('internal functions', () => {
       window.FB = {
         login: fbLogInMock,
       };
-      const wrapper = mount(<SignInContainer />);
+      const wrapper = mount(<Uut />);
       await wrapper.instance().authenFacebook();
       wrapper.update();
       expect(fbLogInMock).toHaveBeenCalledTimes(1);
@@ -95,19 +81,19 @@ describe('internal functions', () => {
         cookieManager: {
           setItem: setItemMock,
         },
+        router: {
+          push: pushMock,
+        },
         service: {
           data: {
             logIn: serverLogInMock,
           },
         },
-        router: {
-          push: pushMock,
-        },
       };
       window.FB = {
         login: fbLogInMock,
       };
-      const wrapper = shallow(<SignInContainer {...props} />);
+      const wrapper = shallow(<Uut {...props} />);
       await wrapper.instance().authenFacebook();
       wrapper.update();
       expect(fbLogInMock).toHaveBeenCalledTimes(1);

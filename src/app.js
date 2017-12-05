@@ -11,7 +11,7 @@ import LayoutContainer from './container/layout';
 import ConnectedDashboardContainer from './container/dashboard';
 import ConnectedHistoryContainer from './container/history';
 import ConnectedHomeContainer from './container/home';
-import ConnectedSignInContainer from './container/sign-in';
+import SignInContainer from './container/SignInContainer';
 import reducer from './reducers/index';
 import lib from './constants/lib';
 import CookieManager from './helper/cookie-manager';
@@ -24,28 +24,47 @@ const App = () => (
     <Router history={browserHistory}>
       <Route
         component={props => (
-          <ConnectedSignInContainer {...props} cookieManager={docCookies} service={service} />
+          <SignInContainer
+            {...props}
+            cookieManager={docCookies}
+            service={service}
+          />
         )}
         path='/log-in'
       />
-      <Route component={LayoutContainer} onEnter={lib.initApplicationState(store, cookieManager)}>
+      <Route
+        component={LayoutContainer}
+        onEnter={lib.initApplicationState(store, cookieManager)}
+      >
         <IndexRoute
           component={props => (
-            <ConnectedHomeContainer {...props} cookieManager={docCookies} service={service} />
+            <ConnectedHomeContainer
+              {...props}
+              cookieManager={docCookies}
+              service={service}
+            />
           )}
         />
         <Route
           component={props => (
-            <ConnectedHomeContainer {...props} cookieManager={docCookies} service={service} />
+            <ConnectedHomeContainer
+              {...props}
+              cookieManager={docCookies}
+              service={service}
+            />
           )}
           path='/'
         />
         <Route
-          component={props => <ConnectedHistoryContainer {...props} service={service} />}
+          component={props => (
+            <ConnectedHistoryContainer {...props} service={service} />
+          )}
           path='/history'
         />
         <Route
-          component={props => <ConnectedDashboardContainer {...props} service={service} />}
+          component={props => (
+            <ConnectedDashboardContainer {...props} service={service} />
+          )}
           path='/dashboard'
         />
       </Route>
