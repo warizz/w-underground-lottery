@@ -1,26 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import BetList from '../components/BetList';
-import BetEditor from '../components/bet-editor';
-import ResultDisplay from '../components/result-display';
-import UserProfile from '../components/user-profile';
-import service from '../services/index';
-import './home.css';
+import BetList from '../BetList';
+import BetEditor from '../bet-editor';
+import ResultDisplay from '../ResultDisplay';
+import Reward from '../Reward';
+import UserProfile from '../user-profile';
+import service from '../../services/index';
+import './Home.css';
 
-const HomePage = props => {
-  const {
-    currentPeriod,
-    user,
-    logOut,
-    handleSaveBet,
-    editingBet,
-    inputToggle,
-    setEditingBet,
-    handleDeleteBet,
-  } = props;
+const HomePage = ({
+  currentPeriod,
+  user,
+  logOut,
+  handleSaveBet,
+  editingBet,
+  inputToggle,
+  setEditingBet,
+  handleDeleteBet,
+}) => {
   let betEditorElement = null;
-  let resultDisplayElement = null;
+
   if (currentPeriod.isOpen) {
     betEditorElement = (
       <BetEditor
@@ -30,19 +30,9 @@ const HomePage = props => {
       />
     );
   }
-  if (currentPeriod.result) {
-    resultDisplayElement = (
-      <div id='result-display-container' style={{ margin: '0 0 10px 0' }}>
-        <ResultDisplay
-          {...currentPeriod.result}
-          bets={currentPeriod.bets}
-          endedAt={moment(currentPeriod.endedAt).format('DD MMM YYYY')}
-        />
-      </div>
-    );
-  }
+
   return (
-    <div className='home'>
+    <div className='Home'>
       <div className='pane visible-md visible-lg'>
         <UserProfile logOutHandler={logOut} user={user} />
       </div>
@@ -57,7 +47,12 @@ const HomePage = props => {
         >
           {betEditorElement}
         </div>
-        {resultDisplayElement}
+        {currentPeriod.result && (
+          <div style={{ margin: '0 0 8px 0' }}>
+            <Reward bets={currentPeriod.bets} result={currentPeriod.result} />
+            <ResultDisplay {...currentPeriod.result} />
+          </div>
+        )}
         <BetList
           bets={currentPeriod.bets}
           calculateTicketPrice={service.calculation.calculateTicketPrice}
@@ -82,27 +77,27 @@ const HomePage = props => {
 
 HomePage.propTypes = {
   currentPeriod: PropTypes.shape({
-    id: PropTypes.string,
     bets: PropTypes.arrayOf(PropTypes.shape({})),
+    id: PropTypes.string,
   }),
-  user: PropTypes.shape({}),
-  logOut: PropTypes.func,
-  handleSaveBet: PropTypes.func,
-  handleDeleteBet: PropTypes.func,
   editingBet: PropTypes.shape({}),
+  handleDeleteBet: PropTypes.func,
+  handleSaveBet: PropTypes.func,
   inputToggle: PropTypes.func,
+  logOut: PropTypes.func,
   setEditingBet: PropTypes.func,
+  user: PropTypes.shape({}),
 };
 
 HomePage.defaultProps = {
   currentPeriod: {},
-  user: {},
-  logOut() {},
-  handleSaveBet() {},
-  handleDeleteBet() {},
   editingBet: {},
+  handleDeleteBet() {},
+  handleSaveBet() {},
   inputToggle() {},
+  logOut() {},
   setEditingBet() {},
+  user: {},
 };
 
 export default HomePage;
