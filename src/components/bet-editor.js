@@ -1,5 +1,5 @@
 import React from 'react';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import service from '../services/index';
 import Card from './Card';
 import './bet-editor.css';
