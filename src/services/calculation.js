@@ -86,7 +86,7 @@ const checkReward = (result, callback) => (bet) => {
   }
 
   if (bet.number.length === 2) {
-    const reward = 70;
+    const reward = 68;
 
     // บน
     if (bet.price1) {
