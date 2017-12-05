@@ -43,7 +43,7 @@ class BetItem extends React.Component<Props> {
         price1Reward = bet.price1 * 2;
         break;
       case 2:
-        price1Reward = bet.price1 * 70;
+        price1Reward = bet.price1 * 68;
         break;
       case 3:
         price1Reward = bet.price1 * 500;
@@ -56,7 +56,7 @@ class BetItem extends React.Component<Props> {
         price2Reward = bet.price2 * 3;
         break;
       case 2:
-        price2Reward = bet.price2 * 70;
+        price2Reward = bet.price2 * 68;
         break;
       case 3:
         price2Reward = bet.price2 * 100;
@@ -66,7 +66,7 @@ class BetItem extends React.Component<Props> {
     let price3Reward;
     switch (bet.number.length) {
       case 2:
-        price3Reward = bet.price3 * 70;
+        price3Reward = bet.price3 * 68;
         break;
       case 3:
         price3Reward = bet.price3 * 100;
