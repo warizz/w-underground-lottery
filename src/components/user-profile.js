@@ -1,5 +1,5 @@
 import React from 'react';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import Link from 'react-router/lib/Link';
 import Card from './Card';
 import './user-profile.css';

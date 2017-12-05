@@ -55,12 +55,15 @@ const SummaryPage = props => {
   // this will group bet of each buyer
   const buyers = temp.map(buyer => ({
     bets: bets.filter(betItem => betItem.createdBy.name === buyer),
-    id: bets.filter(betItem => betItem.createdBy.name === buyer)[0].createdBy.id,
+    id: bets.filter(betItem => betItem.createdBy.name === buyer)[0].createdBy
+      .id,
     name: buyer,
   }));
 
   const result = currentPeriod.result;
-  const total = bets.map(service.calculation.calculateTotal(result)).reduce((a, b) => a + b, 0);
+  const total = bets
+    .map(service.calculation.calculateTotal(result))
+    .reduce((a, b) => a + b, 0);
 
   return (
     <div className='summary-component'>
@@ -89,7 +92,10 @@ const SummaryPage = props => {
             // block clicking while processing payment
             if (paying === buyer.name) {
               paymentStatusElement = (
-                <span className='payment-status-processing' style={{ fontWeight: 'bold' }}>
+                <span
+                  className='payment-status-processing'
+                  style={{ fontWeight: 'bold' }}
+                >
                   ...
                 </span>
               );
@@ -133,9 +139,19 @@ const SummaryPage = props => {
                       className += ' paid';
                     }
 
-                    const rewardCallback = (number, price, reward, rewardType) =>
-                      `ถูก ${rewardType} [${number}] ${price} x ${reward} = ${price * reward} บาท`;
-                    const reward = service.calculation.checkReward(result, rewardCallback)(betItem);
+                    const rewardCallback = (
+                      number,
+                      price,
+                      reward,
+                      rewardType
+                    ) =>
+                      `ถูก ${rewardType} [${number}] ${price} x ${
+                        reward
+                      } = ${price * reward} บาท`;
+                    const reward = service.calculation.checkReward(
+                      result,
+                      rewardCallback
+                    )(betItem);
 
                     if (reward) {
                       className += ' win';
@@ -152,7 +168,12 @@ const SummaryPage = props => {
                     }
 
                     const { number, price1, price2, price3 } = betItem;
-                    const bet = TextBuilder.buildTicketSummary(number, price1, price2, price3);
+                    const bet = TextBuilder.buildTicketSummary(
+                      number,
+                      price1,
+                      price2,
+                      price3
+                    );
                     const id = `bet-it--${betItem.id}`;
 
                     return (

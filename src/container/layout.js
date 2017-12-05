@@ -4,7 +4,9 @@ import { browserHistory } from 'react-router';
 import action from '../actions/index';
 import LayoutPage from '../pages/layout';
 
-const LayoutContainer = props => <LayoutPage {...props} goBack={browserHistory.goBack} />;
+const LayoutContainer = props => (
+  <LayoutPage {...props} goBack={browserHistory.goBack} />
+);
 
 const mapStateToProps = state => ({
   alert: state.layout.alert,
@@ -13,4 +15,6 @@ const mapStateToProps = state => ({
   user: state.user.user,
 });
 
-export default connect(mapStateToProps, { setAlert: action.layout.setAlert })(LayoutContainer);
+export default connect(mapStateToProps, { setAlert: action.layout.setAlert })(
+  LayoutContainer
+);

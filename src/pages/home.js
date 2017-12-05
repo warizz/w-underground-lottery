@@ -23,7 +23,11 @@ const HomePage = props => {
   let resultDisplayElement = null;
   if (currentPeriod.isOpen) {
     betEditorElement = (
-      <BetEditor editingBet={editingBet} onClose={inputToggle} saveBetHandler={handleSaveBet} />
+      <BetEditor
+        editingBet={editingBet}
+        onClose={inputToggle}
+        saveBetHandler={handleSaveBet}
+      />
     );
   }
   if (currentPeriod.result) {
@@ -46,7 +50,11 @@ const HomePage = props => {
         <div className='visible-xs visible-sm' style={{ display: 'flex' }}>
           <UserProfile logOutHandler={logOut} user={user} />
         </div>
-        <div className='visible-xs' id='bet-editor-container' style={{ display: 'flex' }}>
+        <div
+          className='visible-xs'
+          id='bet-editor-container'
+          style={{ display: 'flex' }}
+        >
           {betEditorElement}
         </div>
         {resultDisplayElement}
@@ -60,7 +68,11 @@ const HomePage = props => {
         />
       </div>
       <div className='hidden-xs'>
-        <div className='hidden-xs' id='bet-editor-container' style={{ display: 'flex' }}>
+        <div
+          className='hidden-xs'
+          id='bet-editor-container'
+          style={{ display: 'flex' }}
+        >
           {betEditorElement}
         </div>
       </div>
