@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`snapshot testing should match snapshot when no props 1`] = `null`;
+
+exports[`snapshot testing should match snapshot with bet but wrong result 1`] = `
+<Segment
+  color="grey"
+  inverted={true}
+  textAlign="center"
+>
+  You lose
+</Segment>
+`;
+
+exports[`snapshot testing should match snapshot with bets 1`] = `
+<Segment
+  color="grey"
+  inverted={true}
+  textAlign="center"
+>
+  You lose
+</Segment>
+`;
+
+exports[`snapshot testing should match snapshot with matched result 1`] = `
+<Segment
+  color="green"
+  inverted={true}
+  textAlign="center"
+>
+  <div>
+    <strong>
+      You win!
+    </strong>
+    <p
+      key="ถูก ล่าง [123] 30 x 100 = 3000 บาท"
+    >
+      ถูก ล่าง [123] 30 x 100 = 3000 บาท
+    </p>
+  </div>
+</Segment>
+`;

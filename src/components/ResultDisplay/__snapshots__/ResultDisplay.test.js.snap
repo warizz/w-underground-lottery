@@ -1,0 +1,95 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`snapshot testing should match snapshot when no props 1`] = `
+<SegmentGroup
+  className="ResultDisplay"
+  size="massive"
+>
+  <Segment
+    color="green"
+    textAlign="center"
+  >
+    -
+  </Segment>
+  <Segment
+    textAlign="center"
+  >
+    -
+  </Segment>
+  <SegmentGroup
+    horizontal={true}
+  >
+    <Segment
+      textAlign="center"
+    >
+      -
+    </Segment>
+    <Segment
+      textAlign="center"
+    >
+      -
+    </Segment>
+  </SegmentGroup>
+  <SegmentGroup
+    horizontal={true}
+  >
+    <Segment
+      textAlign="center"
+    >
+      -
+    </Segment>
+    <Segment
+      textAlign="center"
+    >
+      -
+    </Segment>
+  </SegmentGroup>
+</SegmentGroup>
+`;
+
+exports[`snapshot testing should match snapshot with result 1`] = `
+<SegmentGroup
+  className="ResultDisplay"
+  size="massive"
+>
+  <Segment
+    color="green"
+    textAlign="center"
+  >
+    123456
+  </Segment>
+  <Segment
+    textAlign="center"
+  >
+    69
+  </Segment>
+  <SegmentGroup
+    horizontal={true}
+  >
+    <Segment
+      textAlign="center"
+    >
+      123
+    </Segment>
+    <Segment
+      textAlign="center"
+    >
+      456
+    </Segment>
+  </SegmentGroup>
+  <SegmentGroup
+    horizontal={true}
+  >
+    <Segment
+      textAlign="center"
+    >
+      789
+    </Segment>
+    <Segment
+      textAlign="center"
+    >
+      101
+    </Segment>
+  </SegmentGroup>
+</SegmentGroup>
+`;

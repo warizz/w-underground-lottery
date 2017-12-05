@@ -4,23 +4,23 @@ import moment from 'moment';
 import BetList from '../components/BetList';
 import BetEditor from '../components/bet-editor';
 import ResultDisplay from '../components/ResultDisplay';
+import Reward from '../components/Reward';
 import UserProfile from '../components/user-profile';
 import service from '../services/index';
 import './home.css';
 
-const HomePage = props => {
-  const {
-    currentPeriod,
-    user,
-    logOut,
-    handleSaveBet,
-    editingBet,
-    inputToggle,
-    setEditingBet,
-    handleDeleteBet,
-  } = props;
+const HomePage = ({
+  currentPeriod,
+  user,
+  logOut,
+  handleSaveBet,
+  editingBet,
+  inputToggle,
+  setEditingBet,
+  handleDeleteBet,
+}) => {
   let betEditorElement = null;
-  let resultDisplayElement = null;
+
   if (currentPeriod.isOpen) {
     betEditorElement = (
       <BetEditor
@@ -30,17 +30,7 @@ const HomePage = props => {
       />
     );
   }
-  if (currentPeriod.result) {
-    resultDisplayElement = (
-      <div id='result-display-container' style={{ margin: '0 0 10px 0' }}>
-        <ResultDisplay
-          {...currentPeriod.result}
-          bets={currentPeriod.bets}
-          endedAt={moment(currentPeriod.endedAt).format('DD MMM YYYY')}
-        />
-      </div>
-    );
-  }
+
   return (
     <div className='home'>
       <div className='pane visible-md visible-lg'>
@@ -57,7 +47,12 @@ const HomePage = props => {
         >
           {betEditorElement}
         </div>
-        {resultDisplayElement}
+        {currentPeriod.result && (
+          <div style={{ margin: '0 0 8px 0' }}>
+            <Reward bets={currentPeriod.bets} result={currentPeriod.result} />
+            <ResultDisplay {...currentPeriod.result} />
+          </div>
+        )}
         <BetList
           bets={currentPeriod.bets}
           calculateTicketPrice={service.calculation.calculateTicketPrice}

@@ -46,7 +46,7 @@ const checkReward = (result, callback) => bet => {
     UPPER: 'บน',
   };
 
-  if (!result) {
+  if (!result || Object.keys(result).length === 0) {
     return null;
   }
 
