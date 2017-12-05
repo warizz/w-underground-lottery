@@ -1,0 +1,102 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`snapshot testing should match snapshot when no props 1`] = `null`;
+
+exports[`snapshot testing should match snapshot with props.user 1`] = `
+<Card
+  className="UserProfile"
+  fluid={true}
+>
+  <CardContent>
+    <Image
+      as="img"
+      circular={true}
+      floated="left"
+      size="mini"
+      src="Warizz.jpg"
+      ui={true}
+    />
+    <CardHeader>
+      Warizz
+    </CardHeader>
+    <CardMeta>
+      User
+    </CardMeta>
+  </CardContent>
+  <CardContent
+    extra={true}
+  >
+    <Link
+      onlyActiveOnIndex={false}
+      style={Object {}}
+      to="/history"
+    >
+      See history
+    </Link>
+  </CardContent>
+  <CardContent
+    extra={true}
+  >
+    <button
+      onClick={[Function]}
+    >
+      Log out
+    </button>
+  </CardContent>
+</Card>
+`;
+
+exports[`snapshot testing should match snapshot with props.user as admin 1`] = `
+<Card
+  className="UserProfile"
+  fluid={true}
+>
+  <CardContent>
+    <Image
+      as="img"
+      circular={true}
+      floated="left"
+      size="mini"
+      src="Warizz.jpg"
+      ui={true}
+    />
+    <CardHeader>
+      Warizz
+    </CardHeader>
+    <CardMeta>
+      Admin
+    </CardMeta>
+  </CardContent>
+  <CardContent
+    extra={true}
+  >
+    <Link
+      onlyActiveOnIndex={false}
+      style={Object {}}
+      to="/dashboard"
+    >
+      Go to admin dashboard
+    </Link>
+  </CardContent>
+  <CardContent
+    extra={true}
+  >
+    <Link
+      onlyActiveOnIndex={false}
+      style={Object {}}
+      to="/history"
+    >
+      See history
+    </Link>
+  </CardContent>
+  <CardContent
+    extra={true}
+  >
+    <button
+      onClick={[Function]}
+    >
+      Log out
+    </button>
+  </CardContent>
+</Card>
+`;

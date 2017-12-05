@@ -7,7 +7,7 @@
 
     @media (max-width: 767px)
     {
-         > div.pane
+         > .pane
         {
             width: 100%;
         }
@@ -15,7 +15,7 @@
 
     @media (min-width: 768px)
     {
-         > div.pane
+         > .pane
         {
             width: 300px;
 
