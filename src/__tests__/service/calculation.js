@@ -140,7 +140,7 @@ describe('service.calculation', () => {
         const assertFunc = (number, price, reward, type) => {
           expect(number).toBe(bet.number);
           expect(price).toBe('10');
-          expect(reward).toBe(70);
+          expect(reward).toBe(68);
           expect(type).toBe(rewardType.UPPER);
         };
         checkReward(result, assertFunc)(bet);
@@ -154,7 +154,7 @@ describe('service.calculation', () => {
         const assertFunc = (number, price, reward, type) => {
           expect(number).toBe(bet.number);
           expect(price).toBe('20');
-          expect(reward).toBe(70);
+          expect(reward).toBe(68);
           expect(type).toBe(rewardType.BELOW);
         };
         checkReward(result, assertFunc)(bet);
