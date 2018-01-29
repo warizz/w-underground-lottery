@@ -236,19 +236,15 @@ function updatePeriod(id, update) {
   });
 }
 
-function updateResult() {
+function updateResult({ periodId }) {
   const token = docCookies.getItem(`fbat_${fbAppId}`);
-  return new Promise((resolve, reject) => {
-    axios
-      .request({
-        baseURL,
-        headers: { 'x-access-token': token },
-        method: 'post',
-        url: '/results',
-      })
-      .then(() => resolve())
-      .catch(reject);
-  });
+  const config = {
+    baseURL,
+    headers: { 'x-access-token': token },
+    method: 'GET',
+    url: `/periods/${periodId}/results`,
+  };
+  return axios.request(config).then(res => res.data);
 }
 
 export default {
