@@ -12,13 +12,15 @@ describe('service.data.period', () => {
 
   describe('getCurrentPeriod', () => {
     it('should success with data', done => {
-      nock(host).get('/period').reply(200, {
-        bets: [
-          {
-            createdAt: new Date(2017, 1, 1).getTime(),
-          },
-        ],
-      });
+      nock(host)
+        .get('/period')
+        .reply(200, {
+          bets: [
+            {
+              createdAt: new Date(2017, 1, 1).getTime(),
+            },
+          ],
+        });
 
       service.data.getCurrentPeriod().then(res => {
         expect(res.bets).toBeTruthy();
@@ -28,9 +30,11 @@ describe('service.data.period', () => {
 
     // eslint-disable-next-line max-len
     it('should success with data (normalising when bet has no createdAt)', done => {
-      nock(host).get('/period').reply(200, {
-        bets: [{}],
-      });
+      nock(host)
+        .get('/period')
+        .reply(200, {
+          bets: [{}],
+        });
 
       service.data.getCurrentPeriod().then(res => {
         expect(res.bets).toBeTruthy();
@@ -40,7 +44,9 @@ describe('service.data.period', () => {
 
     // eslint-disable-next-line max-len
     it('should success with data (normalising when period has no bets)', done => {
-      nock(host).get('/period').reply(200, {});
+      nock(host)
+        .get('/period')
+        .reply(200, {});
 
       service.data.getCurrentPeriod().then(res => {
         expect(res.bets).toBeTruthy();
@@ -49,7 +55,9 @@ describe('service.data.period', () => {
     });
 
     it('should success without data', done => {
-      nock(host).get('/period').reply(200);
+      nock(host)
+        .get('/period')
+        .reply(200);
 
       service.data.getCurrentPeriod().then(res => {
         expect(res).toBeUndefined();
@@ -60,7 +68,9 @@ describe('service.data.period', () => {
 
   describe('getHistory', () => {
     it('should success', done => {
-      nock(host).get('/history').reply(200);
+      nock(host)
+        .get('/history')
+        .reply(200);
 
       service.data.getHistory().then(done);
     });
@@ -68,7 +78,9 @@ describe('service.data.period', () => {
 
   describe('getSummary', () => {
     it('should success', done => {
-      nock(host).get('/summary/1234').reply(200);
+      nock(host)
+        .get('/summary/1234')
+        .reply(200);
 
       service.data.getSummary('1234').then(done);
     });
@@ -76,7 +88,9 @@ describe('service.data.period', () => {
 
   describe('openPeriod', () => {
     it('should success', done => {
-      nock(host).post('/periods/latest').reply(200);
+      nock(host)
+        .post('/periods/latest')
+        .reply(200);
 
       service.data.openPeriod(new Date(2017, 1, 1)).then(done);
     });
@@ -84,17 +98,11 @@ describe('service.data.period', () => {
 
   describe('updatePeriod', () => {
     it('should success', done => {
-      nock(host).patch('/periods/latest').reply(200);
+      nock(host)
+        .patch('/periods/latest')
+        .reply(200);
 
       service.data.updatePeriod({}).then(done);
-    });
-  });
-
-  describe('updateResult', () => {
-    it('should success', done => {
-      nock(host).post('/results').reply(200);
-
-      service.data.updateResult({}).then(done);
     });
   });
 });

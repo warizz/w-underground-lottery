@@ -78,7 +78,7 @@ export class DashboardContainer extends React.Component {
   updateResult = () => {
     this.setState({ isUpdatingResult: true });
     return this.props.service.data
-      .updateResult()
+      .updateResult({ periodId: this.props.currentPeriod.id })
       .then(() => this.setState({ isUpdatingResult: false }));
   };
   render() {
