@@ -39,7 +39,7 @@
     "react-test-renderer": "^15.5.4"
   },
   "name": "w-underground-lottery",
-  "version": "4.3.5",
+  "version": "4.4.0",
   "private": false,
   "scripts": {
     "start-js": "react-scripts start",
@@ -54,8 +54,7 @@
     "lint": "eslint --fix --ext .jsx,.js src/",
     "precommit": "npm run format && npm run lint",
     "build-css": "node-sass-chokidar src/ -o src/",
-    "watch-css":
-      "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive"
+    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive"
   },
   "jest": {
     "collectCoverageFrom": [
@@ -69,6 +68,8 @@
       "!src/constants/*.js",
       "!src/reducers/*.js"
     ],
-    "snapshotSerializers": ["enzyme-to-json/serializer"]
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ]
   }
 }
