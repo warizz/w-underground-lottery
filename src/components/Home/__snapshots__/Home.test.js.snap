@@ -44,7 +44,7 @@ exports[`snapshot testing should match snapshot when no props 1`] = `
       deleteHandler={[Function]}
       editHandler={[Function]}
       isEditable={false}
-      periodEndedAt="05 Dec 2017"
+      periodEndedAt="01 Jan 2017"
     />
   </div>
   <div
@@ -113,7 +113,7 @@ exports[`snapshot testing should match snapshot when props.currentPeriod.isOpen 
       deleteHandler={[Function]}
       editHandler={[Function]}
       isEditable={true}
-      periodEndedAt="05 Dec 2017"
+      periodEndedAt="01 Jan 2017"
     />
   </div>
   <div
@@ -202,7 +202,7 @@ exports[`snapshot testing should match snapshot when props.currentPeriod.result 
       deleteHandler={[Function]}
       editHandler={[Function]}
       isEditable={false}
-      periodEndedAt="05 Dec 2017"
+      periodEndedAt="01 Feb 2017"
     />
   </div>
   <div

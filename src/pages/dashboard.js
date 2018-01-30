@@ -95,20 +95,15 @@ const DashboardPage = props => {
 };
 
 DashboardPage.propTypes = {
+  closeButtonClickedCallback: PropTypes.func,
   currentPeriod: PropTypes.shape({
     id: PropTypes.string,
     isOpen: PropTypes.bool,
   }),
   endDate: PropTypes.string.isRequired,
   endDateChangedCallback: PropTypes.func,
-  closeButtonClickedCallback: PropTypes.func,
+  isUpdatingResult: PropTypes.bool,
   openPeriodClickedCallback: PropTypes.func,
-  updateResultClickedCallback: PropTypes.func,
-  summary: PropTypes.shape({
-    bets: PropTypes.arrayOf(PropTypes.shape({})),
-  }),
-  setAlert: PropTypes.func,
-  setPaid: PropTypes.func,
   service: PropTypes.shape({
     data: PropTypes.shape({
       getCurrentPeriod: PropTypes.func,
@@ -116,7 +111,12 @@ DashboardPage.propTypes = {
       updatePeriod: PropTypes.func,
     }),
   }),
-  isUpdatingResult: PropTypes.bool,
+  setAlert: PropTypes.func,
+  setPaid: PropTypes.func,
+  summary: PropTypes.shape({
+    bets: PropTypes.arrayOf(PropTypes.shape({})),
+  }),
+  updateResultClickedCallback: PropTypes.func,
 };
 
 DashboardPage.defaultProps = {

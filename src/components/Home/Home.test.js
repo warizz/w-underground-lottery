@@ -5,7 +5,12 @@ import Uut from './';
 
 describe('snapshot testing', () => {
   it('should match snapshot when no props', () => {
-    const wrapper = shallow(<Uut />);
+    const props = {
+      currentPeriod: {
+        endedAt: new Date(2017, 0, 1),
+      },
+    };
+    const wrapper = shallow(<Uut {...props} />);
     const tree = toJson(wrapper);
     expect(tree).toMatchSnapshot();
   });
@@ -13,6 +18,7 @@ describe('snapshot testing', () => {
   it('should match snapshot when props.currentPeriod.isOpen', () => {
     const props = {
       currentPeriod: {
+        endedAt: new Date(2017, 0, 1),
         isOpen: true,
       },
     };
@@ -24,6 +30,7 @@ describe('snapshot testing', () => {
   it('should match snapshot when props.currentPeriod.result', () => {
     const props = {
       currentPeriod: {
+        endedAt: new Date(2017, 1, 1),
         result: {},
       },
     };
