@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+
 import App from './app';
 import registerServiceWorker from './registerServiceWorker';
 import 'semantic-ui-css/semantic.min.css';
@@ -9,8 +10,8 @@ import 'semantic-ui-css/semantic.min.css';
     window.FB.init({
       appId: process.env.REACT_APP_FB_APP_ID,
       cookie: true,
-      xfbml: true,
       version: 'v2.8',
+      xfbml: true,
     });
     window.FB.AppEvents.logPageView();
   };

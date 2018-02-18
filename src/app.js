@@ -6,15 +6,16 @@ import IndexRoute from 'react-router/lib/IndexRoute';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import docCookies from 'doc-cookies';
+
 import service from './services/index';
-import LayoutContainer from './container/layout';
+import Layout from './components/Layout';
 import ConnectedDashboardContainer from './container/dashboard';
 import ConnectedHistoryContainer from './container/history';
 import ConnectedHomeContainer from './container/home';
 import SignInContainer from './container/SignInContainer';
 import reducer from './reducers/index';
-import lib from './constants/lib';
 import CookieManager from './helper/cookie-manager';
+import proxy from './proxy';
 
 const store = createStore(reducer);
 const cookieManager = new CookieManager(docCookies);
@@ -33,8 +34,9 @@ const App = () => (
         path="/log-in"
       />
       <Route
-        component={LayoutContainer}
-        onEnter={lib.initApplicationState(store, cookieManager)}>
+        component={props => (
+          <Layout {...props} cookieManager={cookieManager} proxy={proxy} />
+        )}>
         <IndexRoute
           component={props => (
             <ConnectedHomeContainer
