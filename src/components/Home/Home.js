@@ -32,22 +32,20 @@ const HomePage = ({
   }
 
   return (
-    <div className='Home'>
-      <div className='pane visible-md visible-lg'>
+    <div className="Home">
+      <div className="pane visible-md visible-lg">
         <UserProfile onLogOut={logOut} user={user} />
       </div>
-      <div className='pane center'>
+      <div className="pane center">
         <div
-          className='visible-xs visible-sm'
-          style={{ display: 'flex', margin: '0 0 8px 0' }}
-        >
+          className="visible-xs visible-sm"
+          style={{ display: 'flex', margin: '0 0 8px 0' }}>
           <UserProfile onLogOut={logOut} user={user} />
         </div>
         <div
-          className='visible-xs'
-          id='bet-editor-container'
-          style={{ display: 'flex' }}
-        >
+          className="visible-xs"
+          id="bet-editor-container"
+          style={{ display: 'flex' }}>
           {betEditorElement}
         </div>
         {currentPeriod.result && (
@@ -65,12 +63,11 @@ const HomePage = ({
           periodEndedAt={moment(currentPeriod.endedAt).format('DD MMM YYYY')}
         />
       </div>
-      <div className='hidden-xs'>
+      <div className="hidden-xs">
         <div
-          className='hidden-xs'
-          id='bet-editor-container'
-          style={{ display: 'flex' }}
-        >
+          className="hidden-xs"
+          id="bet-editor-container"
+          style={{ display: 'flex' }}>
           {betEditorElement}
         </div>
       </div>

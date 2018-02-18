@@ -6,7 +6,7 @@ import './SignIn.css';
 
 const SignIn = ({ awaiting, errorText, onSignIn }) => {
   return (
-    <div className='SignIn'>
+    <div className="SignIn">
       <Button loading={awaiting} onClick={onSignIn} primary>
         Sign in with Facebook
       </Button>

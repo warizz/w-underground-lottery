@@ -26,10 +26,10 @@ class SignInContainer extends React.Component {
           const accessToken = res.authResponse.accessToken;
           return this.props.service.data
             .logIn(accessToken)
-            .then(({ access_token }) => {
+            .then(({ access_token: accessToken }) => {
               this.props.cookieManager.setItem(
                 `fbat_${process.env.REACT_APP_FB_APP_ID}`,
-                access_token,
+                accessToken,
                 60 * 60 * 24 * 30
               );
               this.setState({ fetching: false });

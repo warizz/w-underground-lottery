@@ -12,18 +12,18 @@ const ResultDisplay = ({
   fourthThree,
 }) => {
   return (
-    <Segment.Group className='ResultDisplay' size='massive'>
-      <Segment color='green' textAlign='center'>
+    <Segment.Group className="ResultDisplay" size="massive">
+      <Segment color="green" textAlign="center">
         {six}
       </Segment>
-      <Segment textAlign='center'>{two}</Segment>
+      <Segment textAlign="center">{two}</Segment>
       <Segment.Group horizontal>
-        <Segment textAlign='center'>{firstThree}</Segment>
-        <Segment textAlign='center'>{secondThree}</Segment>
+        <Segment textAlign="center">{firstThree}</Segment>
+        <Segment textAlign="center">{secondThree}</Segment>
       </Segment.Group>
       <Segment.Group horizontal>
-        <Segment textAlign='center'>{thirdThree}</Segment>
-        <Segment textAlign='center'>{fourthThree}</Segment>
+        <Segment textAlign="center">{thirdThree}</Segment>
+        <Segment textAlign="center">{fourthThree}</Segment>
       </Segment.Group>
     </Segment.Group>
   );

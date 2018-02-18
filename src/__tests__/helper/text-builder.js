@@ -16,6 +16,11 @@ it('should return expected result when call buildTicketSummary()', () => {
 });
 
 it('should return expected result when call buildTicketSummary()', () => {
-  const result = TextBuilder.buildTicketSummary('123', undefined, undefined, 30);
+  const result = TextBuilder.buildTicketSummary(
+    '123',
+    undefined,
+    undefined,
+    30
+  );
   expect(result).toBe('123 = ล่าง 30');
 });

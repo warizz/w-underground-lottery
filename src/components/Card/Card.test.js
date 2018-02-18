@@ -5,7 +5,7 @@ import Sut from './index';
 it('should render children', () => {
   const wrapper = shallow(
     <Sut>
-      <div className='test-element'>test-text</div>
+      <div className="test-element">test-text</div>
     </Sut>
   );
 

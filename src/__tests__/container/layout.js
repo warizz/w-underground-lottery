@@ -12,7 +12,7 @@ it('should render layout component', () => {
   const wrapper = mount(
     <Provider store={store}>
       <LayoutContainer />
-    </Provider>,
+    </Provider>
   );
 
   expect(wrapper.find('div.layout-component').exists()).toBe(true);

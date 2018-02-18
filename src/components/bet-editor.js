@@ -156,80 +156,79 @@ class BetEditor extends React.Component {
   }
   render() {
     return (
-      <div className='bet-editor' id='bet-editor'>
+      <div className="bet-editor" id="bet-editor">
         <Card>
-          <div className='body'>
-            <div className='row'>
-              <div className='input-group'>
-                <label htmlFor='number'>เลข</label>
+          <div className="body">
+            <div className="row">
+              <div className="input-group">
+                <label htmlFor="number">เลข</label>
                 <input
-                  id='number'
+                  id="number"
                   onChange={this.handleNumberChange}
                   ref={input => {
                     this.numberInput = input;
                   }}
-                  type='number'
+                  type="number"
                   value={this.state.number}
                 />
               </div>
-              <div className='input-group'>
-                <button className='random' onClick={this.getRandomNumber}>
+              <div className="input-group">
+                <button className="random" onClick={this.getRandomNumber}>
                   random
                 </button>
               </div>
             </div>
-            <div className='row'>
-              <div className='input-group'>
+            <div className="row">
+              <div className="input-group">
                 {this.state.enablePrice3 === false && (
-                  <label htmlFor='price1'>บน</label>
+                  <label htmlFor="price1">บน</label>
                 )}
                 {this.state.enablePrice3 && (
-                  <label htmlFor='price1'>เต็ง</label>
+                  <label htmlFor="price1">เต็ง</label>
                 )}
                 <input
-                  id='price1'
+                  id="price1"
                   onChange={this.handlePriceChange('price1')}
                   ref={input => {
                     this.price1Input = input;
                   }}
-                  type='number'
+                  type="number"
                   value={this.state.price1}
                 />
               </div>
-              <div className='input-group'>
+              <div className="input-group">
                 {this.state.enablePrice3 === false && (
-                  <label htmlFor='price2'>ล่าง</label>
+                  <label htmlFor="price2">ล่าง</label>
                 )}
                 {this.state.enablePrice3 && (
-                  <label htmlFor='price1'>โต๊ด</label>
+                  <label htmlFor="price1">โต๊ด</label>
                 )}
                 <input
-                  id='price2'
+                  id="price2"
                   onChange={this.handlePriceChange('price2')}
-                  type='number'
+                  type="number"
                   value={this.state.price2}
                 />
               </div>
               <div
                 className={`input-group${
                   this.state.enablePrice3 ? ' visible' : ' hidden'
-                }`}
-              >
-                <label htmlFor='price3'>ล่าง</label>
+                }`}>
+                <label htmlFor="price3">ล่าง</label>
                 <input
-                  id='price3'
+                  id="price3"
                   onChange={this.handlePriceChange('price3')}
-                  type='number'
+                  type="number"
                   value={this.state.price3 || ''}
                 />
               </div>
             </div>
           </div>
-          <div className='action'>
-            <button className='border-right' onClick={this.reset}>
+          <div className="action">
+            <button className="border-right" onClick={this.reset}>
               reset
             </button>
-            <button className='primary' onClick={this.handleSaveBet}>
+            <button className="primary" onClick={this.handleSaveBet}>
               save
             </button>
           </div>

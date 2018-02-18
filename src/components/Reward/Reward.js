@@ -20,8 +20,7 @@ const Reward = ({ bets, result }) => {
     <Segment
       color={rewards.length > 0 ? 'green' : 'grey'}
       inverted
-      textAlign='center'
-    >
+      textAlign="center">
       {rewards.length > 0 ? (
         <div>
           <strong>You win!</strong>
