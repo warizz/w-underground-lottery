@@ -4,6 +4,7 @@
     "standard",
     "standard-jsx",
     "standard-react",
+    "plugin:import/errors",
     "plugin:jsx-a11y/recommended",
     "prettier",
     "prettier/flowtype",
@@ -26,6 +27,7 @@
       "parser": "flow"
     }],
     "react/jsx-sort-props": 2,
+    "react/require-default-props": 2,
     "quotes": [2, "single"],
     "semi": [2, "always"],
     "sort-keys": 1,
