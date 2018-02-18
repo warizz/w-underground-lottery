@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`snapshot testing should display placeholder when fetching initial data 1`] = `
+<styled.div>
+  <h1>
+    Initiating your data ...
+  </h1>
+</styled.div>
+`;
+
+exports[`snapshot testing should match snapshot when no props 1`] = `
+<div>
+  <Toolbar
+    onClickMainButton={[Function]}
+    pageName=""
+  />
+</div>
+`;
+
+exports[`snapshot testing should render content when have children 1`] = `
+<div>
+  <Toolbar
+    onClickMainButton={[Function]}
+    pageName=""
+  />
+  <styled.div>
+    <Snackbar
+      onClose={[Function]}
+      text=""
+      timer={1000}
+    />
+    <div>
+      test
+    </div>
+  </styled.div>
+</div>
+`;
