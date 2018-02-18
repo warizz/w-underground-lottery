@@ -10,7 +10,7 @@ type Props = {
   deleteHandler: (id: string) => void,
   editHandler: (bet: Bet) => void,
   periodEndedAt: string,
-  isEditable: boolean
+  isEditable: boolean,
 };
 
 const BetList = (props: Props) => {
@@ -29,14 +29,14 @@ const BetList = (props: Props) => {
   }
 
   return (
-    <div className='bet-list-component'>
+    <div className="bet-list-component">
       <Card>
-        <div className='title'>{periodEndedAt}</div>
-        <div className='body'>
+        <div className="title">{periodEndedAt}</div>
+        <div className="body">
           <b>{`total: ${total} ฿`}</b>
         </div>
       </Card>
-      <div className='list'>
+      <div className="list">
         {bets.length > 0 &&
           bets
             .sort((a, b) => {

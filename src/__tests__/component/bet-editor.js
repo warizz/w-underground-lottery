@@ -62,17 +62,31 @@ describe('handleNumberChange', () => {
   });
 
   it('should not allow number.length > 3', () => {
-    wrapper.find('input#number').simulate('change', { target: { value: '1234' } });
+    wrapper
+      .find('input#number')
+      .simulate('change', { target: { value: '1234' } });
     expect(wrapper.find('input#number').node.value).toBe('123');
   });
 
   it('should change parent of input#price3 from hidden to visible when number.length > 3', () => {
     wrapper.find('input#number').simulate('change', { target: { value: '1' } });
     expect(wrapper.find('input#number').node.value).toBe('1');
-    expect(wrapper.find('input#price3').parent().is('.input-group.hidden')).toBe(true);
-    wrapper.find('input#number').simulate('change', { target: { value: '123' } });
+    expect(
+      wrapper
+        .find('input#price3')
+        .parent()
+        .is('.input-group.hidden')
+    ).toBe(true);
+    wrapper
+      .find('input#number')
+      .simulate('change', { target: { value: '123' } });
     expect(wrapper.find('input#number').node.value).toBe('123');
-    expect(wrapper.find('input#price3').parent().is('.input-group.visible')).toBe(true);
+    expect(
+      wrapper
+        .find('input#price3')
+        .parent()
+        .is('.input-group.visible')
+    ).toBe(true);
   });
 });
 
@@ -85,7 +99,9 @@ describe('handlePriceChange', () => {
   });
 
   it('should change price', () => {
-    wrapper.find('input#price1').simulate('change', { target: { value: '1000' } });
+    wrapper
+      .find('input#price1')
+      .simulate('change', { target: { value: '1000' } });
     expect(wrapper.find('input#price1').node.value).toBe('1000');
   });
 });
@@ -244,7 +260,12 @@ describe('static functions', () => {
     });
 
     it('should get expected state when no editingBet with 2 digits number provided', () => {
-      const editingBetMock = { number: '123', price1: 10, price2: 20, price3: 30 };
+      const editingBetMock = {
+        number: '123',
+        price1: 10,
+        price2: 20,
+        price3: 30,
+      };
       const state = BetEditor.prepareState(editingBetMock);
 
       expect(state.enablePrice3).toBe(true);

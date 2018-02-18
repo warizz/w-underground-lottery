@@ -1,23 +1,41 @@
 {
   "extends": [
     "react-app",
-    "plugin:jsx-a11y/recommended",
-    "prettier",
     "standard",
     "standard-jsx",
-    "standard-react"
+    "standard-react",
+    "plugin:jsx-a11y/recommended",
+    "prettier",
+    "prettier/flowtype",
+    "prettier/react",
+    "prettier/standard"
   ],
-  "plugins": ["jsx-a11y"],
+  "plugins": ["jsx-a11y", "prettier"],
   "rules": {
     "comma-dangle": [2, "always-multiline"],
+    "import/order": [1, {
+      "newlines-between": "always"
+    }],
+    "jsx-quotes": [2, "prefer-double"],
     "max-len": [1, 80],
+    "prettier/prettier": [2, {
+      "singleQuote": true,
+      "trailingComma": "es5",
+      "bracketSpacing": true,
+      "jsxBracketSameLine": true,
+      "parser": "flow"
+    }],
     "react/jsx-sort-props": 2,
     "quotes": [2, "single"],
     "semi": [2, "always"],
     "sort-keys": 1,
     "space-before-function-paren": [
       2,
-      { "anonymous": "always", "named": "never", "asyncArrow": "always" }
+      {
+        "anonymous": "never",
+        "named": "never",
+        "asyncArrow": "always"
+      }
     ]
   },
   "env": {

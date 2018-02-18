@@ -130,7 +130,9 @@ describe('rendering bet', () => {
     };
     const wrapper = shallow(<Page {...props} />);
 
-    expect(wrapper.find('li.bet.win').text()).toBe('ถูก x [1] 100 x 2 = 200 บาท');
+    expect(wrapper.find('li.bet.win').text()).toBe(
+      'ถูก x [1] 100 x 2 = 200 บาท'
+    );
   });
   it('should render expected buyers', () => {
     const props = {
@@ -195,7 +197,9 @@ describe('rendering bet', () => {
     };
     const wrapper = shallow(<Page {...props} />);
 
-    expect(wrapper.find('label#payment-status-for-buyer-1').exists()).toBe(false);
+    expect(wrapper.find('label#payment-status-for-buyer-1').exists()).toBe(
+      false
+    );
   });
   it('should not render payment status processing when processing a buyer payment', () => {
     const props = {

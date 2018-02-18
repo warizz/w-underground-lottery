@@ -73,7 +73,7 @@ describe('cloning', () => {
     expect(setAlertMock).toHaveBeenCalledTimes(1);
     expect(setAlertMock).toHaveBeenCalledWith('period is closed');
   });
-  it('should not complete when cloning bets have same number as current period\' bets', async () => {
+  it('should not complete when cloning bets have same number as current period bets', async () => {
     const setAlertMock = jest.fn();
     const currentPeriodMock = {
       id: '1',

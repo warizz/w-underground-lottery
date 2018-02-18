@@ -8,7 +8,7 @@ type Props = {
   bet: Bet,
   deleteHandler: (id: string) => void,
   editHandler: (bet: Bet) => void,
-  isEditable: boolean
+  isEditable: boolean,
 };
 
 class BetItem extends React.Component<Props> {
@@ -76,11 +76,11 @@ class BetItem extends React.Component<Props> {
     }
 
     return (
-      <div className='bet-item-component'>
+      <div className="bet-item-component">
         <Card>
-          <div className='body'>
-            <div className='item'>
-              <div className='bet-number'>
+          <div className="body">
+            <div className="item">
+              <div className="bet-number">
                 <b>{bet.number}</b>
               </div>
               <div>
@@ -88,36 +88,34 @@ class BetItem extends React.Component<Props> {
               </div>
             </div>
             {bet.price1 && (
-              <div className='item'>
-                <div className='price-1'>{`${price1Label} ${bet.price1}`}</div>
-                <div className='reward'>{price1Reward}</div>
+              <div className="item">
+                <div className="price-1">{`${price1Label} ${bet.price1}`}</div>
+                <div className="reward">{price1Reward}</div>
               </div>
             )}
             {bet.price2 && (
-              <div className='item'>
-                <div className='price-2'>{`${price2Label} ${bet.price2}`}</div>
-                <div className='reward'>{price2Reward}</div>
+              <div className="item">
+                <div className="price-2">{`${price2Label} ${bet.price2}`}</div>
+                <div className="reward">{price2Reward}</div>
               </div>
             )}
             {bet.price3 && (
-              <div className='item'>
-                <div className='price-3'>{`${price3Label} ${bet.price3}`}</div>
-                <div className='reward'>{price3Reward}</div>
+              <div className="item">
+                <div className="price-3">{`${price3Label} ${bet.price3}`}</div>
+                <div className="reward">{price3Reward}</div>
               </div>
             )}
           </div>
           {isEditable && (
-            <div className='action'>
+            <div className="action">
               <button
-                className='edit border-right'
-                onClick={this.handleEdit(bet)}
-              >
+                className="edit border-right"
+                onClick={this.handleEdit(bet)}>
                 {'edit'}
               </button>
               <button
-                className='delete danger'
-                onClick={this.handleDelete(bet.id)}
-              >
+                className="delete danger"
+                onClick={this.handleDelete(bet.id)}>
                 {'delete'}
               </button>
             </div>

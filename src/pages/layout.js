@@ -9,7 +9,7 @@ const LayoutPage = props => {
 
   if (children) {
     childrenElement = (
-      <div className='content' style={{ marginTop: '50px' }}>
+      <div className="content" style={{ marginTop: '50px' }}>
         <Snackbar onClose={() => setAlert('')} text={alert} />
         {children}
       </div>
@@ -17,7 +17,7 @@ const LayoutPage = props => {
   }
 
   return (
-    <div className='layout-component'>
+    <div className="layout-component">
       <Toolbar onClickMainButton={goBack} pageName={pageName} />
       {childrenElement}
     </div>

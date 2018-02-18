@@ -33,22 +33,22 @@ class Snackbar extends React.Component {
     const containerClassName = `snackbar${text ? ' active' : ' inactive'}`;
     return (
       <div className={containerClassName}>
-        <div className='body'>{text}</div>
+        <div className="body">{text}</div>
       </div>
     );
   }
 }
 
 Snackbar.propTypes = {
+  onClose: PropTypes.func,
   text: PropTypes.string,
   timer: PropTypes.number,
-  onClose: PropTypes.func,
 };
 
 Snackbar.defaultProps = {
+  onClose() {},
   text: null,
   timer: 1000,
-  onClose() {},
 };
 
 export default Snackbar;

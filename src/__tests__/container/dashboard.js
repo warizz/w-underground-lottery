@@ -3,7 +3,9 @@ import { mount, shallow } from 'enzyme';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import reducer from '../../reducers/index';
-import ConnectedDashboardContainer, { DashboardContainer } from '../../container/dashboard';
+import ConnectedDashboardContainer, {
+  DashboardContainer,
+} from '../../container/dashboard';
 
 it('should render contained component', () => {
   const wrapper = mount(<DashboardContainer />);

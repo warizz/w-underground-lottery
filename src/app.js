@@ -30,12 +30,11 @@ const App = () => (
             service={service}
           />
         )}
-        path='/log-in'
+        path="/log-in"
       />
       <Route
         component={LayoutContainer}
-        onEnter={lib.initApplicationState(store, cookieManager)}
-      >
+        onEnter={lib.initApplicationState(store, cookieManager)}>
         <IndexRoute
           component={props => (
             <ConnectedHomeContainer
@@ -53,19 +52,19 @@ const App = () => (
               service={service}
             />
           )}
-          path='/'
+          path="/"
         />
         <Route
           component={props => (
             <ConnectedHistoryContainer {...props} service={service} />
           )}
-          path='/history'
+          path="/history"
         />
         <Route
           component={props => (
             <ConnectedDashboardContainer {...props} service={service} />
           )}
-          path='/dashboard'
+          path="/dashboard"
         />
       </Route>
     </Router>
